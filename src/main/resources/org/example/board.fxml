@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.BoardController">
+   <children>
+      <Rectangle fx:id="gameBoard" fill="WHITE" height="502.0" stroke="BLACK" strokeType="INSIDE" width="502.0" x="50.0" y="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0" />
+   </children>
+</AnchorPane>
