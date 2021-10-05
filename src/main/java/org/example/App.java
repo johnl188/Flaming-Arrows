@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -20,26 +21,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("board"), 600, 600);
-
-        Group root = new Group();
-
-        Rectangle rectangle = new Rectangle();
-        rectangle.setX(300);
-        rectangle.setY(200);
-        rectangle.setWidth(300);
-        rectangle.setHeight(200);
-        rectangle.setFill(Color.GREEN);
-        rectangle.setStroke(Color.DARKGREEN);
-        rectangle.setStrokeWidth(5);
-        rectangle.setArcHeight(30);
-        rectangle.setArcWidth(30);
-
-        root.getChildren().add(rectangle);
-
+        scene = new Scene(loadFXML("board"), 800, 800);
 
         stage.setScene(scene);
         stage.setTitle("Flaming Arrows!");
+        stage.setResizable(false);
         stage.show();
     }
 

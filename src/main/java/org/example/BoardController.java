@@ -3,60 +3,82 @@ package org.example;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.geometry.*;
+import javafx.scene.layout.*;
 
 public class BoardController implements Initializable {
 
-    @FXML private Rectangle gameBoard;
+    @FXML private BorderPane borderPane;
 
-    @FXML private AnchorPane anchorPane;
+    @FXML private AnchorPane gameBoardPane;
+
+    @FXML private GridPane boardGridPane;
+
+    private GameInfo gameInfo;
+    private Point2D offset = new Point2D(0.0d, 0.0d);
+    private boolean movingPiece = false;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        CreateSquares(8);
+
+        int sides = 8;
+        gameInfo = new GameInfo(sides);
+        CreateSquares(sides);
+        AddPieces();
     }
 
     private void CreateSquares(int perSide) {
-        double sideLength = gameBoard.getWidth() - 2;
-
-        sideLength = sideLength / perSide;
 
         boolean isWhite = true;
+        boardGridPane.getChildren().clear();
+        boardGridPane.getColumnConstraints().clear();
+        boardGridPane.getRowConstraints().clear();
 
-        System.out.println("X: " + gameBoard.getX() + " Y: " + gameBoard.getY());
 
 
         for(int i = 0; i < perSide; i++) {
+
             for(int j = 0; j < perSide; j++) {
-                Rectangle square = new Rectangle();
-                square.setHeight(sideLength);
-                square.setWidth(sideLength);
 
-                square.setY(gameBoard.getY() + (i * sideLength) + 1);
-                square.setX(gameBoard.getX() + (j * sideLength) + 1);
+                GameSquare square = new GameSquare(gameInfo, i, j, isWhite);
 
-                if (isWhite) {
-                    square.setFill(Color.WHITE);
-                }
-
-                else {
-                    square.setFill(Color.BLACK);
-                }
-
-                System.out.println("X: " + square.getX() + " Y: " + square.getY());
+                gameInfo.addSquare(i, j, square);
+                boardGridPane.add(square, i, j);
 
                 isWhite = !isWhite;
-
-                anchorPane.getChildren().add(square);
             }
 
             if (perSide % 2 == 0) {
                 isWhite = !isWhite;
             }
         }
+
+        for (int i = 0; i < perSide; i++) {
+            boardGridPane.getColumnConstraints().add(new ColumnConstraints(5, 500, Double.POSITIVE_INFINITY, Priority.ALWAYS, HPos.CENTER, true));
+            boardGridPane.getRowConstraints().add(new RowConstraints(5, 200, Double.POSITIVE_INFINITY, Priority.ALWAYS, VPos.CENTER, true));
+        }
+
+        boardGridPane.setGridLinesVisible(true);
+    }
+
+    private void AddPieces() {
+        GameSquare pane = gameInfo.getSquare(0, 0);
+        pane.addAmazon(true);
+
+        pane = gameInfo.getSquare(0, 1);
+        pane.addAmazon(false);
+
+        pane = gameInfo.getSquare(1, 0);
+        pane.addAmazon(true);
+
+        pane = gameInfo.getSquare(1, 1);
+        pane.addAmazon(false);
+    }
+
+    public void AddCircle(ActionEvent actionEvent) {
+        AddPieces();
     }
 }
