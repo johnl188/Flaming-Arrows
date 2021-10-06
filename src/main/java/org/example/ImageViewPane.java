@@ -13,7 +13,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 
 /**
@@ -48,6 +49,7 @@ public class ImageViewPane extends Region {
             imageView.setFitHeight(getHeight());
             layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, HPos.CENTER, VPos.CENTER);
         }
+
         super.layoutChildren();
     }
 

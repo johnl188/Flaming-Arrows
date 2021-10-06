@@ -33,6 +33,8 @@ public abstract class SquareInfo implements Serializable {
     public String getImageFileName() {
         return imageFileName;
     }
+
+    public SquareType getSquareType() { return squareType; }
 }
 
 
