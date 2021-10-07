@@ -1,5 +1,6 @@
 package org.example;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -14,13 +15,17 @@ public class GameInfo {
     private boolean isWhitesTurn;
     private boolean isMove;
     private GameSquare lastMove;
+    private Label lblInfo;
 
-    public GameInfo(int gameSize) {
+    public GameInfo(int gameSize, Label lblInfo) {
         this.gameSize = gameSize;
+        this.lblInfo = lblInfo;
 
         rectangles = new GameSquare[gameSize * gameSize];
         isMove = true;
         isWhitesTurn = true;
+
+        lblInfo.setText((isWhitesTurn ? "White's" : "Black's") + " turn to move a piece");
     }
 
     public boolean getIsMove() { return isMove; }
@@ -29,19 +34,28 @@ public class GameInfo {
 
     public void goToMove () { isMove = true; }
 
-    public void goToArrow() { isMove = false; }
+    public void goToArrow() {
+        lblInfo.setText((isWhitesTurn ? "White's" : "Black's") + " turn to shoot an arrow");
+        isMove = false;
+    }
 
     public void switchTurns() {
         goToMove();
         isWhitesTurn = !isWhitesTurn;
+        lblInfo.setText((isWhitesTurn ? "White's" : "Black's") + " turn to move a piece");
+
+        if (isGameOver()) {
+            lblInfo.setText((!isWhitesTurn ? "White's" : "Black's") + " wins!");
+        }
     }
 
     public GameSquare getLastMove() { return lastMove; }
 
     public void setLastMove(GameSquare lastMove) { this.lastMove = lastMove; }
 
-    public void addSquare(int row, int column, GameSquare square) {
-        rectangles[gameSize * row + column] = square;
+    public void addSquare(GameSquare square) {
+        SquareInfo info = square.getSquareInfo();
+        rectangles[gameSize * info.getRow() + info.getColumn()] = square;
     }
 
     public GameSquare getSquare(int row, int column) {
@@ -56,6 +70,33 @@ public class GameInfo {
         fromSquare.removePiece();
         toSquare.addAmazon(from.isWhite);
     }
+
+    public boolean isGameOver() {
+        for(GameSquare square: rectangles) {
+            SquareInfo info = square.getSquareInfo();
+            if (info.getSquareType() == SquareType.Amazon && info.isWhite() == isWhitesTurn) {
+                ArrayList<GameSquare> list = getValidSquares(square);
+                if (list.size() > 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public void resetGame() {
+
+        isMove = true;
+        isWhitesTurn = true;
+
+        lblInfo.setText((isWhitesTurn ? "White's" : "Black's") + " turn to move a piece");
+
+        for(GameSquare square: rectangles) {
+            square.removePiece();
+        }
+    }
+
 
     public ArrayList<GameSquare> getValidSquares(GameSquare square) {
         ArrayList<GameSquare> list = new ArrayList<>();
@@ -78,7 +119,6 @@ public class GameInfo {
 
         return list;
     }
-
 
     private void checkAbove(List<GameSquare> list, int row, int column) {
 

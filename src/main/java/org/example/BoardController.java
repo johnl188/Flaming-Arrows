@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.*;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
 public class BoardController implements Initializable {
@@ -17,6 +18,8 @@ public class BoardController implements Initializable {
 
     @FXML private GridPane boardGridPane;
 
+    @FXML private Label lblInfo;
+
     private GameInfo gameInfo;
     private Point2D offset = new Point2D(0.0d, 0.0d);
     private boolean movingPiece = false;
@@ -24,13 +27,13 @@ public class BoardController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-        int sides = 8;
-        gameInfo = new GameInfo(sides);
-        CreateSquares(sides);
-        AddPieces();
+        int sides = 10;
+        gameInfo = new GameInfo(sides, lblInfo);
+        createSquares(sides);
+        addPieces();
     }
 
-    private void CreateSquares(int perSide) {
+    private void createSquares(int perSide) {
 
         boolean isWhite = true;
         boardGridPane.getChildren().clear();
@@ -45,8 +48,8 @@ public class BoardController implements Initializable {
 
                 GameSquare square = new GameSquare(gameInfo, i, j, isWhite);
 
-                gameInfo.addSquare(i, j, square);
-                boardGridPane.add(square, i, j);
+                gameInfo.addSquare(square);
+                boardGridPane.add(square, j, i);
 
                 isWhite = !isWhite;
             }
@@ -64,21 +67,36 @@ public class BoardController implements Initializable {
         boardGridPane.setGridLinesVisible(true);
     }
 
-    private void AddPieces() {
-        GameSquare pane = gameInfo.getSquare(0, 0);
-        pane.addAmazon(true);
+    private void addPieces() {
 
-        pane = gameInfo.getSquare(0, 1);
-        pane.addAmazon(false);
+        GameSquare square = gameInfo.getSquare(3, 0);
+        square.addAmazon(false);
 
-        pane = gameInfo.getSquare(1, 0);
-        pane.addAmazon(true);
+        square = gameInfo.getSquare(0, 3);
+        square.addAmazon(false);
 
-        pane = gameInfo.getSquare(1, 1);
-        pane.addAmazon(false);
+        square = gameInfo.getSquare(0, 6);
+        square.addAmazon(false);
+
+        square = gameInfo.getSquare(3, 9);
+        square.addAmazon(false);
+
+        square = gameInfo.getSquare(6, 0);
+        square.addAmazon(true);
+
+        square = gameInfo.getSquare(9, 3);
+        square.addAmazon(true);
+
+        square = gameInfo.getSquare(9, 6);
+        square.addAmazon(true);
+
+        square = gameInfo.getSquare(6, 9);
+        square.addAmazon(true);
     }
 
-    public void AddCircle(ActionEvent actionEvent) {
-        AddPieces();
+    public void resetGame(ActionEvent actionEvent) {
+
+        gameInfo.resetGame();
+        addPieces();
     }
 }

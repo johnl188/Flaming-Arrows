@@ -101,6 +101,8 @@ public class GameSquare extends StackPane {
         }
 
         squareInfo = new Empty(squareInfo.row, squareInfo.column);
+
+        setStyle(normalStyle());
     }
 
     private void onMouseEntered(MouseEvent e) {
@@ -157,11 +159,7 @@ public class GameSquare extends StackPane {
 
             e.acceptTransferModes(TransferMode.MOVE);
 
-            if (canDrop(movingPiece)) {
-                setStyle(availableStyle());
-            }
-
-            else {
+            if (!canDrop(movingPiece)) {
                 setStyle(notAvailableStyle());
             }
         }
@@ -233,7 +231,14 @@ public class GameSquare extends StackPane {
     private void onDragExited(DragEvent e) {
         Dragboard db = e.getDragboard();
 
-        setStyle(normalStyle());
+        if (db.hasContent(SquareInfo.SQUARE_INFO))
+        {
+            SquareInfo movingPiece = (SquareInfo)db.getContent(SquareInfo.SQUARE_INFO);
+
+            if (!canDrop(movingPiece)) {
+                setStyle(normalStyle());
+            }
+        }
 
         e.consume();
     }
@@ -242,10 +247,6 @@ public class GameSquare extends StackPane {
 
         ArrayList<GameSquare> validList = gameInfo.getValidSquares(gameInfo.getSquare(movingPiece.getRow(), movingPiece.getColumn()));
 
-        if (validList.contains(this)) {
-            return true;
-        }
-
-        return false;
+        return validList.contains(this);
     }
 }
