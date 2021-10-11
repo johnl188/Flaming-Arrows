@@ -25,7 +25,10 @@ public class App extends Application {
 
         stage.setScene(scene);
         stage.setTitle("Flaming Arrows!");
-        stage.setResizable(false);
+
+        stage.setMinWidth(800);
+        stage.setMinHeight(800);
+
         stage.show();
     }
 
