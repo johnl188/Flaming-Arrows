@@ -28,7 +28,7 @@ public class BoardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         int sides = 10;
-        gameInfo = new GameInfo(sides, lblInfo);
+        gameInfo = new GameInfo(sides, lblInfo, true);
         createSquares(sides);
         addPieces();
     }

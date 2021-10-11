@@ -17,7 +17,9 @@ public class GameInfo {
     private GameSquare lastMove;
     private Label lblInfo;
 
-    public GameInfo(int gameSize, Label lblInfo) {
+    private AIPlayer aiPlayer = null;
+
+    public GameInfo(int gameSize, Label lblInfo, boolean isAIGame) {
         this.gameSize = gameSize;
         this.lblInfo = lblInfo;
 
@@ -26,7 +28,13 @@ public class GameInfo {
         isWhitesTurn = true;
 
         lblInfo.setText((isWhitesTurn ? "White's" : "Black's") + " turn to move a piece");
+
+        if (isAIGame) {
+            aiPlayer = new RandomAI(false);
+        }
     }
+
+    public int getGameSize() { return gameSize; }
 
     public boolean getIsMove() { return isMove; }
 
@@ -46,6 +54,32 @@ public class GameInfo {
 
         if (isGameOver()) {
             lblInfo.setText((!isWhitesTurn ? "White's" : "Black's") + " wins!");
+            return;
+        }
+
+        if (aiPlayer != null && isWhitesTurn == aiPlayer.getIsWhite()) {
+            GameMove move = aiPlayer.getMove(this);
+            if (move == null) {
+                return;
+            }
+
+            GameSquare movingPiece = getSquare(move.getAmazonFromRow(), move.getAmazonFromColumn());
+            GameSquare toSquare = getSquare(move.getAmazonToRow(), move.getAmazonToColumn());
+            GameSquare fireSquare = getSquare(move.getArrowRow(), move.getArrowColumn());
+
+            ArrayList<GameSquare> validMoves = getValidSquares(movingPiece);
+            if (!validMoves.contains(toSquare)) {
+                return;
+            }
+
+            movePiece(movingPiece.getSquareInfo(), toSquare.getSquareInfo());
+
+            validMoves = getValidSquares(toSquare);
+            if (!validMoves.contains(fireSquare)) {
+                return;
+            }
+
+            addFire(fireSquare);
         }
     }
 
@@ -69,6 +103,14 @@ public class GameInfo {
 
         fromSquare.removePiece();
         toSquare.addAmazon(from.isWhite);
+
+        goToArrow();
+        setLastMove(toSquare);
+    }
+
+    public void addFire(GameSquare addTo) {
+        addTo.addFire();
+        switchTurns();
     }
 
     public boolean isGameOver() {
@@ -116,6 +158,38 @@ public class GameInfo {
         checkLeftDown(list, startRow, startColumn);
         checkRightUp(list, startRow, startColumn);
         checkRightDown(list, startRow, startColumn);
+
+        return list;
+    }
+
+    public ArrayList<GameSquare> getValidSquaresForArrowAfterMove(GameSquare moveToSquare, GameSquare moveFromSquare) {
+        ArrayList<GameSquare> list = new ArrayList<>();
+
+        SquareInfo originalInfo = moveFromSquare.getSquareInfo();
+        SquareInfo emptyInfo = new Empty(originalInfo.getRow(), originalInfo.getColumn());
+
+        GameSquare originalSquare = getSquare(originalInfo.getRow(),originalInfo.getColumn());
+        originalSquare.setSquareInfo(emptyInfo);
+
+        originalSquare.removePiece();
+
+        SquareInfo info = moveToSquare.getSquareInfo();
+
+        int startRow = info.getRow();
+        int startColumn = info.getColumn();
+
+        boolean done = true;
+
+        checkAbove(list, startRow, startColumn);
+        checkBelow(list, startRow, startColumn);
+        checkLeft(list, startRow, startColumn);
+        checkRight(list, startRow, startColumn);
+        checkLeftUp(list, startRow, startColumn);
+        checkLeftDown(list, startRow, startColumn);
+        checkRightUp(list, startRow, startColumn);
+        checkRightDown(list, startRow, startColumn);
+
+        originalSquare.setSquareInfo(originalInfo);
 
         return list;
     }

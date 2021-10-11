@@ -61,6 +61,10 @@ public class GameSquare extends StackPane {
         return squareInfo;
     }
 
+    public void setSquareInfo(SquareInfo info) {
+        squareInfo = info;
+    }
+
     public void addAmazon(boolean isWhite) {
 
         if (imageView != null) {
@@ -222,8 +226,7 @@ public class GameSquare extends StackPane {
                     square.setStyle(square.normalStyle());
                 }
 
-                addFire();
-                gameInfo.switchTurns();
+                gameInfo.addFire(this);
             }
         }
     }
