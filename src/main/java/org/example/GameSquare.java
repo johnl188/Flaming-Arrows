@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,8 @@ public class GameSquare extends StackPane {
         setOnDragDropped(this::onDragDropped);
         setOnMouseClicked(this::onMouseClicked);
 
+        setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1.0))));
+
 //        setOnMouseEntered(this::onMouseEntered);
 //        setOnMouseEntered(this::onMouseEntered);
 
@@ -63,6 +66,14 @@ public class GameSquare extends StackPane {
 
     public void setSquareInfo(SquareInfo info) {
         squareInfo = info;
+    }
+
+    public ImageViewPane getImageView() { return imageView; }
+
+    public void setImageView(ImageViewPane imageView) {
+        getChildren().clear();
+        this.imageView = imageView;
+        getChildren().add(imageView);
     }
 
     public void addAmazon(boolean isWhite) {
@@ -198,11 +209,7 @@ public class GameSquare extends StackPane {
                     square.setStyle(square.normalStyle());
                 }
 
-                gameInfo.movePiece(movingPiece, squareInfo);
-                addAmazon(movingPiece.isWhite());
-
-                gameInfo.goToArrow();
-                gameInfo.setLastMove(this);
+                gameInfo.movePiece(movingPiece, squareInfo, false, null);
 
                 validList = gameInfo.getValidSquares(this);
                 for(GameSquare square : validList) {
@@ -226,7 +233,7 @@ public class GameSquare extends StackPane {
                     square.setStyle(square.normalStyle());
                 }
 
-                gameInfo.addFire(this);
+                gameInfo.shootArrow(gameInfo.getLastMove(), this);
             }
         }
     }

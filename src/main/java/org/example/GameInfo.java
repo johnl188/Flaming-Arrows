@@ -1,9 +1,15 @@
 package org.example;
 
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,14 +78,17 @@ public class GameInfo {
                 return;
             }
 
-            movePiece(movingPiece.getSquareInfo(), toSquare.getSquareInfo());
+            movePiece(movingPiece.getSquareInfo(), toSquare.getSquareInfo(), true, new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    ArrayList<GameSquare> validMoves = getValidSquares(toSquare);
+                    if (!validMoves.contains(fireSquare)) {
+                        return;
+                    }
 
-            validMoves = getValidSquares(toSquare);
-            if (!validMoves.contains(fireSquare)) {
-                return;
-            }
-
-            addFire(fireSquare);
+                    shootArrow(toSquare, fireSquare);
+                }
+            });
         }
     }
 
@@ -96,21 +105,156 @@ public class GameInfo {
         return rectangles[gameSize * row + column];
     }
 
-    public void movePiece (SquareInfo from, SquareInfo to) {
+    public void movePiece(SquareInfo from, SquareInfo to, boolean shouldAnimate, EventHandler<ActionEvent> afterAnimate) {
 
         GameSquare fromSquare = getSquare(from.getRow(), from.getColumn());
         GameSquare toSquare = getSquare(to.getRow(), to.getColumn());
 
-        fromSquare.removePiece();
-        toSquare.addAmazon(from.isWhite);
-
         goToArrow();
         setLastMove(toSquare);
+
+        if (shouldAnimate) {
+
+            ImageViewPane imageView = fromSquare.getImageView();
+            fromSquare.toFront();
+            imageView.toFront();
+
+            TranslateTransition translateTransition = new TranslateTransition();
+
+            translateTransition.setDuration(Duration.millis(1000));
+
+            translateTransition.setNode(imageView);
+
+            Point2D fromPoint = fromSquare.localToScene(0, 0);
+            Point2D toPoint = toSquare.localToScene(0, 0);
+
+            translateTransition.setByX(toPoint.getX() - fromPoint.getX());
+            translateTransition.setByY(toPoint.getY() - fromPoint.getY());
+
+            translateTransition.setCycleCount(1);
+
+            translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+
+                    fromSquare.removePiece();
+                    toSquare.addAmazon(from.isWhite);
+
+                    if (afterAnimate != null) {
+                        afterAnimate.handle(actionEvent);
+                    }
+                }
+            });
+
+            translateTransition.play();
+        }
+
+        else {
+            fromSquare.removePiece();
+            toSquare.addAmazon(from.isWhite);
+        }
+
     }
 
-    public void addFire(GameSquare addTo) {
-        addTo.addFire();
-        switchTurns();
+    public void shootArrow(GameSquare shootFrom, GameSquare addTo) {
+
+        ImageViewPane imageView = shootFrom.getImageView();
+        shootFrom.toFront();
+
+        Image image = new Image("arrow.png");
+
+        ImageViewPane arrowView = new ImageViewPane();
+        arrowView.setImageView(new ImageView(image));
+
+
+        shootFrom.getChildren().add(arrowView);
+
+        TranslateTransition translateTransition = new TranslateTransition();
+        ScaleTransition scaleTransition = new ScaleTransition();
+
+        translateTransition.setDuration(Duration.millis(2000));
+
+        translateTransition.setNode(arrowView);
+
+        Point2D fromPoint = shootFrom.localToScene(0, 0);
+        Point2D toPoint = addTo.localToScene(0, 0);
+
+        translateTransition.setByX(toPoint.getX() - fromPoint.getX());
+        translateTransition.setByY(toPoint.getY() - fromPoint.getY());
+
+        translateTransition.setCycleCount(1);
+
+        translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Move Done");
+            }
+        });
+
+        // Get Rotation Angle for Arrow
+        if (translateTransition.getByX() == 0) {
+            if (translateTransition.getByY() > 0) {
+                arrowView.setRotate(90);
+            }
+
+            else {
+                arrowView.setRotate(270);
+            }
+        }
+
+        else if (translateTransition.getByY() == 0) {
+            if (translateTransition.getByX() > 0) {
+            }
+
+            else {
+                arrowView.setRotate(180);
+            }
+        }
+
+        else {
+            double arcTan = Math.atan2(translateTransition.getByY(), translateTransition.getByX());
+            double degrees = Math.toDegrees(arcTan);
+
+            arrowView.setRotate(degrees);
+        }
+
+        scaleTransition.setNode(arrowView);
+        scaleTransition.setByX(2.0f);
+        scaleTransition.setByY(2.0f);
+        scaleTransition.setDuration(translateTransition.getDuration().divide(2));
+        scaleTransition.setCycleCount(1);
+
+        scaleTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Scale 1 Done");
+
+                ScaleTransition scaleTransition = new ScaleTransition();
+                scaleTransition.setNode(arrowView);
+                scaleTransition.setByX(-3.0f);
+                scaleTransition.setByY(-3.0f);
+                scaleTransition.setDuration(translateTransition.getDuration().divide(2));
+                scaleTransition.setCycleCount(1);
+
+                scaleTransition.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+
+                        System.out.println("Scale 2 Done");
+
+                        shootFrom.getChildren().remove(arrowView);
+                        addTo.addFire();
+                        switchTurns();
+                    }
+                });
+
+                scaleTransition.play();
+            }
+        });
+
+        translateTransition.play();
+        scaleTransition.play();
+
     }
 
     public boolean isGameOver() {
@@ -171,6 +315,8 @@ public class GameInfo {
         GameSquare originalSquare = getSquare(originalInfo.getRow(),originalInfo.getColumn());
         originalSquare.setSquareInfo(emptyInfo);
 
+        ImageViewPane imageView = originalSquare.getImageView();
+
         originalSquare.removePiece();
 
         SquareInfo info = moveToSquare.getSquareInfo();
@@ -190,6 +336,7 @@ public class GameInfo {
         checkRightDown(list, startRow, startColumn);
 
         originalSquare.setSquareInfo(originalInfo);
+        originalSquare.setImageView(imageView);
 
         return list;
     }

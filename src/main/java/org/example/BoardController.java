@@ -63,8 +63,6 @@ public class BoardController implements Initializable {
             boardGridPane.getColumnConstraints().add(new ColumnConstraints(5, 500, Double.POSITIVE_INFINITY, Priority.ALWAYS, HPos.CENTER, true));
             boardGridPane.getRowConstraints().add(new RowConstraints(5, 200, Double.POSITIVE_INFINITY, Priority.ALWAYS, VPos.CENTER, true));
         }
-
-        boardGridPane.setGridLinesVisible(true);
     }
 
     private void addPieces() {
