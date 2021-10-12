@@ -20,6 +20,7 @@ public class GameInfo {
     private GameSquare[] rectangles;
     private boolean isWhitesTurn;
     private boolean isMove;
+    private boolean isOkToMove;
     private GameSquare lastMove;
     private Label lblInfo;
 
@@ -32,6 +33,7 @@ public class GameInfo {
         rectangles = new GameSquare[gameSize * gameSize];
         isMove = true;
         isWhitesTurn = true;
+        setIsOkToMove(true);
 
         lblInfo.setText((isWhitesTurn ? "White's" : "Black's") + " turn to move a piece");
 
@@ -45,6 +47,10 @@ public class GameInfo {
     public boolean getIsMove() { return isMove; }
 
     public boolean getIsWhitesTurn() { return isWhitesTurn; }
+
+    public boolean getIsOkToMove() { return isOkToMove; }
+
+    public void setIsOkToMove(boolean isOk) { this.isOkToMove = isOk; }
 
     public void goToMove () { isMove = true; }
 
@@ -64,6 +70,7 @@ public class GameInfo {
         }
 
         if (aiPlayer != null && isWhitesTurn == aiPlayer.getIsWhite()) {
+            setIsOkToMove(false);
             GameMove move = aiPlayer.getMove(this);
             if (move == null) {
                 return;
@@ -166,7 +173,6 @@ public class GameInfo {
         ImageViewPane arrowView = new ImageViewPane();
         arrowView.setImageView(new ImageView(image));
 
-
         shootFrom.getChildren().add(arrowView);
 
         TranslateTransition translateTransition = new TranslateTransition();
@@ -187,7 +193,6 @@ public class GameInfo {
         translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("Move Done");
             }
         });
 
@@ -227,7 +232,6 @@ public class GameInfo {
         scaleTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("Scale 1 Done");
 
                 ScaleTransition scaleTransition = new ScaleTransition();
                 scaleTransition.setNode(arrowView);
@@ -240,10 +244,10 @@ public class GameInfo {
                     @Override
                     public void handle(ActionEvent actionEvent) {
 
-                        System.out.println("Scale 2 Done");
-
                         shootFrom.getChildren().remove(arrowView);
                         addTo.addFire();
+
+                        setIsOkToMove(true);
                         switchTurns();
                     }
                 });

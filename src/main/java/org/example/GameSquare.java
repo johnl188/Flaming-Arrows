@@ -223,7 +223,8 @@ public class GameSquare extends StackPane {
 
     private void onMouseClicked(MouseEvent mouseEvent) {
 
-        if (!gameInfo.getIsMove()) {
+        if (!gameInfo.getIsMove() && gameInfo.getIsOkToMove()) {
+            gameInfo.setIsOkToMove(false);
 
             SquareInfo info = gameInfo.getLastMove().getSquareInfo();
             if (canDrop(info)) {
@@ -234,6 +235,10 @@ public class GameSquare extends StackPane {
                 }
 
                 gameInfo.shootArrow(gameInfo.getLastMove(), this);
+            }
+
+            else {
+                gameInfo.setIsOkToMove(true);
             }
         }
     }
