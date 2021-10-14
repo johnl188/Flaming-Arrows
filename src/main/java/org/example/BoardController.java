@@ -20,6 +20,7 @@ public class BoardController implements Initializable {
 
     @FXML private Label lblInfo;
 
+    private GameOptions gameOptions;
     private GameInfo gameInfo;
     private Point2D offset = new Point2D(0.0d, 0.0d);
     private boolean movingPiece = false;
@@ -27,10 +28,15 @@ public class BoardController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-        int sides = 10;
-        gameInfo = new GameInfo(sides, lblInfo, true);
-        createSquares(sides);
-        addPieces();
+    }
+
+    public void setGameOptions(GameOptions gameOptions) {
+        this.gameOptions = gameOptions;
+
+        gameInfo = new GameInfo(gameOptions, lblInfo);
+
+        createSquares(gameOptions.getGameSize());
+        addPieces(gameOptions.getPositions());
     }
 
     private void createSquares(int perSide) {
@@ -65,36 +71,56 @@ public class BoardController implements Initializable {
         }
     }
 
-    private void addPieces() {
+    private void addPieces(StartingPosition[] positions) {
 
-        GameSquare square = gameInfo.getSquare(3, 0);
-        square.addAmazon(false);
-
-        square = gameInfo.getSquare(0, 3);
-        square.addAmazon(false);
-
-        square = gameInfo.getSquare(0, 6);
-        square.addAmazon(false);
-
-        square = gameInfo.getSquare(3, 9);
-        square.addAmazon(false);
-
-        square = gameInfo.getSquare(6, 0);
-        square.addAmazon(true);
-
-        square = gameInfo.getSquare(9, 3);
-        square.addAmazon(true);
-
-        square = gameInfo.getSquare(9, 6);
-        square.addAmazon(true);
-
-        square = gameInfo.getSquare(6, 9);
-        square.addAmazon(true);
+        for (StartingPosition position: positions) {
+            GameSquare square = gameInfo.getSquare(position.getRow(), position.getColumn());
+            square.addAmazon(position.getIsWhite());
+        }
     }
 
     public void resetGame(ActionEvent actionEvent) {
 
         gameInfo.resetGame();
-        addPieces();
+        addPieces(gameOptions.getPositions());
+    }
+
+    public static StartingPosition[] get10x10StartingPositions() {
+        StartingPosition[] positions = new StartingPosition[8];
+
+        positions[0] = new StartingPosition(3,0, false);
+        positions[1] = new StartingPosition(0,3, false);
+        positions[2] = new StartingPosition(0,6, false);
+        positions[3] = new StartingPosition(3,9, false);
+        positions[4] = new StartingPosition(6,0, true);
+        positions[5] = new StartingPosition(9,3, true);
+        positions[6] = new StartingPosition(9,6, true);
+        positions[7] = new StartingPosition(6,9, true);
+
+        return  positions;
+    }
+
+    public static StartingPosition[] get8x8StartingPositions() {
+        StartingPosition[] positions = new StartingPosition[6];
+
+        positions[0] = new StartingPosition(2,0, false);
+        positions[1] = new StartingPosition(0,3, false);
+        positions[2] = new StartingPosition(2,7, false);
+        positions[3] = new StartingPosition(5,0, true);
+        positions[4] = new StartingPosition(7,4, true);
+        positions[5] = new StartingPosition(5,7, true);
+
+        return  positions;
+    }
+
+    public static StartingPosition[] get6x6StartingPositions() {
+        StartingPosition[] positions = new StartingPosition[4];
+
+        positions[0] = new StartingPosition(0,2, false);
+        positions[1] = new StartingPosition(2,5, false);
+        positions[2] = new StartingPosition(3,0, true);
+        positions[3] = new StartingPosition(5,3, true);
+
+        return  positions;
     }
 }

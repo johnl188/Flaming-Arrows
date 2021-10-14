@@ -16,7 +16,7 @@ import java.util.List;
 
 public class GameInfo {
 
-    private int gameSize;
+    private GameOptions gameOptions;
     private GameSquare[] rectangles;
     private boolean isWhitesTurn;
     private boolean isMove;
@@ -26,23 +26,23 @@ public class GameInfo {
 
     private AIPlayer aiPlayer = null;
 
-    public GameInfo(int gameSize, Label lblInfo, boolean isAIGame) {
-        this.gameSize = gameSize;
+    public GameInfo(GameOptions gameOptions, Label lblInfo) {
+        this.gameOptions = gameOptions;
         this.lblInfo = lblInfo;
 
-        rectangles = new GameSquare[gameSize * gameSize];
+        rectangles = new GameSquare[gameOptions.getGameSize() * gameOptions.getGameSize()];
         isMove = true;
         isWhitesTurn = true;
         setIsOkToMove(true);
 
         lblInfo.setText((isWhitesTurn ? "White's" : "Black's") + " turn to move a piece");
 
-        if (isAIGame) {
-            aiPlayer = new RandomAI(false);
+        if (gameOptions.getAIPlayerType() == AIPlayerType.Random) {
+            aiPlayer = new RandomAI(gameOptions.getIsAIFirst());
         }
     }
 
-    public int getGameSize() { return gameSize; }
+    public int getGameSize() { return gameOptions.getGameSize(); }
 
     public boolean getIsMove() { return isMove; }
 
@@ -105,11 +105,11 @@ public class GameInfo {
 
     public void addSquare(GameSquare square) {
         SquareInfo info = square.getSquareInfo();
-        rectangles[gameSize * info.getRow() + info.getColumn()] = square;
+        rectangles[getGameSize() * info.getRow() + info.getColumn()] = square;
     }
 
     public GameSquare getSquare(int row, int column) {
-        return rectangles[gameSize * row + column];
+        return rectangles[getGameSize() * row + column];
     }
 
     public void movePiece(SquareInfo from, SquareInfo to, boolean shouldAnimate, EventHandler<ActionEvent> afterAnimate) {
@@ -367,7 +367,7 @@ public class GameInfo {
     private void checkBelow(List<GameSquare> list, int row, int column) {
         row++;
 
-        while(row < gameSize) {
+        while(row < getGameSize()) {
             GameSquare square = getSquare(row, column);
             SquareInfo info = square.getSquareInfo();
 
@@ -403,7 +403,7 @@ public class GameInfo {
     private void checkRight(List<GameSquare> list, int row, int column) {
         column++;
 
-        while(column < gameSize) {
+        while(column < getGameSize()) {
             GameSquare square = getSquare(row, column);
             SquareInfo info = square.getSquareInfo();
 
@@ -441,7 +441,7 @@ public class GameInfo {
         row++;
         column--;
 
-        while(row < gameSize && column >= 0) {
+        while(row < getGameSize() && column >= 0) {
             GameSquare square = getSquare(row, column);
             SquareInfo info = square.getSquareInfo();
 
@@ -461,7 +461,7 @@ public class GameInfo {
         row--;
         column++;
 
-        while(row >= 0 && column < gameSize) {
+        while(row >= 0 && column < getGameSize()) {
             GameSquare square = getSquare(row, column);
             SquareInfo info = square.getSquareInfo();
 
@@ -481,7 +481,7 @@ public class GameInfo {
         row++;
         column++;
 
-        while(row < gameSize && column < gameSize) {
+        while(row < getGameSize() && column < getGameSize()) {
             GameSquare square = getSquare(row, column);
             SquareInfo info = square.getSquareInfo();
 

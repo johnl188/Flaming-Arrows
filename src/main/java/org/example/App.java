@@ -21,7 +21,21 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("board"), 800, 800);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("board.fxml"));
+
+        Parent root = (Parent)fxmlLoader.load();
+        BoardController controller = fxmlLoader.<BoardController>getController();
+
+        controller.setGameOptions(get10x10GameOptionsRandomAI());
+        //controller.setGameOptions(get10x10GameOptionsHuman());
+        //controller.setGameOptions(get8x8GameOptionsRandomAI());
+        //controller.setGameOptions(get8x8GameOptionsHuman());
+        //controller.setGameOptions(get6x6GameOptionsRandomAI());
+        //controller.setGameOptions(get6x6GameOptionsHuman());
+
+
+        scene = new Scene(root, 800, 800);
 
         stage.setScene(scene);
         stage.setTitle("Flaming Arrows!");
@@ -43,6 +57,36 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    private static GameOptions get10x10GameOptionsRandomAI() {
+        return new GameOptions(10, BoardController.get10x10StartingPositions(),
+                AIPlayerType.Random, false);
+    }
+
+    private static GameOptions get10x10GameOptionsHuman() {
+        return new GameOptions(10, BoardController.get10x10StartingPositions(),
+                AIPlayerType.None, false);
+    }
+
+    private static GameOptions get8x8GameOptionsRandomAI() {
+        return new GameOptions(8, BoardController.get8x8StartingPositions(),
+                AIPlayerType.Random, false);
+    }
+
+    private static GameOptions get8x8GameOptionsHuman() {
+        return new GameOptions(8, BoardController.get8x8StartingPositions(),
+                AIPlayerType.None, false);
+    }
+
+    private static GameOptions get6x6GameOptionsRandomAI() {
+        return new GameOptions(6, BoardController.get6x6StartingPositions(),
+                AIPlayerType.Random, false);
+    }
+
+    private static GameOptions get6x6GameOptionsHuman() {
+        return new GameOptions(6, BoardController.get6x6StartingPositions(),
+                AIPlayerType.None, false);
     }
 
 }
