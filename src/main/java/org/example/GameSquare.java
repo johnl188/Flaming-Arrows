@@ -20,7 +20,7 @@ public class GameSquare extends StackPane {
 
     private String normalStyle()
     {
-        return isWhite ? "-fx-background-color: white;" : "-fx-background-color: lightblue;";
+        return isWhite ? "-fx-background-color: radial-gradient(radius 50% , #f5f5dc, #8b4513);" : "-fx-background-color: radial-gradient(radius 50% , #ffebcd, #008080);";
     }
 
     private String availableStyle()
