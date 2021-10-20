@@ -21,16 +21,19 @@ public class GameInfo {
     private boolean isWhitesTurn;
     private boolean isMove;
     private boolean isOkToMove;
-    private GameSquare lastMove;
+    //private GameSquare lastMove;
+    private GameMove lastMove;
     private Label lblInfo;
 
     private AIPlayer aiPlayer = null;
+    private ArrayList<GameMove> previousMoves;
 
     public GameInfo(GameOptions gameOptions, Label lblInfo) {
         this.gameOptions = gameOptions;
         this.lblInfo = lblInfo;
 
         rectangles = new GameSquare[gameOptions.getGameSize() * gameOptions.getGameSize()];
+        previousMoves = new ArrayList<>();
         isMove = true;
         isWhitesTurn = true;
         setIsOkToMove(true);
@@ -99,9 +102,9 @@ public class GameInfo {
         }
     }
 
-    public GameSquare getLastMove() { return lastMove; }
+    public GameMove getLastMove() { return lastMove; }
 
-    public void setLastMove(GameSquare lastMove) { this.lastMove = lastMove; }
+    public void setLastMove(GameMove lastMove) { this.lastMove = lastMove; }
 
     public void addSquare(GameSquare square) {
         SquareInfo info = square.getSquareInfo();
@@ -118,7 +121,7 @@ public class GameInfo {
         GameSquare toSquare = getSquare(to.getRow(), to.getColumn());
 
         goToArrow();
-        setLastMove(toSquare);
+        setLastMove(new GameMove(from.getRow(), from.getColumn(), to.getRow(), to.getColumn()));
 
         if (shouldAnimate) {
 
@@ -160,7 +163,6 @@ public class GameInfo {
             fromSquare.removePiece();
             toSquare.addAmazon(from.isWhite);
         }
-
     }
 
     public void shootArrow(GameSquare shootFrom, GameSquare addTo) {
@@ -174,6 +176,13 @@ public class GameInfo {
         arrowView.setImageView(new ImageView(image));
 
         shootFrom.getChildren().add(arrowView);
+
+
+        GameMove lastMove = getLastMove();
+        lastMove.setArrowRow(addTo.getSquareInfo().getRow());
+        lastMove.setArrowColumn(addTo.getSquareInfo().getColumn());
+        previousMoves.add(lastMove);
+
 
         TranslateTransition translateTransition = new TranslateTransition();
         ScaleTransition scaleTransition = new ScaleTransition();
@@ -285,6 +294,8 @@ public class GameInfo {
         for(GameSquare square: rectangles) {
             square.removePiece();
         }
+
+        previousMoves = new ArrayList<>();
     }
 
 
@@ -494,6 +505,66 @@ public class GameInfo {
             else {
                 return;
             }
+        }
+    }
+
+    public void undoLastMove() {
+
+        boolean priorIsMove = isMove;
+        if (getIsOkToMove()) {
+            GameMove lastMove = null;
+            if (isMove) {
+                if(previousMoves.size() > 0) {
+                    lastMove = previousMoves.remove(previousMoves.size() - 1);
+                    GameSquare fireSquare = getSquare(lastMove.getArrowRow(), lastMove.getArrowColumn());
+                    fireSquare.removePiece();
+                }
+            }
+
+            else {
+                lastMove = getLastMove();
+            }
+
+            if (lastMove == null) {
+                return;
+            }
+
+            GameSquare fromSquare = getSquare(lastMove.getAmazonFromRow(), lastMove.getAmazonFromColumn());
+            GameSquare toSquare = getSquare(lastMove.getAmazonToRow(), lastMove.getAmazonToColumn());
+
+            movePiece(toSquare.getSquareInfo(), fromSquare.getSquareInfo(), false, null);
+
+            if (priorIsMove) {
+                if (aiPlayer != null) {
+                    if (aiPlayer.getIsWhite() == isWhitesTurn) {
+                        switchTurns();
+                    }
+
+                    else {
+                        isMove = true;
+                        isWhitesTurn = !isWhitesTurn;
+                        undoLastMove();
+                    }
+                }
+
+                else {
+                    switchTurns();
+                }
+            }
+
+            else {
+                setLastMove(null);
+                goToMove();
+            }
+
+            resetHighlighting();
+        }
+    }
+
+    public void resetHighlighting() {
+
+        for (GameSquare square: rectangles) {
+            square.resetStyle();
         }
     }
 }

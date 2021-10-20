@@ -58,8 +58,6 @@ public class GameSquare extends StackPane {
         setStyle(normalStyle());
     }
 
-
-
     public SquareInfo getSquareInfo() {
         return squareInfo;
     }
@@ -117,6 +115,10 @@ public class GameSquare extends StackPane {
 
         squareInfo = new Empty(squareInfo.row, squareInfo.column);
 
+        setStyle(normalStyle());
+    }
+
+    public void resetStyle() {
         setStyle(normalStyle());
     }
 
@@ -226,7 +228,10 @@ public class GameSquare extends StackPane {
         if (!gameInfo.getIsMove() && gameInfo.getIsOkToMove()) {
             gameInfo.setIsOkToMove(false);
 
-            SquareInfo info = gameInfo.getLastMove().getSquareInfo();
+            GameMove lastMove = gameInfo.getLastMove();
+            GameSquare squareForLastMove = gameInfo.getSquare(lastMove.getAmazonToRow(), lastMove.getAmazonToColumn());
+            SquareInfo info = squareForLastMove.getSquareInfo();
+
             if (canDrop(info)) {
 
                 ArrayList<GameSquare> validList = gameInfo.getValidSquares(gameInfo.getSquare(info.getRow(), info.getColumn()));
@@ -234,7 +239,7 @@ public class GameSquare extends StackPane {
                     square.setStyle(square.normalStyle());
                 }
 
-                gameInfo.shootArrow(gameInfo.getLastMove(), this);
+                gameInfo.shootArrow(squareForLastMove, this);
             }
 
             else {

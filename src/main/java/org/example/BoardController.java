@@ -46,8 +46,6 @@ public class BoardController implements Initializable {
         boardGridPane.getColumnConstraints().clear();
         boardGridPane.getRowConstraints().clear();
 
-
-
         for(int i = 0; i < perSide; i++) {
 
             for(int j = 0; j < perSide; j++) {
@@ -81,8 +79,18 @@ public class BoardController implements Initializable {
 
     public void resetGame(ActionEvent actionEvent) {
 
+        if (!gameInfo.getIsOkToMove()) {
+            return;
+        }
+
+
         gameInfo.resetGame();
         addPieces(gameOptions.getPositions());
+    }
+
+    public void undoLastMove(ActionEvent actionEvent) {
+
+        gameInfo.undoLastMove();
     }
 
     public static StartingPosition[] get10x10StartingPositions() {
@@ -123,4 +131,6 @@ public class BoardController implements Initializable {
 
         return  positions;
     }
+
+
 }

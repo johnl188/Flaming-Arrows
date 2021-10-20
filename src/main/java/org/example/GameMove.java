@@ -9,6 +9,16 @@ public class GameMove {
     private int arrowRow;
     private int arrowColumn;
 
+    public GameMove(int amazonFromRow, int amazonFromColumn, int amazonToRow, int amazonToColumn)
+    {
+        this.amazonFromRow = amazonFromRow;
+        this.amazonFromColumn = amazonFromColumn;
+        this.amazonToRow = amazonToRow;
+        this.amazonToColumn = amazonToColumn;
+        this.arrowRow = -1;
+        this.arrowColumn = -1;
+    }
+
     public GameMove(int amazonFromRow, int amazonFromColumn, int amazonToRow, int amazonToColumn,
                     int arrowRow, int arrowColumn)
     {
@@ -26,4 +36,7 @@ public class GameMove {
     public int getAmazonToColumn() { return amazonToColumn; }
     public int getArrowRow() { return arrowRow; }
     public int getArrowColumn() { return arrowColumn; }
+
+    public void setArrowRow(int row) { this.arrowRow = row; }
+    public void setArrowColumn(int column) { this.arrowColumn = column; }
 }
