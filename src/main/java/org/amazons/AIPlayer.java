@@ -1,4 +1,4 @@
-package org.example;
+package org.amazons;
 
 public abstract class AIPlayer {
 
@@ -6,5 +6,5 @@ public abstract class AIPlayer {
 
     public boolean getIsWhite() { return isWhite; }
 
-    public abstract GameMove getMove(GameInfo gameInfo);
+    public abstract GameMove getMove(BoardState gameInfo);
 }

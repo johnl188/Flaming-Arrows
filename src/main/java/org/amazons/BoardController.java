@@ -1,4 +1,4 @@
-package org.example;
+package org.amazons;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,7 +33,9 @@ public class BoardController implements Initializable {
     public void setGameOptions(GameOptions gameOptions) {
         this.gameOptions = gameOptions;
 
-        gameInfo = new GameInfo(gameOptions, lblInfo);
+        gameInfo = new GameInfo(gameOptions);
+
+        lblInfo.textProperty().bind(gameInfo.gameInfoLabelProperty());
 
         createSquares(gameOptions.getGameSize());
         addPieces(gameOptions.getPositions());
@@ -52,7 +54,7 @@ public class BoardController implements Initializable {
 
                 GameSquare square = new GameSquare(gameInfo, i, j, isWhite);
 
-                gameInfo.addSquare(square);
+                gameInfo.addGameSquare(square);
                 boardGridPane.add(square, j, i);
 
                 isWhite = !isWhite;
@@ -72,14 +74,14 @@ public class BoardController implements Initializable {
     private void addPieces(StartingPosition[] positions) {
 
         for (StartingPosition position: positions) {
-            GameSquare square = gameInfo.getSquare(position.getRow(), position.getColumn());
+            GameSquare square = gameInfo.getGameSquare(position.getRow(), position.getColumn());
             square.addAmazon(position.getIsWhite());
         }
     }
 
     public void resetGame(ActionEvent actionEvent) {
 
-        if (!gameInfo.getIsOkToMove()) {
+        if (!gameInfo.getIsOkToMovePiece()) {
             return;
         }
 
@@ -131,6 +133,4 @@ public class BoardController implements Initializable {
 
         return  positions;
     }
-
-
 }

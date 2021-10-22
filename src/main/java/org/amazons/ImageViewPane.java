@@ -4,7 +4,7 @@
  */
 
 // https://bugs.openjdk.java.net/secure/attachment/40455/ImageViewPane.java
-package org.example;
+package org.amazons;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -14,7 +14,6 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 
 /**

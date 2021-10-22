@@ -1,4 +1,4 @@
-package org.example;
+package org.amazons;
 
 public class Amazon extends SquareInfo
 {
@@ -6,7 +6,6 @@ public class Amazon extends SquareInfo
         this.row = row;
         this.column = column;
         this.isWhite = isWhite;
-        this.squareType = SquareType.Amazon;
 
         if (isWhite) {
             this.imageFileName = "white_queen.png";
@@ -15,5 +14,10 @@ public class Amazon extends SquareInfo
         else {
             this.imageFileName = "black_queen.png";
         }
+    }
+
+    @Override
+    public SquareInfo makeCopy() {
+        return new Amazon(row, column, isWhite);
     }
 }

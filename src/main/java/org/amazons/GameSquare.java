@@ -1,4 +1,4 @@
-package org.example;
+package org.amazons;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -7,13 +7,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class GameSquare extends StackPane {
 
     private SquareInfo squareInfo;
     private GameInfo gameInfo;
-    private int row;
-    private int column;
     private boolean isWhite;
 
     private ImageViewPane imageView = null;
@@ -36,8 +35,6 @@ public class GameSquare extends StackPane {
     public GameSquare(GameInfo gameInfo, int row, int column, boolean isWhite) {
 
         this.gameInfo = gameInfo;
-        this.row = row;
-        this.column = column;
         this.isWhite = isWhite;
 
         squareInfo = new Empty(row, column);
@@ -51,10 +48,6 @@ public class GameSquare extends StackPane {
 
         setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1.0))));
 
-//        setOnMouseEntered(this::onMouseEntered);
-//        setOnMouseEntered(this::onMouseEntered);
-
-
         setStyle(normalStyle());
     }
 
@@ -62,17 +55,7 @@ public class GameSquare extends StackPane {
         return squareInfo;
     }
 
-    public void setSquareInfo(SquareInfo info) {
-        squareInfo = info;
-    }
-
     public ImageViewPane getImageView() { return imageView; }
-
-    public void setImageView(ImageViewPane imageView) {
-        getChildren().clear();
-        this.imageView = imageView;
-        getChildren().add(imageView);
-    }
 
     public void addAmazon(boolean isWhite) {
 
@@ -122,18 +105,10 @@ public class GameSquare extends StackPane {
         setStyle(normalStyle());
     }
 
-    private void onMouseEntered(MouseEvent e) {
-        setStyle(notAvailableStyle());
-    }
-
-    private void onMouseExited(MouseEvent e) {
-        setStyle(normalStyle());
-    }
-
     private void onDragDetected(MouseEvent e) {
 
-        if (gameInfo.getIsMove() && gameInfo.getIsWhitesTurn() == squareInfo.isWhite() &&
-                squareInfo.getSquareType() == SquareType.Amazon) {
+        if (gameInfo.getIsMovePhase() && gameInfo.getIsWhitesTurn() == squareInfo.isWhite() &&
+                squareInfo instanceof Amazon) {
             Dragboard db = startDragAndDrop(TransferMode.MOVE);
 
             if (imageView == null) {
@@ -157,9 +132,10 @@ public class GameSquare extends StackPane {
 
             db.setContent(content);
 
-            ArrayList<GameSquare> validList = gameInfo.getValidSquares(this);
+            ArrayList<SquareInfo> validList = ValidMoveCalculator.getValidSquares(gameInfo.getCurrentBoardState(), getSquareInfo());
 
-            for(GameSquare square : validList) {
+            for(SquareInfo info : validList) {
+                GameSquare square = gameInfo.getGameSquare(info.getRow(), info.getColumn());
                 square.setStyle(square.availableStyle());
             }
 
@@ -187,11 +163,15 @@ public class GameSquare extends StackPane {
     private void onDragDone(DragEvent e) {
         Dragboard db = e.getDragboard();
 
-        if (gameInfo.getIsMove()) {
-            ArrayList<GameSquare> validList = gameInfo.getValidSquares(this);
-            for(GameSquare square : validList) {
+        if (gameInfo.getIsMovePhase()) {
+
+            ArrayList<SquareInfo> validList = ValidMoveCalculator.getValidSquares(gameInfo.getCurrentBoardState(), getSquareInfo());
+
+            for(SquareInfo info : validList) {
+                GameSquare square = gameInfo.getGameSquare(info.getRow(), info.getColumn());
                 square.setStyle(square.normalStyle());
             }
+
         }
 
 
@@ -206,15 +186,19 @@ public class GameSquare extends StackPane {
 
             if (canDrop(movingPiece)) {
 
-                ArrayList<GameSquare> validList = gameInfo.getValidSquares(gameInfo.getSquare(movingPiece.getRow(), movingPiece.getColumn()));
-                for(GameSquare square : validList) {
+                ArrayList<SquareInfo> validList = ValidMoveCalculator.getValidSquares(gameInfo.getCurrentBoardState(), movingPiece);
+
+                for(SquareInfo info : validList) {
+                    GameSquare square = gameInfo.getGameSquare(info.getRow(), info.getColumn());
                     square.setStyle(square.normalStyle());
                 }
 
                 gameInfo.movePiece(movingPiece, squareInfo, false, null);
+                gameInfo.addMove(movingPiece, squareInfo);
 
-                validList = gameInfo.getValidSquares(this);
-                for(GameSquare square : validList) {
+                validList = ValidMoveCalculator.getValidSquares(gameInfo.getCurrentBoardState(), getSquareInfo());
+                for(SquareInfo info : validList) {
+                    GameSquare square = gameInfo.getGameSquare(info.getRow(), info.getColumn());
                     square.setStyle(square.availableStyle());
                 }
             }
@@ -225,17 +209,24 @@ public class GameSquare extends StackPane {
 
     private void onMouseClicked(MouseEvent mouseEvent) {
 
-        if (!gameInfo.getIsMove() && gameInfo.getIsOkToMove()) {
-            gameInfo.setIsOkToMove(false);
+        if (!gameInfo.getIsMovePhase() && gameInfo.getIsOkToMovePiece()) {
+            gameInfo.setIsOkToMovePiece(false);
 
             GameMove lastMove = gameInfo.getLastMove();
-            GameSquare squareForLastMove = gameInfo.getSquare(lastMove.getAmazonToRow(), lastMove.getAmazonToColumn());
+
+            if (lastMove == null) {
+                return;
+            }
+
+            GameSquare squareForLastMove = gameInfo.getGameSquare(lastMove.getAmazonToRow(), lastMove.getAmazonToColumn());
             SquareInfo info = squareForLastMove.getSquareInfo();
 
             if (canDrop(info)) {
 
-                ArrayList<GameSquare> validList = gameInfo.getValidSquares(gameInfo.getSquare(info.getRow(), info.getColumn()));
-                for(GameSquare square : validList) {
+                ArrayList<SquareInfo> validList = ValidMoveCalculator.getValidSquares(gameInfo.getCurrentBoardState(), info);
+
+                for(SquareInfo inInfo : validList) {
+                    GameSquare square = gameInfo.getGameSquare(inInfo.getRow(), inInfo.getColumn());
                     square.setStyle(square.normalStyle());
                 }
 
@@ -243,7 +234,7 @@ public class GameSquare extends StackPane {
             }
 
             else {
-                gameInfo.setIsOkToMove(true);
+                gameInfo.setIsOkToMovePiece(true);
             }
         }
     }
@@ -265,8 +256,12 @@ public class GameSquare extends StackPane {
 
     private boolean canDrop(SquareInfo movingPiece) {
 
-        ArrayList<GameSquare> validList = gameInfo.getValidSquares(gameInfo.getSquare(movingPiece.getRow(), movingPiece.getColumn()));
+        ArrayList<SquareInfo> validList = ValidMoveCalculator.getValidSquares(gameInfo.getCurrentBoardState(), movingPiece);
 
-        return validList.contains(this);
+        Predicate<SquareInfo> rowEqual = e -> e.getRow() == getSquareInfo().getRow();
+        Predicate<SquareInfo> columnEqual = e -> e.getColumn() == getSquareInfo().getColumn();
+        Predicate<SquareInfo> combined = rowEqual.and(columnEqual);
+
+        return validList.stream().anyMatch(combined);
     }
 }

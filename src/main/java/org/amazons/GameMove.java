@@ -1,4 +1,4 @@
-package org.example;
+package org.amazons;
 
 public class GameMove {
 
@@ -37,6 +37,8 @@ public class GameMove {
     public int getArrowRow() { return arrowRow; }
     public int getArrowColumn() { return arrowColumn; }
 
-    public void setArrowRow(int row) { this.arrowRow = row; }
-    public void setArrowColumn(int column) { this.arrowColumn = column; }
+    public void setArrowMove(int row, int column) {
+        this.arrowRow = row;
+        this.arrowColumn = column;
+    }
 }

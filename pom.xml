@@ -41,13 +41,13 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>org.example.App</mainClass>
+                            <mainClass>org.amazons.App</mainClass>
                         </configuration>
                     </execution>
                     <execution>
                         <id>debug</id>
                         <configuration>
-                            <mainClass>org.example.App</mainClass>
+                            <mainClass>org.amazons.App</mainClass>
                             <options>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000</option>
                             </options>

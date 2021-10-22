@@ -1,4 +1,4 @@
-package org.example;
+package org.amazons;
 
 public enum AIPlayerType {
     None,

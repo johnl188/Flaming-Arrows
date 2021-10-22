@@ -1,4 +1,4 @@
-package org.example;
+package org.amazons;
 
 import javafx.scene.input.DataFormat;
 
@@ -9,13 +9,12 @@ public abstract class SquareInfo implements Serializable {
     public static final DataFormat SQUARE_INFO = new DataFormat("squareInfo");
 
     boolean isWhite = false;
-    SquareType squareType = SquareType.Empty;
     int row = 0;
     int column = 0;
     String imageFileName = "";
 
-    public boolean isEmpty() {
-        return squareType == SquareType.Empty;
+    public boolean getIsWhite() {
+        return this instanceof Empty ? true : false;
     }
 
     public int getRow() {
@@ -34,7 +33,7 @@ public abstract class SquareInfo implements Serializable {
         return imageFileName;
     }
 
-    public SquareType getSquareType() { return squareType; }
+    public abstract SquareInfo makeCopy();
 }
 
 
