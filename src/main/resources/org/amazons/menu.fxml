@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Menu">
+   <children>
+      <HBox layoutX="-3.0" prefHeight="175.0" prefWidth="800.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="200.0" prefWidth="800.0" text="Flaming Arrows!" textAlignment="CENTER">
+               <font>
+                  <Font size="64.0" />
+               </font>
+            </Label>
+         </children></HBox>
+      <ToolBar layoutX="312.0" layoutY="175.0" prefHeight="72.0" prefWidth="175.0">
+        <items>
+          <Button defaultButton="true" mnemonicParsing="false" text="One Player" textAlignment="CENTER">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <Button mnemonicParsing="false" text="Two Players" textAlignment="CENTER">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+        </items>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </ToolBar>
+      <Pane layoutX="567.0" layoutY="272.0" prefHeight="500.0" prefWidth="200.0">
+         <children>
+            <VBox prefHeight="500.0" prefWidth="200.0">
+               <children>
+                  <ToolBar orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
+                    <items>
+                        <Label prefHeight="50.0" prefWidth="200.0" text="Choose AI Difficulty:" />
+                      <Button mnemonicParsing="false" prefHeight="205.0" prefWidth="200.0" text="Easy" />
+                        <Button mnemonicParsing="false" prefHeight="205.0" prefWidth="200.0" text="Hard" />
+                    </items>
+                  </ToolBar>
+               </children>
+            </VBox>
+         </children></Pane>
+      <VBox layoutX="33.0" layoutY="272.0" prefHeight="500.0" prefWidth="200.0">
+         <children>
+            <ToolBar orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
+               <items>
+                  <Label prefHeight="50.0" prefWidth="200.0" text="Choose board size:" />
+                  <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="200.0" text="6 x 6" />
+                  <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="200.0" text="8 x 8" />
+                  <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="200.0" text="10 x 10" />
+               </items>
+            </ToolBar>
+         </children></VBox>
+   </children>
+</AnchorPane>
