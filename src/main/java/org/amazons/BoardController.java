@@ -1,20 +1,29 @@
 package org.amazons;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.*;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class BoardController implements Initializable {
 
-    @FXML private BorderPane borderPane;
-
-    @FXML private AnchorPane gameBoardPane;
+    @FXML private AnchorPane anchorPane;
 
     @FXML private GridPane boardGridPane;
 
@@ -22,8 +31,6 @@ public class BoardController implements Initializable {
 
     private GameOptions gameOptions;
     private GameInfo gameInfo;
-    private Point2D offset = new Point2D(0.0d, 0.0d);
-    private boolean movingPiece = false;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -39,6 +46,52 @@ public class BoardController implements Initializable {
 
         createSquares(gameOptions.getGameSize());
         addPieces(gameOptions.getPositions());
+
+        if (gameOptions.getAIPlayerType() != AIPlayerType.None) {
+
+            Stage popupStage = new Stage();
+            Stage thisStage = (Stage) anchorPane.getScene().getWindow();
+
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initOwner(thisStage);
+
+            VBox dialogVbox = createPopup(gameOptions);
+            dialogVbox.setAlignment(Pos.CENTER);
+
+            Scene dialogScene = new Scene(dialogVbox, 300, 200);
+
+            popupStage.setResizable(false);
+            popupStage.initStyle(StageStyle.UNDECORATED);
+
+            popupStage.setScene(dialogScene);
+            popupStage.showAndWait();
+        }
+
+        gameInfo.startGame();
+    }
+
+    private VBox createPopup(GameOptions gameOptions) {
+        VBox dialogVbox = new VBox(20);
+
+        String dialogText = "You are playing ";
+        dialogText += gameOptions.getIsAIFirst() ? "Black" : "White";
+        dialogText += " and will go ";
+        dialogText += gameOptions.getIsAIFirst() ? "second." : "first.";
+
+
+        dialogVbox.getChildren().add(new Text(dialogText));
+
+        Button button = new Button("Ok");
+        button.setOnAction((actionEvent -> {
+            Node node = (Node) actionEvent.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            stage.close();
+        }));
+
+        dialogVbox.getChildren().add(button);
+
+        return dialogVbox;
     }
 
     private void createSquares(int perSide) {
@@ -85,14 +138,34 @@ public class BoardController implements Initializable {
             return;
         }
 
-
         gameInfo.resetGame();
         addPieces(gameOptions.getPositions());
+        gameInfo.startGame();
     }
 
     public void undoLastMove(ActionEvent actionEvent) {
 
         gameInfo.undoLastMove();
+    }
+
+    public void goBackToMenu(ActionEvent actionEvent) {
+
+        try {
+            Node node = (Node) actionEvent.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
+
+            Parent root = fxmlLoader.load();
+
+            Scene scene = new Scene(root);
+
+            stage.setScene(scene);
+        }
+
+        catch (IOException ex) {
+            System.out.println("Error loading menu");
+        }
     }
 
     public static StartingPosition[] get10x10StartingPositions() {

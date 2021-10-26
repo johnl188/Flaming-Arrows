@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Menu">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.amazons.MenuController">
    <children>
       <HBox layoutX="-3.0" prefHeight="175.0" prefWidth="800.0">
          <children>
@@ -16,47 +21,58 @@
                </font>
             </Label>
          </children></HBox>
-      <ToolBar layoutX="312.0" layoutY="175.0" prefHeight="72.0" prefWidth="175.0">
-        <items>
-          <Button defaultButton="true" mnemonicParsing="false" text="One Player" textAlignment="CENTER">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button mnemonicParsing="false" text="Two Players" textAlignment="CENTER">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-        </items>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </ToolBar>
-      <Pane layoutX="567.0" layoutY="272.0" prefHeight="500.0" prefWidth="200.0">
+      <Pane fx:id="aiPane" layoutX="567.0" layoutY="272.0" prefHeight="500.0" prefWidth="200.0">
          <children>
             <VBox prefHeight="500.0" prefWidth="200.0">
                <children>
                   <ToolBar orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
                     <items>
-                        <Label prefHeight="50.0" prefWidth="200.0" text="Choose AI Difficulty:" />
-                      <Button mnemonicParsing="false" prefHeight="205.0" prefWidth="200.0" text="Easy" />
-                        <Button mnemonicParsing="false" prefHeight="205.0" prefWidth="200.0" text="Hard" />
+                        <Label prefHeight="50.0" prefWidth="200.0" text="Choose CPU Difficulty:" />
+                        <RadioButton fx:id="easyAIBtn" mnemonicParsing="false" text="Easy">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="aiDifficulty" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="hardAIBtn" mnemonicParsing="false" text="Hard" toggleGroup="$aiDifficulty" />
+                        <Label prefHeight="50.0" prefWidth="200.0" text="Choose Color For CPU:" />
+                        <RadioButton fx:id="aiRandomBtn" mnemonicParsing="false" text="Random">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="aiStart" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="aiWhiteBtn" mnemonicParsing="false" text="White" toggleGroup="$aiStart" />
+                        <RadioButton fx:id="aiBlackBtn" mnemonicParsing="false" text="Black" toggleGroup="$aiStart" />
                     </items>
                   </ToolBar>
                </children>
             </VBox>
          </children></Pane>
-      <VBox layoutX="33.0" layoutY="272.0" prefHeight="500.0" prefWidth="200.0">
+      <VBox layoutX="269.0" layoutY="272.0" prefHeight="500.0" prefWidth="200.0">
          <children>
             <ToolBar orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
                <items>
                   <Label prefHeight="50.0" prefWidth="200.0" text="Choose board size:" />
-                  <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="200.0" text="6 x 6" />
-                  <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="200.0" text="8 x 8" />
-                  <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="200.0" text="10 x 10" />
+                  <RadioButton fx:id="sixBySixBtn" mnemonicParsing="false" text="6 x 6">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="boardSize" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="eigthByEightBtn" mnemonicParsing="false" text="8 x 8" toggleGroup="$boardSize" />
+                  <RadioButton fx:id="tenByTenBtn" mnemonicParsing="false" text="10 x 10" toggleGroup="$boardSize" />
                </items>
             </ToolBar>
          </children></VBox>
+      <Button layoutX="700.0" layoutY="199.0" mnemonicParsing="false" onAction="#startGame" text="Play" />
+      <ToolBar layoutX="26.0" layoutY="272.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
+         <items>
+            <Label prefHeight="50.0" prefWidth="200.0" text="Choose how to play:" />
+            <RadioButton fx:id="onePlayerBtn" mnemonicParsing="false" onAction="#showAI" text="One Player">
+               <toggleGroup>
+                  <ToggleGroup fx:id="playerNumbers" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="twoPlayerBtn" mnemonicParsing="false" onAction="#hideAI" text="Two Players" toggleGroup="$playerNumbers" />
+         </items>
+      </ToolBar>
    </children>
 </AnchorPane>

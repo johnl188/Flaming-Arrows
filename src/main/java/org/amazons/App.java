@@ -15,21 +15,16 @@ public class App extends Application {
 
     private static Scene scene;
 
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("board.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
 
-        Parent root = (Parent)fxmlLoader.load();
-        BoardController controller = fxmlLoader.<BoardController>getController();
-
-        controller.setGameOptions(get10x10GameOptionsRandomAI());
-        //controller.setGameOptions(get10x10GameOptionsHuman());
-        //controller.setGameOptions(get8x8GameOptionsRandomAI());
-        //controller.setGameOptions(get8x8GameOptionsHuman());
-        //controller.setGameOptions(get6x6GameOptionsRandomAI());
-        //controller.setGameOptions(get6x6GameOptionsHuman());
-
+        Parent root = fxmlLoader.load();
 
         scene = new Scene(root, 800, 800);
 
@@ -51,9 +46,6 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
 
     private static GameOptions get10x10GameOptionsRandomAI() {
         return new GameOptions(10, BoardController.get10x10StartingPositions(),

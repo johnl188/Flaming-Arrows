@@ -38,10 +38,11 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <ToolBar prefHeight="40.0" prefWidth="118.0">
+                  <ToolBar prefHeight="40.0" prefWidth="171.0">
                     <items>
                       <Button mnemonicParsing="false" onAction="#undoLastMove" text="UNDO" />
                         <Button mnemonicParsing="false" onAction="#resetGame" text="RESET" />
+                        <Button mnemonicParsing="false" onAction="#goBackToMenu" text="QUIT" />
                     </items>
                   </ToolBar>
                   <Pane prefHeight="200.0" prefWidth="200.0" />

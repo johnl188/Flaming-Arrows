@@ -35,10 +35,14 @@ public class GameInfo {
         isWhitesTurn = true;
         setIsOkToMovePiece(true);
 
-        setGameInfoLabel(isWhitesTurn ? "White's" : "Black's" + " turn to move a piece");
+        setGameInfoLabel((isWhitesTurn ? "White's" : "Black's") + " turn to move a piece");
 
         if (gameOptions.getAIPlayerType() == AIPlayerType.Random) {
             aiPlayer = new RandomAI(gameOptions.getIsAIFirst());
+        }
+
+        else if (gameOptions.getAIPlayerType() == AIPlayerType.Easy) {
+            aiPlayer = new EasyAI(gameOptions.getIsAIFirst());
         }
     }
 
@@ -102,7 +106,7 @@ public class GameInfo {
             Predicate<SquareInfo> columnEqual = e -> e.getColumn() == toSquare.getSquareInfo().getColumn();
             Predicate<SquareInfo> combined = rowEqual.and(columnEqual);
 
-            if (!validMoves.stream().anyMatch(combined)) {
+            if (validMoves.stream().noneMatch(combined)) {
                 return;
             }
 
@@ -114,7 +118,7 @@ public class GameInfo {
                     Predicate<SquareInfo> columnEqual = e -> e.getColumn() == fireSquare.getSquareInfo().getColumn();
                     Predicate<SquareInfo> combined = rowEqual.and(columnEqual);
 
-                    if (!validMoves.stream().anyMatch(combined)) {
+                    if (validMoves.stream().noneMatch(combined)) {
                         return;
                     }
 
@@ -129,6 +133,13 @@ public class GameInfo {
     public void addGameSquare(GameSquare square) {
         SquareInfo info = square.getSquareInfo();
         gameSquares[getGameSize() * info.getRow() + info.getColumn()] = square;
+    }
+
+    public void startGame() {
+        if (aiPlayer != null && aiPlayer.getIsWhite()) {
+            isWhitesTurn = false;
+            switchTurns();
+        }
     }
 
     public GameSquare getGameSquare(int row, int column) {
