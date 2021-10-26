@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -28,20 +28,20 @@
                   <ToolBar orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
                     <items>
                         <Label prefHeight="50.0" prefWidth="200.0" text="Choose CPU Difficulty:" />
-                        <RadioButton fx:id="easyAIBtn" mnemonicParsing="false" text="Easy">
+                        <ToggleButton fx:id="easyAIBtn" mnemonicParsing="false" text="Easy">
                            <toggleGroup>
                               <ToggleGroup fx:id="aiDifficulty" />
                            </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="hardAIBtn" mnemonicParsing="false" text="Hard" toggleGroup="$aiDifficulty" />
+                        </ToggleButton>
+                        <ToggleButton fx:id="hardAIBtn" mnemonicParsing="false" text="Hard" toggleGroup="$aiDifficulty" />
                         <Label prefHeight="50.0" prefWidth="200.0" text="Choose Color For CPU:" />
-                        <RadioButton fx:id="aiRandomBtn" mnemonicParsing="false" text="Random">
+                        <ToggleButton fx:id="aiRandomBtn" mnemonicParsing="false" text="Random">
                            <toggleGroup>
                               <ToggleGroup fx:id="aiStart" />
                            </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="aiWhiteBtn" mnemonicParsing="false" text="White" toggleGroup="$aiStart" />
-                        <RadioButton fx:id="aiBlackBtn" mnemonicParsing="false" text="Black" toggleGroup="$aiStart" />
+                        </ToggleButton>
+                        <ToggleButton fx:id="aiWhiteBtn" mnemonicParsing="false" text="White" toggleGroup="$aiStart" />
+                        <ToggleButton fx:id="aiBlackBtn" mnemonicParsing="false" text="Black" toggleGroup="$aiStart" />
                     </items>
                   </ToolBar>
                </children>
@@ -52,13 +52,13 @@
             <ToolBar orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
                <items>
                   <Label prefHeight="50.0" prefWidth="200.0" text="Choose board size:" />
-                  <RadioButton fx:id="sixBySixBtn" mnemonicParsing="false" text="6 x 6">
+                  <ToggleButton fx:id="sixBySixBtn" mnemonicParsing="false" text="6 x 6">
                      <toggleGroup>
-                        <ToggleGroup fx:id="boardSize" />
+                        <ToggleGroup fx:id="boardSizeGroup" />
                      </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="eigthByEightBtn" mnemonicParsing="false" text="8 x 8" toggleGroup="$boardSize" />
-                  <RadioButton fx:id="tenByTenBtn" mnemonicParsing="false" text="10 x 10" toggleGroup="$boardSize" />
+                  </ToggleButton>
+                  <ToggleButton fx:id="eigthByEightBtn" mnemonicParsing="false" text="8 x 8" toggleGroup="$boardSizeGroup" />
+                  <ToggleButton fx:id="tenByTenBtn" mnemonicParsing="false" text="10 x 10" toggleGroup="$boardSizeGroup" />
                </items>
             </ToolBar>
          </children></VBox>
@@ -66,12 +66,12 @@
       <ToolBar layoutX="26.0" layoutY="272.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
          <items>
             <Label prefHeight="50.0" prefWidth="200.0" text="Choose how to play:" />
-            <RadioButton fx:id="onePlayerBtn" mnemonicParsing="false" onAction="#showAI" text="One Player">
+            <ToggleButton fx:id="onePlayerBtn" mnemonicParsing="false" onAction="#showAI" text="One Player">
                <toggleGroup>
                   <ToggleGroup fx:id="playerNumbers" />
                </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="twoPlayerBtn" mnemonicParsing="false" onAction="#hideAI" text="Two Players" toggleGroup="$playerNumbers" />
+            </ToggleButton>
+            <ToggleButton fx:id="twoPlayerBtn" mnemonicParsing="false" onAction="#hideAI" text="Two Players" toggleGroup="$playerNumbers" />
          </items>
       </ToolBar>
    </children>

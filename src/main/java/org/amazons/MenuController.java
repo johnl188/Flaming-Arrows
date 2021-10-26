@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -20,34 +22,46 @@ import java.util.ResourceBundle;
 public class MenuController implements Initializable {
 
     @FXML
-    private RadioButton sixBySixBtn;
+    private ToggleButton sixBySixBtn;
 
     @FXML
-    private RadioButton eigthByEightBtn;
+    private ToggleButton eigthByEightBtn;
 
     @FXML
-    private RadioButton tenByTenBtn;
+    private ToggleButton tenByTenBtn;
 
     @FXML
-    private RadioButton onePlayerBtn;
+    private ToggleButton onePlayerBtn;
 
     @FXML
-    private RadioButton twoPlayerBtn;
+    private ToggleButton twoPlayerBtn;
 
     @FXML
-    private RadioButton easyAIBtn;
+    private ToggleButton easyAIBtn;
 
     @FXML
-    private RadioButton hardAIBtn;
+    private ToggleButton hardAIBtn;
 
     @FXML
-    private RadioButton aiRandomBtn;
+    private ToggleButton aiRandomBtn;
 
     @FXML
-    private RadioButton aiWhiteBtn;
+    private ToggleButton aiWhiteBtn;
 
     @FXML
-    private RadioButton aiBlackBtn;
+    private ToggleButton aiBlackBtn;
+
+    @FXML
+    private ToggleGroup playerNumbers;
+
+    @FXML
+    private ToggleGroup boardSizeGroup;
+
+    @FXML
+    private ToggleGroup aiDifficulty;
+
+    @FXML
+    private ToggleGroup aiStart;
 
     @FXML
     private Pane aiPane;
@@ -60,6 +74,26 @@ public class MenuController implements Initializable {
         sixBySixBtn.setSelected(true);
         easyAIBtn.setSelected(true);
         aiRandomBtn.setSelected(true);
+
+        playerNumbers.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+
+        boardSizeGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+
+        aiDifficulty.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+
+        aiStart.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
     }
 
 
