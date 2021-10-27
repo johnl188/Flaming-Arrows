@@ -21,7 +21,7 @@ public class EasyAI extends AIPlayer{
         ArrayList<SquareInfo> possiblePieces = new ArrayList<>();
 
         //tree.addNodesForPosition(boardPositions, isWhite);
-        //tree.printTree();
+        // tree.printTree();
 
         for(byte i = 0; i < gameSize; i++) {
             for (byte j = 0; j < gameSize; j++) {
@@ -72,7 +72,7 @@ public class EasyAI extends AIPlayer{
         boardPositions.set(fire, false);
         boardPositions.set(fire + 1, true);
 
-        tree.informAIOfGameMove(move, !isWhite);
+        this.informAIOfGameMove(move, !isWhite);
 
         return move;
     }
@@ -80,6 +80,11 @@ public class EasyAI extends AIPlayer{
     @Override
     public void resetGame(int gameSize) {
         tree = new MoveTree(gameSize);
+    }
+
+    @Override
+    public void informAIOfGameMove(GameMove move, boolean isWhiteTurn) {
+        tree.informAIOfGameMove(move, isWhiteTurn);
     }
 }
 
@@ -112,36 +117,15 @@ class MoveTree {
     public void addNodesForPosition(BitSet input, boolean isWhitesTurn) {
 
         if (root == null) {
-            root = new Node(input, null, isWhitesTurn);
+
+            BitSet copiedSet = (BitSet)input.clone();
+
+            root = new Node(copiedSet, null, isWhitesTurn);
         }
 
-        if (!root.position.equals(input)) {
-            determineLastMove(input, isWhitesTurn);
-        }
 
         addPossibleMovesTree(root, isWhitesTurn, startDepth, input);
     }
-
-    public void determineLastMove(BitSet input, boolean isWhitesTurn) {
-
-        for (Node child: root.children) {
-            if (child.move != null) {
-                reverseGameMoveInBitSet(input, child.move, isWhitesTurn);
-
-                if (root.position.equals(input)) {
-                    makeGameMoveInBitSet(input, child.move, isWhitesTurn);
-
-                    child.position = input;
-                    root = child;
-                    return;
-                }
-
-                makeGameMoveInBitSet(input, child.move, isWhitesTurn);
-            }
-
-        }
-    }
-
 
     public void informAIOfGameMove(GameMove move, boolean isWhiteTurn) {
 
@@ -174,8 +158,10 @@ class MoveTree {
 
         if (node.children.size() > 0) {
             if (node.position != null) {
+                BitSet copiedPosition = (BitSet)node.position.clone();
+
                 for(Node innerNode: node.children) {
-                    addPossibleMovesTree(innerNode, !isWhitesTurn, depth - 1, node.position);
+                    addPossibleMovesTree(innerNode, !isWhitesTurn, depth - 1, copiedPosition);
                 }
             }
 
@@ -196,9 +182,8 @@ class MoveTree {
             return;
         }
 
-        int totalSquare = gameSize * gameSize;
-        byte row = 0;
-        byte column = 0;
+        System.out.println("Depth: " + depth + " Size: " + node.children.size());
+
         for(byte i = 0; i < gameSize; i++) {
             for(byte j = 0; j < gameSize; j++) {
 
@@ -206,7 +191,9 @@ class MoveTree {
 
                 if (info instanceof Amazon && info.getIsWhite() == isWhitesTurn) {
 
-                    ArrayList<GameMove> moves = ValidMoveCalculator.getValidMoves(currentBoard, info, gameSize);
+                    BitSet copiedBitSet = (BitSet)currentBoard.clone();
+
+                    ArrayList<GameMove> moves = ValidMoveCalculator.getValidMoves(copiedBitSet, info, gameSize);
 
                     for (GameMove move : moves) {
                         node.children.add(new Node(null, move, isWhitesTurn));
@@ -215,6 +202,8 @@ class MoveTree {
                     for (Node innerNode : node.children) {
                         makeGameMoveInBitSet(currentBoard, innerNode.move, isWhitesTurn);
                         addPossibleMovesTree(innerNode, !isWhitesTurn, depth - 1, currentBoard);
+                        System.out.println("Depth: " + depth + " Added Move: " + innerNode.move);
+
                         reverseGameMoveInBitSet(currentBoard, innerNode.move, isWhitesTurn);
                     }
                 }
@@ -245,23 +234,19 @@ class MoveTree {
             return;
         }
 
-        printNode(root);
+        int numberDeep = 0;
+
+        printNode(root, numberDeep);
     }
 
-    private void printNode(Node node) {
+    private void printNode(Node node, int numberDeep) {
 
-        if (node.position != null) {
-            System.out.println(node.position);
+        if (numberDeep < startDepth) {
+            System.out.println("Deep: " + numberDeep + " ChildrenSize: " + node.children.size());
         }
 
-        else {
-            System.out.println(node.move);
-        }
-
-
-        for(int i = 0; i < node.children.size(); i++) {
-
-            printNode(node.children.get(i));
+        for (Node innerNode: node.children) {
+            printNode(innerNode, numberDeep + 1);
         }
     }
 

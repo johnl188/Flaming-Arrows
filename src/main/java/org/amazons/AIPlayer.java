@@ -11,4 +11,6 @@ public abstract class AIPlayer {
     public abstract GameMove getMove(BitSet boardPositions, int gameSize);
 
     public abstract void resetGame(int gameSize);
+
+    public abstract void informAIOfGameMove(GameMove move, boolean isWhiteTurn);
 }

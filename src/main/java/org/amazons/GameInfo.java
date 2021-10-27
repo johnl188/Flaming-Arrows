@@ -216,6 +216,10 @@ public class GameInfo {
         GameMove lastMove = previousMoves.get(previousMoves.size() - 1);
         lastMove.setArrowMove(addTo.getSquareInfo().getRow(), addTo.getSquareInfo().getColumn());
 
+        if (aiPlayer != null && aiPlayer.getIsWhite() == !isWhitesTurn) {
+            aiPlayer.informAIOfGameMove(lastMove, isWhitesTurn);
+        }
+
 
         TranslateTransition translateTransition = new TranslateTransition();
         ScaleTransition scaleTransition = new ScaleTransition();

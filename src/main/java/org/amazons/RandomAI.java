@@ -75,4 +75,9 @@ public class RandomAI extends AIPlayer {
     public void resetGame(int gameSize) {
 
     }
+
+    @Override
+    public void informAIOfGameMove(GameMove move, boolean isWhiteTurn) {
+
+    }
 }
