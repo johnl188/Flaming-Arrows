@@ -9,23 +9,23 @@ public abstract class SquareInfo implements Serializable {
     public static final DataFormat SQUARE_INFO = new DataFormat("squareInfo");
 
     boolean isWhite = false;
-    int row = 0;
-    int column = 0;
+    byte row = 0;
+    byte column = 0;
     String imageFileName = "";
 
-    public boolean getIsWhite() {
+    public boolean isEmpty() {
         return this instanceof Empty ? true : false;
     }
 
-    public int getRow() {
+    public byte getRow() {
         return row;
     }
 
-    public int getColumn() {
+    public byte getColumn() {
         return column;
     }
 
-    public boolean isWhite() {
+    public boolean getIsWhite() {
         return isWhite;
     }
 

@@ -10,8 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.function.Predicate;
 
 public class GameInfo {
@@ -42,7 +42,7 @@ public class GameInfo {
         }
 
         else if (gameOptions.getAIPlayerType() == AIPlayerType.Easy) {
-            aiPlayer = new EasyAI(gameOptions.getIsAIFirst());
+            aiPlayer = new EasyAI(gameOptions.getIsAIFirst(), gameOptions.getGameSize());
         }
     }
 
@@ -89,9 +89,9 @@ public class GameInfo {
         if (aiPlayer != null && isWhitesTurn == aiPlayer.getIsWhite()) {
             setIsOkToMovePiece(false);
 
-            BoardState boardState = getCurrentBoardState();
+            BitSet bitSet = PositionConverter.convertBoardStateToBitSet(getCurrentBoardState());
 
-            GameMove move = aiPlayer.getMove(boardState);
+            GameMove move = aiPlayer.getMove(bitSet, getGameSize());
             if (move == null) {
                 return;
             }
@@ -306,7 +306,7 @@ public class GameInfo {
     public boolean isGameOver() {
         for(GameSquare square: gameSquares) {
             SquareInfo info = square.getSquareInfo();
-            if (info instanceof Amazon && info.isWhite() == isWhitesTurn) {
+            if (info instanceof Amazon && info.getIsWhite() == isWhitesTurn) {
 
                 ArrayList<SquareInfo> list = ValidMoveCalculator.getValidSquares(getCurrentBoardState(), info);
 
@@ -331,6 +331,10 @@ public class GameInfo {
         }
 
         previousMoves = new ArrayList<>();
+
+        if (aiPlayer != null) {
+            aiPlayer.resetGame(gameOptions.getGameSize());
+        }
     }
 
     public void undoLastMove() {

@@ -20,5 +20,7 @@ public class BoardState {
         return squares[info.getRow() * gameSize + info.getColumn()] = info;
     }
 
+    public SquareInfo[] getSquares() { return squares; }
+
     public int getGameSize() { return gameSize; }
 }

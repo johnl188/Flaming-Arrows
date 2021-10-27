@@ -32,7 +32,7 @@ public class GameSquare extends StackPane {
         return isWhite ? "-fx-background-color: red;" : "-fx-background-color: darkRed;";
     }
 
-    public GameSquare(GameInfo gameInfo, int row, int column, boolean isWhite) {
+    public GameSquare(GameInfo gameInfo, byte row, byte column, boolean isWhite) {
 
         this.gameInfo = gameInfo;
         this.isWhite = isWhite;
@@ -107,7 +107,7 @@ public class GameSquare extends StackPane {
 
     private void onDragDetected(MouseEvent e) {
 
-        if (gameInfo.getIsMovePhase() && gameInfo.getIsWhitesTurn() == squareInfo.isWhite() &&
+        if (gameInfo.getIsMovePhase() && gameInfo.getIsWhitesTurn() == squareInfo.getIsWhite() &&
                 squareInfo instanceof Amazon) {
             Dragboard db = startDragAndDrop(TransferMode.MOVE);
 
@@ -132,7 +132,9 @@ public class GameSquare extends StackPane {
 
             db.setContent(content);
 
-            ArrayList<SquareInfo> validList = ValidMoveCalculator.getValidSquares(gameInfo.getCurrentBoardState(), getSquareInfo());
+            //ArrayList<SquareInfo> validList = ValidMoveCalculator.getValidSquares(gameInfo.getCurrentBoardState(), getSquareInfo());
+
+            ArrayList<SquareInfo> validList = ValidMoveCalculator.getValidSquares(PositionConverter.convertBoardStateToBitSet(gameInfo.getCurrentBoardState()), getSquareInfo(), gameInfo.getGameSize());
 
             for(SquareInfo info : validList) {
                 GameSquare square = gameInfo.getGameSquare(info.getRow(), info.getColumn());
@@ -171,9 +173,7 @@ public class GameSquare extends StackPane {
                 GameSquare square = gameInfo.getGameSquare(info.getRow(), info.getColumn());
                 square.setStyle(square.normalStyle());
             }
-
         }
-
 
         e.consume();
     }

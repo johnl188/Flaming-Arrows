@@ -2,7 +2,7 @@ package org.amazons;
 
 public class Fire extends SquareInfo {
 
-    public Fire(int row, int column) {
+    public Fire(byte row, byte column) {
         this.row = row;
         this.column = column;
         this.imageFileName = "fire.png";

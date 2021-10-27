@@ -1,15 +1,15 @@
 package org.amazons;
 
-public class GameMove {
+public class GameMove implements Comparable {
 
-    private int amazonFromRow;
-    private int amazonFromColumn;
-    private int amazonToRow;
-    private int amazonToColumn;
-    private int arrowRow;
-    private int arrowColumn;
+    private byte amazonFromRow;
+    private byte amazonFromColumn;
+    private byte amazonToRow;
+    private byte amazonToColumn;
+    private byte arrowRow;
+    private byte arrowColumn;
 
-    public GameMove(int amazonFromRow, int amazonFromColumn, int amazonToRow, int amazonToColumn)
+    public GameMove(byte amazonFromRow, byte amazonFromColumn, byte amazonToRow, byte amazonToColumn)
     {
         this.amazonFromRow = amazonFromRow;
         this.amazonFromColumn = amazonFromColumn;
@@ -19,8 +19,8 @@ public class GameMove {
         this.arrowColumn = -1;
     }
 
-    public GameMove(int amazonFromRow, int amazonFromColumn, int amazonToRow, int amazonToColumn,
-                    int arrowRow, int arrowColumn)
+    public GameMove(byte amazonFromRow, byte amazonFromColumn, byte amazonToRow, byte amazonToColumn,
+                    byte arrowRow, byte arrowColumn)
     {
         this.amazonFromRow = amazonFromRow;
         this.amazonFromColumn = amazonFromColumn;
@@ -30,15 +30,83 @@ public class GameMove {
         this.arrowColumn = arrowColumn;
     }
 
-    public int getAmazonFromRow() { return amazonFromRow; }
-    public int getAmazonFromColumn() { return amazonFromColumn; }
-    public int getAmazonToRow() { return amazonToRow; }
-    public int getAmazonToColumn() { return amazonToColumn; }
-    public int getArrowRow() { return arrowRow; }
-    public int getArrowColumn() { return arrowColumn; }
+    public byte getAmazonFromRow() { return amazonFromRow; }
+    public byte getAmazonFromColumn() { return amazonFromColumn; }
+    public byte getAmazonToRow() { return amazonToRow; }
+    public byte getAmazonToColumn() { return amazonToColumn; }
+    public byte getArrowRow() { return arrowRow; }
+    public byte getArrowColumn() { return arrowColumn; }
 
-    public void setArrowMove(int row, int column) {
+    public void setArrowMove(byte row, byte column) {
         this.arrowRow = row;
         this.arrowColumn = column;
+    }
+
+    @Override
+    public String toString() {
+        return "GameMove{" +
+                "amazonFromRow=" + amazonFromRow +
+                ", amazonFromColumn=" + amazonFromColumn +
+                ", amazonToRow=" + amazonToRow +
+                ", amazonToColumn=" + amazonToColumn +
+                ", arrowRow=" + arrowRow +
+                ", arrowColumn=" + arrowColumn +
+                '}';
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        GameMove inputMove = (GameMove)o;
+
+        if (inputMove.getAmazonFromRow() < getAmazonFromRow()) {
+            return -1;
+        }
+
+        if (inputMove.getAmazonFromRow() > getAmazonFromRow()) {
+            return 1;
+        }
+
+        if (inputMove.getAmazonFromColumn() < getAmazonFromColumn()) {
+            return -1;
+        }
+
+        if (inputMove.getAmazonFromColumn() > getAmazonFromColumn()) {
+            return 1;
+        }
+
+        if (inputMove.getAmazonToRow() < getAmazonToRow()) {
+            return -1;
+        }
+
+        if (inputMove.getAmazonToRow() > getAmazonToRow()) {
+            return 1;
+        }
+
+        if (inputMove.getAmazonToColumn() < getAmazonToColumn()) {
+            return -1;
+        }
+
+        if (inputMove.getAmazonToColumn() > getAmazonToColumn()) {
+            return 1;
+        }
+
+        if (inputMove.getArrowRow() < getArrowRow()) {
+            return -1;
+        }
+
+        if (inputMove.getArrowRow() > getArrowRow()) {
+            return 1;
+        }
+
+        if (inputMove.getArrowColumn() < getArrowColumn()) {
+            return -1;
+        }
+
+        if (inputMove.getArrowColumn() > getArrowColumn()) {
+            return 1;
+        }
+
+        return 0;
     }
 }

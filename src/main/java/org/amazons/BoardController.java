@@ -101,9 +101,9 @@ public class BoardController implements Initializable {
         boardGridPane.getColumnConstraints().clear();
         boardGridPane.getRowConstraints().clear();
 
-        for(int i = 0; i < perSide; i++) {
+        for(byte i = 0; i < perSide; i++) {
 
-            for(int j = 0; j < perSide; j++) {
+            for(byte j = 0; j < perSide; j++) {
 
                 GameSquare square = new GameSquare(gameInfo, i, j, isWhite);
 

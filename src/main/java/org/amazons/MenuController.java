@@ -7,10 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -147,10 +145,10 @@ public class MenuController implements Initializable {
 
         Stage stage = (Stage) node.getScene().getWindow();
 
-        GoToGameWithOptions(stage, options);
+        goToGameWithOptions(stage, options);
     }
 
-    private void GoToGameWithOptions(Stage stage, GameOptions options) {
+    private void goToGameWithOptions(Stage stage, GameOptions options) {
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("board.fxml"));

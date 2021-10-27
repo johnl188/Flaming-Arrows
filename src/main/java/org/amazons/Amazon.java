@@ -2,7 +2,7 @@ package org.amazons;
 
 public class Amazon extends SquareInfo
 {
-    public Amazon(int row, int column, boolean isWhite) {
+    public Amazon(byte row, byte column, boolean isWhite) {
         this.row = row;
         this.column = column;
         this.isWhite = isWhite;
