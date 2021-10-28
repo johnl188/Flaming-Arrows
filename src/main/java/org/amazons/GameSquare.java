@@ -90,6 +90,22 @@ public class GameSquare extends StackPane {
         getChildren().add(imageView);
     }
 
+    public void switchToStillFire() {
+        if (imageView != null) {
+            getChildren().clear();
+            imageView = null;
+        }
+
+        squareInfo = new Fire(squareInfo.getRow(), squareInfo.getColumn());
+
+        Image image = new Image("still_fire.png");
+
+        imageView = new ImageViewPane();
+        imageView.setImageView(new ImageView(image));
+
+        getChildren().add(imageView);
+    }
+
     public void removePiece() {
         if (imageView != null) {
             getChildren().clear();

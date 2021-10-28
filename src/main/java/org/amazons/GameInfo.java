@@ -2,6 +2,7 @@ package org.amazons;
 
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,6 +13,8 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Predicate;
 
 public class GameInfo {
@@ -295,6 +298,20 @@ public class GameInfo {
 
                         setIsOkToMovePiece(true);
                         switchTurns();
+
+                        new Timer().schedule(
+                                new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                addTo.switchToStillFire();
+                                            }
+                                        });
+                                    }
+                                }, 2000
+                        );
                     }
                 });
 
