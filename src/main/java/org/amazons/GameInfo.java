@@ -85,7 +85,7 @@ public class GameInfo {
         setGameInfoLabel((isWhitesTurn ? "White's" : "Black's") + " turn to move a piece");
 
         if (isGameOver()) {
-            setGameInfoLabel((!isWhitesTurn ? "White's" : "Black's") + " wins!");
+            setGameInfoLabel((!isWhitesTurn ? "White" : "Black") + " wins!");
             return;
         }
 
@@ -94,42 +94,52 @@ public class GameInfo {
 
             BitSet bitSet = PositionConverter.convertBoardStateToBitSet(getCurrentBoardState());
 
-            GameMove move = aiPlayer.getMove(bitSet, getGameSize());
-            if (move == null) {
-                return;
-            }
+            // runnable for that thread
+            new Thread(() -> {
 
-            GameSquare movingPiece = getGameSquare(move.getAmazonFromRow(), move.getAmazonFromColumn());
-            GameSquare toSquare = getGameSquare(move.getAmazonToRow(), move.getAmazonToColumn());
-            GameSquare fireSquare = getGameSquare(move.getArrowRow(), move.getArrowColumn());
+                GameMove move = aiPlayer.getMove(bitSet, getGameSize());
 
-            ArrayList<SquareInfo> validMoves = ValidMoveCalculator.getValidSquares(getCurrentBoardState(), movingPiece.getSquareInfo());
+                Platform.runLater(new Runnable() {
 
-            Predicate<SquareInfo> rowEqual = e -> e.getRow() == toSquare.getSquareInfo().getRow();
-            Predicate<SquareInfo> columnEqual = e -> e.getColumn() == toSquare.getSquareInfo().getColumn();
-            Predicate<SquareInfo> combined = rowEqual.and(columnEqual);
+                        public void run() {
+                            if (move == null) {
+                                return;
+                            }
 
-            if (validMoves.stream().noneMatch(combined)) {
-                return;
-            }
+                            GameSquare movingPiece = getGameSquare(move.getAmazonFromRow(), move.getAmazonFromColumn());
+                            GameSquare toSquare = getGameSquare(move.getAmazonToRow(), move.getAmazonToColumn());
+                            GameSquare fireSquare = getGameSquare(move.getArrowRow(), move.getArrowColumn());
 
-            movePiece(movingPiece.getSquareInfo(), toSquare.getSquareInfo(), true, new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    ArrayList<SquareInfo> validMoves = ValidMoveCalculator.getValidSquares(getCurrentBoardState(), toSquare.getSquareInfo());
-                    Predicate<SquareInfo> rowEqual = e -> e.getRow() == fireSquare.getSquareInfo().getRow();
-                    Predicate<SquareInfo> columnEqual = e -> e.getColumn() == fireSquare.getSquareInfo().getColumn();
-                    Predicate<SquareInfo> combined = rowEqual.and(columnEqual);
+                            ArrayList<SquareInfo> validMoves = ValidMoveCalculator.getValidSquares(getCurrentBoardState(), movingPiece.getSquareInfo());
 
-                    if (validMoves.stream().noneMatch(combined)) {
-                        return;
-                    }
+                            Predicate<SquareInfo> rowEqual = e -> e.getRow() == toSquare.getSquareInfo().getRow();
+                            Predicate<SquareInfo> columnEqual = e -> e.getColumn() == toSquare.getSquareInfo().getColumn();
+                            Predicate<SquareInfo> combined = rowEqual.and(columnEqual);
 
-                    shootArrow(toSquare, fireSquare);
-                }
-            });
+                            if (validMoves.stream().noneMatch(combined)) {
+                                return;
+                            }
 
-            addMove(movingPiece.getSquareInfo(), toSquare.getSquareInfo());
+                            movePiece(movingPiece.getSquareInfo(), toSquare.getSquareInfo(), true, new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent actionEvent) {
+                                    ArrayList<SquareInfo> validMoves = ValidMoveCalculator.getValidSquares(getCurrentBoardState(), toSquare.getSquareInfo());
+                                    Predicate<SquareInfo> rowEqual = e -> e.getRow() == fireSquare.getSquareInfo().getRow();
+                                    Predicate<SquareInfo> columnEqual = e -> e.getColumn() == fireSquare.getSquareInfo().getColumn();
+                                    Predicate<SquareInfo> combined = rowEqual.and(columnEqual);
+
+                                    if (validMoves.stream().noneMatch(combined)) {
+                                        return;
+                                    }
+
+                                    shootArrow(toSquare, fireSquare);
+                                }
+                            });
+
+                            addMove(movingPiece.getSquareInfo(), toSquare.getSquareInfo());
+                        }
+                    });
+                }).start();
         }
     }
 
@@ -296,9 +306,6 @@ public class GameInfo {
                         shootFrom.getChildren().remove(arrowView);
                         addTo.addFire();
 
-                        setIsOkToMovePiece(true);
-                        switchTurns();
-
                         new Timer().schedule(
                                 new TimerTask() {
                                     @Override
@@ -307,10 +314,13 @@ public class GameInfo {
                                             @Override
                                             public void run() {
                                                 addTo.switchToStillFire();
+                                                setIsOkToMovePiece(true);
+                                                switchTurns();
+
                                             }
                                         });
                                     }
-                                }, 2000
+                                }, 1000
                         );
                     }
                 });
@@ -369,8 +379,8 @@ public class GameInfo {
 
             GameMove lastMove = previousMoves.remove(previousMoves.size() - 1);
             if (isMovePhase) {
-                GameSquare fireSquare = getGameSquare(lastMove.getArrowRow(), lastMove.getArrowColumn());
-                fireSquare.removePiece();
+//                GameSquare fireSquare = getGameSquare(lastMove.getArrowRow(), lastMove.getArrowColumn());
+//                fireSquare.removePiece();
             }
 
             GameSquare fromSquare = getGameSquare(lastMove.getAmazonFromRow(), lastMove.getAmazonFromColumn());

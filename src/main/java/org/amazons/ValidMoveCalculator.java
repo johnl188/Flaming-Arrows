@@ -52,7 +52,7 @@ public class ValidMoveCalculator {
         for (SquareInfo info: amazonMoveList) {
 
             int fromIndex = ((startRow * gameSize + startColumn) * 2);
-            int toIndex = ((info.getRow() * gameSize + info.getRow()) * 2);
+            int toIndex = ((info.getRow() * gameSize + info.getColumn()) * 2);
 
             currentBitSet.set(fromIndex, false);
             currentBitSet.set(fromIndex + 1, false);

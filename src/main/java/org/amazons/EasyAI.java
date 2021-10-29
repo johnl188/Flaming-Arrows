@@ -3,8 +3,7 @@ package org.amazons;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
-
-/* Currently, just a copy of RandomAI */
+import java.util.Random;
 
 public class EasyAI extends AIPlayer{
 
@@ -20,7 +19,14 @@ public class EasyAI extends AIPlayer{
 
         ArrayList<SquareInfo> possiblePieces = new ArrayList<>();
 
-        // tree.addNodesForPosition(boardPositions, isWhite);
+        BoardState state = PositionConverter.convertBitSetToBoardState(boardPositions, gameSize);
+
+        tree.addNodesForPosition(boardPositions, isWhite);
+        GameMove tempMove =  tree.calculateBestMove(isWhite);
+
+        if (tempMove != null) {
+            return tempMove;
+        }
         // tree.printTree();
 
         for(byte i = 0; i < gameSize; i++) {
@@ -72,8 +78,6 @@ public class EasyAI extends AIPlayer{
         boardPositions.set(fire, false);
         boardPositions.set(fire + 1, true);
 
-        this.informAIOfGameMove(move, !isWhite);
-
         return move;
     }
 
@@ -91,13 +95,19 @@ public class EasyAI extends AIPlayer{
 class MoveTree {
 
     Node root;
-    int startDepth = 3;
+    int startDepth = 2;
     int gameSize = 0;
 
-    class Node {
+    Random random = new Random();
+
+    long cutoffTime;
+    long startTime;
+
+    class Node implements Comparable{
         BitSet position;
         GameMove move;
         boolean isWhite;
+        int value;
 
         ArrayList<Node> children;
 
@@ -106,12 +116,20 @@ class MoveTree {
             this.isWhite = isWhite;
             this.move = move;
             children = new ArrayList<>();
+            value = 0;
+        }
+
+        @Override
+        public int compareTo(Object o) {
+            Node otherNode = (Node) o;
+            return this.value - otherNode.value;
         }
     }
 
     public MoveTree(int gameSize) {
         this.gameSize = gameSize;
         root = null;
+        startDepth = 2;
     }
 
     public void addNodesForPosition(BitSet input, boolean isWhitesTurn) {
@@ -123,8 +141,24 @@ class MoveTree {
             root = new Node(copiedSet, null, isWhitesTurn);
         }
 
+        startTime = System.currentTimeMillis();
+        cutoffTime = startTime + 30000;
 
         addPossibleMovesTree(root, isWhitesTurn, startDepth, input);
+
+
+        long endTime = System.currentTimeMillis();
+
+        long executionTime = endTime - startTime;
+
+        System.out.println("Time for AI: " + executionTime + " ms");
+
+
+        if (executionTime < 50) {
+            startDepth++;
+
+            System.out.println("Increased depth to: " + startDepth);
+        }
     }
 
     public void informAIOfGameMove(GameMove move, boolean isWhiteTurn) {
@@ -136,7 +170,7 @@ class MoveTree {
         for (Node node: root.children) {
             if (move.compareTo(node.move) == 0) {
 
-                makeGameMoveInBitSet(root.position, move, isWhiteTurn);
+                makeGameMoveInBitSet(root.position, move);
                 node.position = root.position;
 
                 root = node;
@@ -145,10 +179,10 @@ class MoveTree {
         }
     }
 
-
     private void addPossibleMovesTree(Node node, boolean isWhitesTurn, int depth, BitSet currentBoard) {
 
-        if (depth == 0) {
+        if (depth == 0 || System.currentTimeMillis() > cutoffTime) {
+
             return;
         }
 
@@ -162,13 +196,13 @@ class MoveTree {
             }
 
             else if (node.move != null) {
-                makeGameMoveInBitSet(currentBoard, node.move, isWhitesTurn);
+                makeGameMoveInBitSet(currentBoard, node.move);
 
                 for(Node innerNode: node.children) {
                     addPossibleMovesTree(innerNode, !isWhitesTurn, depth - 1, currentBoard);
                 }
 
-                reverseGameMoveInBitSet(currentBoard, node.move, isWhitesTurn);
+                reverseGameMoveInBitSet(currentBoard, node.move);
             }
 
             return;
@@ -199,21 +233,12 @@ class MoveTree {
         }
 
         for (Node innerNode : node.children) {
-            //BoardState preBoardState = PositionConverter.convertBitSetToBoardState(currentBoard, gameSize);
 
-            makeGameMoveInBitSet(currentBoard, innerNode.move, isWhitesTurn);
-
-            //BoardState postMove = PositionConverter.convertBitSetToBoardState(currentBoard, gameSize);
+            makeGameMoveInBitSet(currentBoard, innerNode.move);
 
             addPossibleMovesTree(innerNode, !isWhitesTurn, depth - 1, currentBoard);
 
-            //System.out.println("Current: " + current + " Added Move: " + innerNode.move + " Added Children: " + innerNode.children.size());
-
-            //BoardState postAdd = PositionConverter.convertBitSetToBoardState(currentBoard, gameSize);
-
-            reverseGameMoveInBitSet(currentBoard, innerNode.move, isWhitesTurn);
-
-            //BoardState postReverse = PositionConverter.convertBitSetToBoardState(currentBoard, gameSize);
+            reverseGameMoveInBitSet(currentBoard, innerNode.move);
         }
     }
 
@@ -256,27 +281,31 @@ class MoveTree {
         }
     }
 
-    private void makeGameMoveInBitSet(BitSet board, GameMove move, boolean isWhitesTurn) {
+    private void makeGameMoveInBitSet(BitSet board, GameMove move) {
 
         int fromIndex = ((move.getAmazonFromRow() * gameSize + move.getAmazonFromColumn()) * 2);
         int toIndex = ((move.getAmazonToRow() * gameSize + move.getAmazonToColumn()) * 2);
         int fire = ((move.getArrowRow() * gameSize + move.getArrowColumn()) * 2);
+
+        boolean previousColor = board.get(fromIndex + 1);
 
         board.set(fromIndex, false);
         board.set(fromIndex + 1, false);
 
         board.set(toIndex, true);
-        board.set(toIndex + 1, !isWhitesTurn);
+        board.set(toIndex + 1, previousColor);
 
         board.set(fire, false);
         board.set(fire + 1, true);
     }
 
-    private void reverseGameMoveInBitSet(BitSet board, GameMove move, boolean isWhitesTurn) {
+    private void reverseGameMoveInBitSet(BitSet board, GameMove move) {
 
         int fromIndex = ((move.getAmazonFromRow() * gameSize + move.getAmazonFromColumn()) * 2);
         int toIndex = ((move.getAmazonToRow() * gameSize + move.getAmazonToColumn()) * 2);
         int fire = ((move.getArrowRow() * gameSize + move.getArrowColumn()) * 2);
+
+        boolean previousColor = board.get(toIndex + 1);
 
         board.set(fire, false);
         board.set(fire + 1, false);
@@ -285,6 +314,129 @@ class MoveTree {
         board.set(toIndex + 1, false);
 
         board.set(fromIndex, true);
-        board.set(fromIndex + 1, !isWhitesTurn);
+        board.set(fromIndex + 1, previousColor);
+    }
+
+    public GameMove calculateBestMove(boolean isWhitesMove) {
+        if (root == null) {
+            return null;
+        }
+
+        alphaBeta(root, root.position, startDepth, Integer.MIN_VALUE, Integer.MAX_VALUE, isWhitesMove);
+
+        GameMove move = getBestMoveAfterSearch();
+
+        root = null;
+
+        return move;
+    }
+
+    private GameMove getBestMoveAfterSearch() {
+        int max = Integer.MIN_VALUE;
+
+        Node bestNode = null;
+
+        ArrayList<Node> currentBest = new ArrayList<>();
+
+        for (Node child : root.children) {
+            if (max < child.value) {
+                max = child.value;
+                currentBest.add(child);
+            }
+        }
+
+        if (currentBest.size() > 1) {
+            bestNode = currentBest.get(currentBest.size() - 1);
+        }
+
+        if (bestNode != null) {
+            return bestNode.move;
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    public int alphaBeta(Node node, BitSet currentBoard, int depth, int alpha, int beta, boolean isWhitesTurn) {
+        if (depth == 0 || node.children.size() == 0) {
+            node.value = estimatedValue(currentBoard);
+            return node.value;
+        }
+
+        for(Node child: node.children) {
+
+            makeGameMoveInBitSet(currentBoard, child.move);
+
+            int score = alphaBeta(child, currentBoard, depth - 1, alpha, beta, !isWhitesTurn);
+
+            if (isWhitesTurn) {
+                alpha = Math.max(alpha, score);
+                if (alpha >= beta) {
+                    reverseGameMoveInBitSet(currentBoard, child.move);
+                    break;
+                }
+            }
+
+            else {
+                beta = Math.min(beta, score);
+
+                if (beta <= alpha) {
+                    reverseGameMoveInBitSet(currentBoard, child.move);
+                    break;
+                }
+            }
+
+            reverseGameMoveInBitSet(currentBoard, child.move);
+        }
+
+        node.value = isWhitesTurn ? alpha : beta;
+
+        return node.value;
+    }
+
+    public int negaMax(Node node, BitSet currentBoard, int depth, int alpha, int beta) {
+        if (depth == 0) {
+            node.value = estimatedValue(currentBoard);
+            return node.value;
+        }
+
+        int b = beta;
+
+        Collections.sort(node.children);
+
+        int i = 0;
+
+        for(Node child: node.children) {
+            makeGameMoveInBitSet(currentBoard, child.move);
+
+            int score = -negaMax(child, currentBoard,depth - 1, -b, -alpha);
+
+            if (i > 0 && score > alpha && score < beta) {
+                score = -negaMax(child, currentBoard, depth - 1, -beta, -alpha);
+            }
+
+            alpha = Math.max(alpha, score);
+
+            if (alpha >= beta) {
+                reverseGameMoveInBitSet(currentBoard, child.move);
+                break;
+            }
+
+            b = alpha + 1;
+            i++;
+
+            reverseGameMoveInBitSet(currentBoard, child.move);
+        }
+
+        node.value = alpha;
+        return node.value;
+    }
+
+    private int currentInt = 0;
+    public int estimatedValue(BitSet board) {
+        //return random.nextInt();
+        currentInt++;
+        return currentInt;
     }
 }

@@ -55,10 +55,6 @@ public class PositionConverter {
         return new BoardState(infos, gameSize);
     }
 
-    private static boolean isBitOne(byte currentByte, int pos) {
-        return (currentByte & (1 << pos)) != 0;
-    }
-
     public static SquareInfo convertBitSetBitsToInfo(BitSet bitSet, int gameSize, byte row, byte column) {
         SquareInfo info;
 
