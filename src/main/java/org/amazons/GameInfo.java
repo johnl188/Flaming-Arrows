@@ -213,27 +213,7 @@ public class GameInfo {
         previousMoves.add(new GameMove(from.getRow(), from.getColumn(), to.getRow(), to.getColumn()));
     }
 
-    public void shootArrow(GameSquare shootFrom, GameSquare addTo) {
-
-        ImageViewPane imageView = shootFrom.getImageView();
-        shootFrom.toFront();
-
-        Image image = new Image("arrow.png");
-
-        ImageViewPane arrowView = new ImageViewPane();
-        arrowView.setImageView(new ImageView(image));
-
-        shootFrom.getChildren().add(arrowView);
-
-
-        GameMove lastMove = previousMoves.get(previousMoves.size() - 1);
-        lastMove.setArrowMove(addTo.getSquareInfo().getRow(), addTo.getSquareInfo().getColumn());
-
-        if (aiPlayer != null && aiPlayer.getIsWhite() == !isWhitesTurn) {
-            aiPlayer.informAIOfGameMove(lastMove, isWhitesTurn);
-        }
-
-
+    private TranslateTransition createArrowTranslateTransition(ImageViewPane arrowView, GameSquare shootFrom, GameSquare addTo) {
         TranslateTransition translateTransition = new TranslateTransition();
         ScaleTransition scaleTransition = new ScaleTransition();
 
@@ -248,12 +228,6 @@ public class GameInfo {
         translateTransition.setByY(toPoint.getY() - fromPoint.getY());
 
         translateTransition.setCycleCount(1);
-
-        translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-            }
-        });
 
         // Get Rotation Angle for Arrow
         if (translateTransition.getByX() == 0) {
@@ -281,6 +255,27 @@ public class GameInfo {
 
             arrowView.setRotate(degrees);
         }
+        return translateTransition;
+    }
+
+    public void shootArrow(GameSquare shootFrom, GameSquare addTo) {
+
+        ImageViewPane imageView = shootFrom.getImageView();
+        shootFrom.toFront();
+
+        Image image = new Image("arrow.png");
+
+        ImageViewPane arrowView = new ImageViewPane();
+        arrowView.setImageView(new ImageView(image));
+
+        shootFrom.getChildren().add(arrowView);
+
+
+        GameMove lastMove = previousMoves.get(previousMoves.size() - 1);
+        lastMove.setArrowMove(addTo.getSquareInfo().getRow(), addTo.getSquareInfo().getColumn());
+
+        TranslateTransition translateTransition = createArrowTranslateTransition(arrowView, shootFrom, addTo);
+        ScaleTransition scaleTransition = new ScaleTransition();
 
         scaleTransition.setNode(arrowView);
         scaleTransition.setByX(2.0f);
