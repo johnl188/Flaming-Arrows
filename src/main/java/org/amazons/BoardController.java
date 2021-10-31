@@ -14,6 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -29,11 +31,27 @@ public class BoardController implements Initializable {
 
     @FXML private Label lblInfo;
 
+    @FXML private StackPane centerStackPane;
+
     private GameOptions gameOptions;
     private GameInfo gameInfo;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+
+//        Image image = new Image("download.jpg");
+//        ImageViewPane backgroundImage = new ImageViewPane();
+//        backgroundImage.setImageView(new ImageView(image));
+//
+//        backgroundImage.toBack();
+
+        centerStackPane.setStyle("-fx-background-color: rgba(255, 140, 0, 1)");
+
+
+//        centerStackPane.getChildren().clear();
+//        centerStackPane.getChildren().add(backgroundImage);
+//        centerStackPane.getChildren().add(boardGridPane);
 
     }
 

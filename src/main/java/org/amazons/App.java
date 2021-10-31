@@ -13,8 +13,6 @@ import java.io.IOException;
  */
 public class App extends Application {
 
-    private static Scene scene;
-
     public static void main(String[] args) {
         launch();
     }
@@ -26,7 +24,7 @@ public class App extends Application {
 
         Parent root = fxmlLoader.load();
 
-        scene = new Scene(root, 800, 800);
+        Scene scene = new Scene(root, 800, 800);
 
         stage.setScene(scene);
         stage.setTitle("Flaming Arrows!");
@@ -36,45 +34,4 @@ public class App extends Application {
 
         stage.show();
     }
-
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
-
-
-    private static GameOptions get10x10GameOptionsRandomAI() {
-        return new GameOptions(10, BoardController.get10x10StartingPositions(),
-                AIPlayerType.Random, false);
-    }
-
-    private static GameOptions get10x10GameOptionsHuman() {
-        return new GameOptions(10, BoardController.get10x10StartingPositions(),
-                AIPlayerType.None, false);
-    }
-
-    private static GameOptions get8x8GameOptionsRandomAI() {
-        return new GameOptions(8, BoardController.get8x8StartingPositions(),
-                AIPlayerType.Random, false);
-    }
-
-    private static GameOptions get8x8GameOptionsHuman() {
-        return new GameOptions(8, BoardController.get8x8StartingPositions(),
-                AIPlayerType.None, false);
-    }
-
-    private static GameOptions get6x6GameOptionsRandomAI() {
-        return new GameOptions(6, BoardController.get6x6StartingPositions(),
-                AIPlayerType.Random, false);
-    }
-
-    private static GameOptions get6x6GameOptionsHuman() {
-        return new GameOptions(6, BoardController.get6x6StartingPositions(),
-                AIPlayerType.None, false);
-    }
-
 }

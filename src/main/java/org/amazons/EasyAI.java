@@ -27,7 +27,6 @@ public class EasyAI extends AIPlayer{
         if (tempMove != null) {
             return tempMove;
         }
-        // tree.printTree();
 
         for(byte i = 0; i < gameSize; i++) {
             for (byte j = 0; j < gameSize; j++) {
@@ -97,8 +96,6 @@ class MoveTree {
     Node root;
     int startDepth = 2;
     int gameSize = 0;
-
-    Random random = new Random();
 
     long cutoffTime;
     long startTime;
@@ -433,7 +430,9 @@ class MoveTree {
         return node.value;
     }
 
+    Random random = new Random();
     private int currentInt = 0;
+
     public int estimatedValue(BitSet board) {
         //return random.nextInt();
         currentInt++;

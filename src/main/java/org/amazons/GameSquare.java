@@ -19,17 +19,17 @@ public class GameSquare extends StackPane {
 
     private String normalStyle()
     {
-        return isWhite ? "-fx-background-color: radial-gradient(radius 50% , #f5f5dc, #8b4513);" : "-fx-background-color: radial-gradient(radius 50% , #ffebcd, #008080);";
+        return isWhite ? "-fx-background-color: rgba(255, 255, 255, 0)" : "-fx-background-color: rgba(0, 0, 0, 0.5)";
     }
 
     private String availableStyle()
     {
-        return isWhite ? "-fx-background-color: palegreen;" : "-fx-background-color: forestgreen;";
+        return isWhite ? "-fx-background-color: rgba(152, 251, 152, 0.75)" : "-fx-background-color: rgba(34, 139, 34, 0.75)";
     }
 
     private String notAvailableStyle()
     {
-        return isWhite ? "-fx-background-color: red;" : "-fx-background-color: darkRed;";
+        return isWhite ? "-fx-background-color: rgba(255, 0, 0, 0.75)" : "-fx-background-color: rgba(139, 0, 0, 0.75)";
     }
 
     public GameSquare(GameInfo gameInfo, byte row, byte column, boolean isWhite) {
@@ -70,6 +70,8 @@ public class GameSquare extends StackPane {
 
         imageView = new ImageViewPane();
         imageView.setImageView(new ImageView(image));
+
+        imageView.setStyle("-fx-opacity: 100%");
 
         getChildren().add(imageView);
     }

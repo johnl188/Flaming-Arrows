@@ -379,8 +379,8 @@ public class GameInfo {
 
             GameMove lastMove = previousMoves.remove(previousMoves.size() - 1);
             if (isMovePhase) {
-//                GameSquare fireSquare = getGameSquare(lastMove.getArrowRow(), lastMove.getArrowColumn());
-//                fireSquare.removePiece();
+                GameSquare fireSquare = getGameSquare(lastMove.getArrowRow(), lastMove.getArrowColumn());
+                fireSquare.removePiece();
             }
 
             GameSquare fromSquare = getGameSquare(lastMove.getAmazonFromRow(), lastMove.getAmazonFromColumn());
