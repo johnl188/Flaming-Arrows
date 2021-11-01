@@ -431,7 +431,6 @@ class MoveTree {
 
         ArrayList<SquareInfo> whitePieces = new ArrayList<>();
         ArrayList<SquareInfo> blackPieces = new ArrayList<>();
-        ArrayList<SquareInfo> firePieces = new ArrayList<>();
 
         convertBoardToLists(board, whitePieces, blackPieces);
 
@@ -448,7 +447,7 @@ class MoveTree {
 
                 for (SquareInfo innerInfo: list) {
                     TerritoryMarker inMarker = markers[innerInfo.getRow() * gameSize + innerInfo.getColumn()];
-                    if (inMarker.whiteMoves == 0) {
+                    if (inMarker.whiteMoves == Byte.MAX_VALUE) {
                         inMarker.whiteMoves = currentMoves;
                         insideList.add(innerInfo);
                     }
@@ -471,7 +470,7 @@ class MoveTree {
 
                 for (SquareInfo innerInfo: list) {
                     TerritoryMarker inMarker = markers[innerInfo.getRow() * gameSize + innerInfo.getColumn()];
-                    if (inMarker.blackMoves == 0) {
+                    if (inMarker.blackMoves == Byte.MAX_VALUE) {
                         inMarker.blackMoves = currentMoves;
                         insideList.add(innerInfo);
                     }
@@ -496,8 +495,6 @@ class MoveTree {
         return returnValue;
     }
 
-    private static final byte[][] directions = {{1, 1}, {-1, 1}, {1, -1}, {-1, -1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-
     private void convertBoardToLists(BitSet board, ArrayList<SquareInfo> whitePieces, ArrayList<SquareInfo> blackPieces) {
         for (byte i = 0; i < gameSize; i++) {
             for (byte j = 0; j < gameSize; j++) {
@@ -516,8 +513,8 @@ class MoveTree {
         }
     }
     class TerritoryMarker {
-        byte whiteMoves;
-        byte blackMoves;
+        byte whiteMoves = Byte.MAX_VALUE;
+        byte blackMoves = Byte.MAX_VALUE;
     }
 
 
