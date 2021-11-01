@@ -1,5 +1,6 @@
 package org.amazons;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
@@ -17,67 +18,10 @@ public class EasyAI extends AIPlayer{
     @Override
     public GameMove getMove(BitSet boardPositions, int gameSize) {
 
-        ArrayList<SquareInfo> possiblePieces = new ArrayList<>();
-
-        BoardState state = PositionConverter.convertBitSetToBoardState(boardPositions, gameSize);
-
         tree.addNodesForPosition(boardPositions, isWhite);
         GameMove tempMove =  tree.calculateBestMove(isWhite);
 
-        if (tempMove != null) {
-            return tempMove;
-        }
-
-        for(byte i = 0; i < gameSize; i++) {
-            for (byte j = 0; j < gameSize; j++) {
-                SquareInfo info = PositionConverter.convertBitSetBitsToInfo(boardPositions, gameSize, i, j);
-                if (info instanceof Amazon && info.getIsWhite() == isWhite) {
-
-                    if (ValidMoveCalculator.getValidSquares(boardPositions, info, gameSize).size() > 0) {
-                        possiblePieces.add(info);
-                    }
-                }
-            }
-        }
-
-        if (possiblePieces.size() == 0) {
-            return null;
-        }
-
-        Collections.shuffle(possiblePieces);
-
-        SquareInfo movingPiece = possiblePieces.get(0);
-
-        ArrayList<SquareInfo> validMoves = ValidMoveCalculator.getValidSquares(boardPositions, movingPiece, gameSize);
-
-        Collections.shuffle(validMoves);
-        SquareInfo moveTo = validMoves.get(0);
-
-
-        int fromIndex = ((movingPiece.getRow() * gameSize + movingPiece.getColumn()) * 2);
-        int toIndex = ((moveTo.getRow() * gameSize + moveTo.getColumn()) * 2);
-
-        boardPositions.set(fromIndex, false);
-        boardPositions.set(fromIndex + 1, false);
-
-        boardPositions.set(toIndex, true);
-        boardPositions.set(toIndex + 1, movingPiece.getIsWhite());
-
-        // Calculate move base on new state
-        ArrayList<SquareInfo> arrowMoves = ValidMoveCalculator.getValidSquares(boardPositions, moveTo, gameSize);
-
-        Collections.shuffle(arrowMoves);
-        SquareInfo arrowMove = arrowMoves.get(0);
-
-        GameMove move = new GameMove(movingPiece.getRow(), movingPiece.getColumn(), moveTo.getRow(), moveTo.getColumn(),
-                arrowMove.getRow(), arrowMove.getColumn());
-
-        int fire = ((arrowMove.getRow() * gameSize + arrowMove.getColumn()) * 2);
-
-        boardPositions.set(fire, false);
-        boardPositions.set(fire + 1, true);
-
-        return move;
+        return tempMove;
     }
 
     @Override
@@ -151,11 +95,11 @@ class MoveTree {
         System.out.println("Time for AI: " + executionTime + " ms");
 
 
-        if (executionTime < 50) {
-            startDepth++;
-
-            System.out.println("Increased depth to: " + startDepth);
-        }
+//        if (executionTime < 50) {
+//            startDepth++;
+//
+//            System.out.println("Increased depth to: " + startDepth);
+//        }
     }
 
     public void informAIOfGameMove(GameMove move, boolean isWhiteTurn) {
@@ -321,14 +265,22 @@ class MoveTree {
 
         alphaBeta(root, root.position, startDepth, Integer.MIN_VALUE, Integer.MAX_VALUE, isWhitesMove);
 
-        GameMove move = getBestMoveAfterSearch();
+        GameMove move;
+
+        if (isWhitesMove) {
+            move = getBestMoveAfterSearchForWhite();
+        }
+
+        else {
+            move = getBestMoveAfterSearchForBlack();
+        }
 
         root = null;
 
         return move;
     }
 
-    private GameMove getBestMoveAfterSearch() {
+    private GameMove getBestMoveAfterSearchForWhite() {
         int max = Integer.MIN_VALUE;
 
         Node bestNode = null;
@@ -342,11 +294,12 @@ class MoveTree {
             }
         }
 
-        if (currentBest.size() > 1) {
+        if (currentBest.size() > 0) {
             bestNode = currentBest.get(currentBest.size() - 1);
         }
 
         if (bestNode != null) {
+            System.out.println(max);
             return bestNode.move;
         }
 
@@ -354,6 +307,35 @@ class MoveTree {
             return null;
         }
     }
+
+    private GameMove getBestMoveAfterSearchForBlack() {
+        int min = Integer.MAX_VALUE;
+
+        Node bestNode = null;
+
+        ArrayList<Node> currentBest = new ArrayList<>();
+
+        for (Node child : root.children) {
+            if (min > child.value) {
+                min = child.value;
+                currentBest.add(child);
+            }
+        }
+
+        if (currentBest.size() > 0) {
+            bestNode = currentBest.get(currentBest.size() - 1);
+        }
+
+        if (bestNode != null) {
+            System.out.println(min);
+            return bestNode.move;
+        }
+
+        else {
+            return null;
+        }
+    }
+
 
     public int alphaBeta(Node node, BitSet currentBoard, int depth, int alpha, int beta, boolean isWhitesTurn) {
         if (depth == 0 || node.children.size() == 0) {
@@ -431,11 +413,112 @@ class MoveTree {
     }
 
     Random random = new Random();
-    private int currentInt = 0;
 
     public int estimatedValue(BitSet board) {
         //return random.nextInt();
-        currentInt++;
-        return currentInt;
+        return calculateRelativeTerritory(board);
     }
+
+    // https://project.dke.maastrichtuniversity.nl/games/files/msc/Hensgens_thesis.pdf
+    private int calculateRelativeTerritory(BitSet board) {
+        boolean done = false;
+        int size = gameSize * gameSize;
+        TerritoryMarker[] markers = new TerritoryMarker[size];
+
+        for (int i = 0; i < size; i++) {
+            markers[i] = new TerritoryMarker();
+        }
+
+        ArrayList<SquareInfo> whitePieces = new ArrayList<>();
+        ArrayList<SquareInfo> blackPieces = new ArrayList<>();
+        ArrayList<SquareInfo> firePieces = new ArrayList<>();
+
+        convertBoardToLists(board, whitePieces, blackPieces);
+
+        ArrayList<SquareInfo> currentList = whitePieces;
+        byte currentMoves = 0;
+
+        while (currentList.size() > 0) {
+            currentMoves++;
+
+            ArrayList<SquareInfo> insideList = new ArrayList<>();
+
+            for (SquareInfo info : currentList) {
+                ArrayList<SquareInfo> list = ValidMoveCalculator.getValidSquares(board, info, gameSize);
+
+                for (SquareInfo innerInfo: list) {
+                    TerritoryMarker inMarker = markers[innerInfo.getRow() * gameSize + innerInfo.getColumn()];
+                    if (inMarker.whiteMoves == 0) {
+                        inMarker.whiteMoves = currentMoves;
+                        insideList.add(innerInfo);
+                    }
+                }
+            }
+
+            currentList = insideList;
+        }
+
+        currentList = blackPieces;
+        currentMoves = 0;
+
+        while (currentList.size() > 0) {
+            currentMoves++;
+
+            ArrayList<SquareInfo> insideList = new ArrayList<>();
+
+            for (SquareInfo info : currentList) {
+                ArrayList<SquareInfo> list = ValidMoveCalculator.getValidSquares(board, info, gameSize);
+
+                for (SquareInfo innerInfo: list) {
+                    TerritoryMarker inMarker = markers[innerInfo.getRow() * gameSize + innerInfo.getColumn()];
+                    if (inMarker.blackMoves == 0) {
+                        inMarker.blackMoves = currentMoves;
+                        insideList.add(innerInfo);
+                    }
+                }
+            }
+
+            currentList = insideList;
+        }
+
+        int returnValue = 0;
+
+        for (TerritoryMarker marker: markers) {
+            if (marker.whiteMoves < marker.blackMoves) {
+                returnValue++;
+            }
+
+            else if (marker.whiteMoves > marker.blackMoves){
+                returnValue--;
+            }
+        }
+
+        return returnValue;
+    }
+
+    private static final byte[][] directions = {{1, 1}, {-1, 1}, {1, -1}, {-1, -1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    private void convertBoardToLists(BitSet board, ArrayList<SquareInfo> whitePieces, ArrayList<SquareInfo> blackPieces) {
+        for (byte i = 0; i < gameSize; i++) {
+            for (byte j = 0; j < gameSize; j++) {
+                SquareInfo info = PositionConverter.convertBitSetBitsToInfo(board, gameSize, i, j);
+
+                if (info instanceof Amazon) {
+                    if (info.getIsWhite()) {
+                        whitePieces.add(info);
+                    }
+
+                    else {
+                        blackPieces.add(info);
+                    }
+                }
+            }
+        }
+    }
+    class TerritoryMarker {
+        byte whiteMoves;
+        byte blackMoves;
+    }
+
+
 }
