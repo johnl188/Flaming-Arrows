@@ -40,19 +40,15 @@ public class BoardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-//        Image image = new Image("download.jpg");
-//        ImageViewPane backgroundImage = new ImageViewPane();
-//        backgroundImage.setImageView(new ImageView(image));
-//
-//        backgroundImage.toBack();
+        Image image = new Image("sampple.jpg");
+        ImageViewPane backgroundImage = new ImageViewPane();
+        backgroundImage.setImageView(new ImageView(image));
 
-        centerStackPane.setStyle("-fx-background-color: rgba(255, 140, 0, 1)");
+        backgroundImage.toBack();
 
-
-//        centerStackPane.getChildren().clear();
-//        centerStackPane.getChildren().add(backgroundImage);
-//        centerStackPane.getChildren().add(boardGridPane);
-
+        centerStackPane.getChildren().clear();
+        centerStackPane.getChildren().add(backgroundImage);
+        centerStackPane.getChildren().add(boardGridPane);
     }
 
     public void setGameOptions(GameOptions gameOptions) {
