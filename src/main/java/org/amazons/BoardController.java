@@ -1,27 +1,26 @@
 package org.amazons;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.*;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
 
@@ -40,15 +39,15 @@ public class BoardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-        Image image = new Image("sampple.jpg");
-        ImageViewPane backgroundImage = new ImageViewPane();
-        backgroundImage.setImageView(new ImageView(image));
-
-        backgroundImage.toBack();
-
-        centerStackPane.getChildren().clear();
-        centerStackPane.getChildren().add(backgroundImage);
-        centerStackPane.getChildren().add(boardGridPane);
+//        Image image = new Image("sampple.jpg");
+//        ImageViewPane backgroundImage = new ImageViewPane();
+//        backgroundImage.setImageView(new ImageView(image));
+//
+//        backgroundImage.toBack();
+//
+//        centerStackPane.getChildren().clear();
+//        centerStackPane.getChildren().add(backgroundImage);
+//        centerStackPane.getChildren().add(boardGridPane);
     }
 
     public void setGameOptions(GameOptions gameOptions) {
