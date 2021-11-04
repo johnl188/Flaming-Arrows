@@ -1,4 +1,6 @@
 .anchor {
     -fx-background-image: url('../../sampple.jpg');
-    -fx-background-size: 100%, 100%;
+    -fx-background-size: 1920, 1080;
+    -fx-background-position: center center;
+    -fx-background-repeat: stretch;
 }

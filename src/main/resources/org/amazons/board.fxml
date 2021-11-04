@@ -12,34 +12,34 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" styleClass="anchor" stylesheets="@board_background.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.amazons.BoardController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="800.0" minWidth="800.0" prefHeight="800.0" prefWidth="800.0" styleClass="anchor" stylesheets="@board_background.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.amazons.BoardController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+            <VBox minHeight="600.0" minWidth="100.0" prefHeight="600.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
          </left>
          <right>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+            <VBox minHeight="600.0" minWidth="100.0" prefHeight="600.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
          </right>
          <top>
-            <AnchorPane prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane minHeight="100.0" minWidth="800.0" prefHeight="100.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
                   <Label fx:id="lblInfo" alignment="CENTER" layoutY="42.0" prefHeight="100.0" prefWidth="800.0" text="Label" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </top>
          <bottom>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" minHeight="100.0" minWidth="800.0" prefHeight="100.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <ToolBar prefHeight="40.0" prefWidth="171.0">
+                  <ToolBar prefHeight="40.0" prefWidth="171.0" style="-fx-background-color: rgba(0,0,0,0);">
                     <items>
                       <Button mnemonicParsing="false" onAction="#undoLastMove" text="UNDO" />
                         <Button mnemonicParsing="false" onAction="#resetGame" text="RESET" />
                         <Button mnemonicParsing="false" onAction="#goBackToMenu" text="QUIT" />
                     </items>
                   </ToolBar>
-                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Pane minHeight="100.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </HBox>
          </bottom>
