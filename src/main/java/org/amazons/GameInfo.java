@@ -29,6 +29,7 @@ public class GameInfo {
     private AIPlayer aiPlayer = null;
     private AIPlayer aiPlayer2 = null;
     private MediaPlayer arrowMediaPlayer = null;
+    private MediaPlayer undoMediaPlayer = null;
 
     private ArrayList<GameMove> previousMoves;
 
@@ -57,6 +58,9 @@ public class GameInfo {
 
         Media arrowSound = new Media(getClass().getResource("/arrow.mp3").toExternalForm());
         arrowMediaPlayer = new MediaPlayer(arrowSound);
+
+        Media undoSound = new Media(getClass().getResource("/cancelwav.wav").toExternalForm());
+        undoMediaPlayer = new MediaPlayer(undoSound);
     }
 
     public int getGameSize() { return gameOptions.getGameSize(); }
@@ -271,6 +275,7 @@ public class GameInfo {
             fromSquare.removePiece();
             toSquare.addAmazon(from.isWhite);
         }
+
     }
 
     public void addMove(SquareInfo from, SquareInfo to) {
@@ -483,6 +488,10 @@ public class GameInfo {
 
             resetHighlighting();
         }
+
+        undoMediaPlayer.seek(undoMediaPlayer.getStartTime());
+        undoMediaPlayer.play();
+
     }
 
     public void resetHighlighting() {
