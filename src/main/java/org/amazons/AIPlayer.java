@@ -8,9 +8,5 @@ public abstract class AIPlayer {
 
     public boolean getIsWhite() { return isWhite; }
 
-    public abstract GameMove getMove(BitSet boardPositions, int gameSize);
-
-    public abstract void resetGame(int gameSize);
-
-    public abstract void informAIOfGameMove(GameMove move, boolean isWhiteTurn);
+    public abstract GameMove getMove(BitSet boardPositions, int turnNumber);
 }

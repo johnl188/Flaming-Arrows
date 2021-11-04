@@ -16,22 +16,12 @@ public class EasyAI extends AIPlayer{
     }
 
     @Override
-    public GameMove getMove(BitSet boardPositions, int gameSize) {
+    public GameMove getMove(BitSet boardPositions, int turnNumber) {
 
-        tree.addNodesForPosition(boardPositions, isWhite);
+        tree.addNodesForPosition(boardPositions, isWhite, turnNumber);
         GameMove tempMove =  tree.calculateBestMove(isWhite);
 
         return tempMove;
-    }
-
-    @Override
-    public void resetGame(int gameSize) {
-        tree = new MoveTree(gameSize);
-    }
-
-    @Override
-    public void informAIOfGameMove(GameMove move, boolean isWhiteTurn) {
-        tree.informAIOfGameMove(move, isWhiteTurn);
     }
 }
 
@@ -42,7 +32,6 @@ class MoveTree {
     int gameSize = 0;
 
     long cutoffTime;
-    long startTime;
 
     class Node implements Comparable{
         BitSet position;
@@ -57,7 +46,13 @@ class MoveTree {
             this.isWhite = isWhite;
             this.move = move;
             children = new ArrayList<>();
-            value = 0;
+            if (isWhite) {
+                value = Integer.MIN_VALUE;
+            }
+
+            else {
+                value = Integer.MAX_VALUE;
+            }
         }
 
         @Override
@@ -73,7 +68,9 @@ class MoveTree {
         startDepth = 2;
     }
 
-    public void addNodesForPosition(BitSet input, boolean isWhitesTurn) {
+    public void addNodesForPosition(BitSet input, boolean isWhitesTurn, int turnNumber) {
+
+        //setDepth(turnNumber);
 
         if (root == null) {
 
@@ -82,7 +79,7 @@ class MoveTree {
             root = new Node(copiedSet, null, isWhitesTurn);
         }
 
-        startTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         cutoffTime = startTime + 30000;
 
         addPossibleMovesTree(root, isWhitesTurn, startDepth, input);
@@ -93,32 +90,88 @@ class MoveTree {
         long executionTime = endTime - startTime;
 
         System.out.println("Time for AI: " + executionTime + " ms");
-
-
-//        if (executionTime < 50) {
-//            startDepth++;
-//
-//            System.out.println("Increased depth to: " + startDepth);
-//        }
     }
 
-    public void informAIOfGameMove(GameMove move, boolean isWhiteTurn) {
-
-        if (root == null) {
-            return;
+    private void setDepth(int turnNumber) {
+        if (gameSize == 6) {
+            setDepthForSix(turnNumber);
         }
 
-        for (Node node: root.children) {
-            if (move.compareTo(node.move) == 0) {
+        else if (gameSize == 8) {
+            setDepthForEight(turnNumber);
+        }
 
-                makeGameMoveInBitSet(root.position, move);
-                node.position = root.position;
-
-                root = node;
-                return;
-            }
+        else {
+            setDepthForTen(turnNumber);
         }
     }
+
+    private void setDepthForSix(int turnNumber) {
+        if (turnNumber < 11) {
+            startDepth = 2;
+        }
+
+        else if (turnNumber < 21) {
+            startDepth = 3;
+        }
+
+        else if (turnNumber < 31) {
+            startDepth = 4;
+        }
+
+        else if (turnNumber < 41) {
+            startDepth = 5;
+        }
+
+        else if (turnNumber < 51) {
+            startDepth = 6;
+        }
+    }
+
+    private void setDepthForEight(int turnNumber) {
+        if (turnNumber < 15) {
+            startDepth = 2;
+        }
+
+        else if (turnNumber < 25) {
+            startDepth = 3;
+        }
+
+        else if (turnNumber < 35) {
+            startDepth = 4;
+        }
+
+        else if (turnNumber < 45) {
+            startDepth = 5;
+        }
+
+        else if (turnNumber < 55) {
+            startDepth = 6;
+        }
+    }
+
+    private void setDepthForTen(int turnNumber) {
+        if (turnNumber < 21) {
+            startDepth = 2;
+        }
+
+        else if (turnNumber < 31) {
+            startDepth = 3;
+        }
+
+        else if (turnNumber < 41) {
+            startDepth = 4;
+        }
+
+        else if (turnNumber < 51) {
+            startDepth = 5;
+        }
+
+        else if (turnNumber < 61) {
+            startDepth = 6;
+        }
+    }
+
 
     private void addPossibleMovesTree(Node node, boolean isWhitesTurn, int depth, BitSet currentBoard) {
 
@@ -201,27 +254,6 @@ class MoveTree {
         return true;
     }
 
-    public void printTree() {
-        if (root == null) {
-            return;
-        }
-
-        int numberDeep = 0;
-
-        printNode(root, numberDeep);
-    }
-
-    private void printNode(Node node, int numberDeep) {
-
-        if (numberDeep < startDepth) {
-            System.out.println("Deep: " + numberDeep + " ChildrenSize: " + node.children.size());
-        }
-
-        for (Node innerNode: node.children) {
-            printNode(innerNode, numberDeep + 1);
-        }
-    }
-
     private void makeGameMoveInBitSet(BitSet board, GameMove move) {
 
         int fromIndex = ((move.getAmazonFromRow() * gameSize + move.getAmazonFromColumn()) * 2);
@@ -263,6 +295,9 @@ class MoveTree {
             return null;
         }
 
+        long startTime = System.currentTimeMillis();
+        cutoffTime = startTime + 30000;
+
         alphaBeta(root, root.position, startDepth, Integer.MIN_VALUE, Integer.MAX_VALUE, isWhitesMove);
 
         GameMove move;
@@ -277,6 +312,12 @@ class MoveTree {
 
         root = null;
 
+        long endTime = System.currentTimeMillis();
+
+        long executionTime = endTime - startTime;
+
+        System.out.println("Time for AI: " + executionTime + " ms");
+
         return move;
     }
 
@@ -290,12 +331,18 @@ class MoveTree {
         for (Node child : root.children) {
             if (max < child.value) {
                 max = child.value;
+                currentBest.clear();
+                currentBest.add(child);
+            }
+
+            else if (max == child.value) {
                 currentBest.add(child);
             }
         }
 
         if (currentBest.size() > 0) {
-            bestNode = currentBest.get(currentBest.size() - 1);
+            Collections.shuffle(currentBest);
+            bestNode = currentBest.get(0);
         }
 
         if (bestNode != null) {
@@ -318,12 +365,18 @@ class MoveTree {
         for (Node child : root.children) {
             if (min > child.value) {
                 min = child.value;
+                currentBest.clear();
+                currentBest.add(child);
+            }
+
+            else if (min == child.value) {
                 currentBest.add(child);
             }
         }
 
         if (currentBest.size() > 0) {
-            bestNode = currentBest.get(currentBest.size() - 1);
+            Collections.shuffle(currentBest);
+            bestNode = currentBest.get(0);
         }
 
         if (bestNode != null) {
@@ -338,7 +391,7 @@ class MoveTree {
 
 
     public int alphaBeta(Node node, BitSet currentBoard, int depth, int alpha, int beta, boolean isWhitesTurn) {
-        if (depth == 0 || node.children.size() == 0) {
+        if (depth == 0 || node.children.size() == 0 || System.currentTimeMillis() > cutoffTime) {
             node.value = estimatedValue(currentBoard);
             return node.value;
         }
@@ -351,22 +404,17 @@ class MoveTree {
 
             if (isWhitesTurn) {
                 alpha = Math.max(alpha, score);
-                if (alpha >= beta) {
-                    reverseGameMoveInBitSet(currentBoard, child.move);
-                    break;
-                }
             }
 
             else {
                 beta = Math.min(beta, score);
-
-                if (beta <= alpha) {
-                    reverseGameMoveInBitSet(currentBoard, child.move);
-                    break;
-                }
             }
 
             reverseGameMoveInBitSet(currentBoard, child.move);
+
+            if (alpha >= beta) {
+                break;
+            }
         }
 
         node.value = isWhitesTurn ? alpha : beta;

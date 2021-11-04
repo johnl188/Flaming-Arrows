@@ -20,6 +20,13 @@
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.0.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-media -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>17.0.1</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

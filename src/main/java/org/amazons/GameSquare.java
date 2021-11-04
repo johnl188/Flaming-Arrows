@@ -125,7 +125,7 @@ public class GameSquare extends StackPane {
 
     private void onDragDetected(MouseEvent e) {
 
-        if (gameInfo.getIsMovePhase() && gameInfo.getIsWhitesTurn() == squareInfo.getIsWhite() &&
+        if (gameInfo.getIsOkToMovePiece() && gameInfo.getIsMovePhase() && gameInfo.getIsWhitesTurn() == squareInfo.getIsWhite() &&
                 squareInfo instanceof Amazon) {
             Dragboard db = startDragAndDrop(TransferMode.MOVE);
 

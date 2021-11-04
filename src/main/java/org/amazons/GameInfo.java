@@ -9,6 +9,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -25,6 +27,9 @@ public class GameInfo {
     private boolean isMovePhase;
     private boolean isOkToMovePiece;
     private AIPlayer aiPlayer = null;
+    private AIPlayer aiPlayer2 = null;
+    private MediaPlayer arrowMediaPlayer = null;
+
     private ArrayList<GameMove> previousMoves;
 
     private SimpleStringProperty currentLabel = new SimpleStringProperty();
@@ -47,6 +52,11 @@ public class GameInfo {
         else if (gameOptions.getAIPlayerType() == AIPlayerType.Easy) {
             aiPlayer = new EasyAI(gameOptions.getIsAIFirst(), gameOptions.getGameSize());
         }
+
+        aiPlayer2 = new EasyAI(!gameOptions.getIsAIFirst(), gameOptions.getGameSize());
+
+        Media arrowSound = new Media(getClass().getResource("/arrow.mp3").toExternalForm());
+        arrowMediaPlayer = new MediaPlayer(arrowSound);
     }
 
     public int getGameSize() { return gameOptions.getGameSize(); }
@@ -90,6 +100,7 @@ public class GameInfo {
         }
 
         if (aiPlayer != null && isWhitesTurn == aiPlayer.getIsWhite()) {
+
             setIsOkToMovePiece(false);
 
             BitSet bitSet = PositionConverter.convertBoardStateToBitSet(getCurrentBoardState());
@@ -97,7 +108,7 @@ public class GameInfo {
             // runnable for that thread
             new Thread(() -> {
 
-                GameMove move = aiPlayer.getMove(bitSet, getGameSize());
+                GameMove move = aiPlayer.getMove(bitSet, previousMoves.size());
 
                 Platform.runLater(new Runnable() {
 
@@ -141,6 +152,60 @@ public class GameInfo {
                     });
                 }).start();
         }
+
+//        else if (aiPlayer2 != null && isWhitesTurn == aiPlayer2.getIsWhite()) {
+//
+//            setIsOkToMovePiece(false);
+//
+//            BitSet bitSet = PositionConverter.convertBoardStateToBitSet(getCurrentBoardState());
+//
+//            // runnable for that thread
+//            new Thread(() -> {
+//
+//                GameMove move = aiPlayer2.getMove(bitSet, previousMoves.size());
+//
+//                Platform.runLater(new Runnable() {
+//
+//                    public void run() {
+//                        if (move == null) {
+//                            return;
+//                        }
+//
+//                        GameSquare movingPiece = getGameSquare(move.getAmazonFromRow(), move.getAmazonFromColumn());
+//                        GameSquare toSquare = getGameSquare(move.getAmazonToRow(), move.getAmazonToColumn());
+//                        GameSquare fireSquare = getGameSquare(move.getArrowRow(), move.getArrowColumn());
+//
+//                        ArrayList<SquareInfo> validMoves = ValidMoveCalculator.getValidSquares(getCurrentBoardState(), movingPiece.getSquareInfo());
+//
+//                        Predicate<SquareInfo> rowEqual = e -> e.getRow() == toSquare.getSquareInfo().getRow();
+//                        Predicate<SquareInfo> columnEqual = e -> e.getColumn() == toSquare.getSquareInfo().getColumn();
+//                        Predicate<SquareInfo> combined = rowEqual.and(columnEqual);
+//
+//                        if (validMoves.stream().noneMatch(combined)) {
+//                            return;
+//                        }
+//
+//                        movePiece(movingPiece.getSquareInfo(), toSquare.getSquareInfo(), true, new EventHandler<ActionEvent>() {
+//                            @Override
+//                            public void handle(ActionEvent actionEvent) {
+//                                ArrayList<SquareInfo> validMoves = ValidMoveCalculator.getValidSquares(getCurrentBoardState(), toSquare.getSquareInfo());
+//                                Predicate<SquareInfo> rowEqual = e -> e.getRow() == fireSquare.getSquareInfo().getRow();
+//                                Predicate<SquareInfo> columnEqual = e -> e.getColumn() == fireSquare.getSquareInfo().getColumn();
+//                                Predicate<SquareInfo> combined = rowEqual.and(columnEqual);
+//
+//                                if (validMoves.stream().noneMatch(combined)) {
+//                                    return;
+//                                }
+//
+//                                shootArrow(toSquare, fireSquare);
+//                            }
+//                        });
+//
+//                        addMove(movingPiece.getSquareInfo(), toSquare.getSquareInfo());
+//                    }
+//                });
+//            }).start();
+//        }
     }
 
     public void addGameSquare(GameSquare square) {
@@ -260,6 +325,9 @@ public class GameInfo {
 
     public void shootArrow(GameSquare shootFrom, GameSquare addTo) {
 
+        arrowMediaPlayer.seek(arrowMediaPlayer.getStartTime());
+        arrowMediaPlayer.play();
+
         ImageViewPane imageView = shootFrom.getImageView();
         shootFrom.toFront();
 
@@ -324,8 +392,20 @@ public class GameInfo {
             }
         });
 
-        translateTransition.play();
-        scaleTransition.play();
+
+        new Timer().schedule(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                translateTransition.play();
+                                scaleTransition.play();
+                            }
+                        });
+                    }
+                }, 50);
 
     }
 
@@ -357,10 +437,6 @@ public class GameInfo {
         }
 
         previousMoves = new ArrayList<>();
-
-        if (aiPlayer != null) {
-            aiPlayer.resetGame(gameOptions.getGameSize());
-        }
     }
 
     public void undoLastMove() {

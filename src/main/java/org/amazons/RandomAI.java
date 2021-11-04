@@ -11,12 +11,11 @@ public class RandomAI extends AIPlayer {
     }
 
     @Override
-    public GameMove getMove(BitSet boardPositions, int gameSize) {
+    public GameMove getMove(BitSet boardPositions, int turnNumber) {
 
         ArrayList<SquareInfo> possiblePieces = new ArrayList<>();
 
-//        tree.AddNodesForPosition(PositionConverter.convertBoardStateToString(boardState), isWhite);
-//        tree.printTree();
+        int gameSize = (int)Math.sqrt(boardPositions.length() / 2);
 
         for(byte i = 0; i < gameSize; i++) {
             for (byte j = 0; j < gameSize; j++) {
@@ -69,15 +68,5 @@ public class RandomAI extends AIPlayer {
         boardPositions.set(fire + 1, true);
 
         return move;
-    }
-
-    @Override
-    public void resetGame(int gameSize) {
-
-    }
-
-    @Override
-    public void informAIOfGameMove(GameMove move, boolean isWhiteTurn) {
-
     }
 }
