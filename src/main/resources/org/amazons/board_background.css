@@ -1,6 +1,7 @@
-.anchor {
-    -fx-background-image: url('../../sampple.jpg');
+.entire_application {
+    -fx-background-image: url('../../background.png');
     -fx-background-size: 1920, 1080;
     -fx-background-position: center center;
     -fx-background-repeat: stretch;
 }
+

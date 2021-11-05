@@ -1,6 +1,5 @@
 package org.amazons;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
@@ -422,44 +421,6 @@ class MoveTree {
         return node.value;
     }
 
-    public int negaMax(Node node, BitSet currentBoard, int depth, int alpha, int beta) {
-        if (depth == 0) {
-            node.value = estimatedValue(currentBoard);
-            return node.value;
-        }
-
-        int b = beta;
-
-        Collections.sort(node.children);
-
-        int i = 0;
-
-        for(Node child: node.children) {
-            makeGameMoveInBitSet(currentBoard, child.move);
-
-            int score = -negaMax(child, currentBoard,depth - 1, -b, -alpha);
-
-            if (i > 0 && score > alpha && score < beta) {
-                score = -negaMax(child, currentBoard, depth - 1, -beta, -alpha);
-            }
-
-            alpha = Math.max(alpha, score);
-
-            if (alpha >= beta) {
-                reverseGameMoveInBitSet(currentBoard, child.move);
-                break;
-            }
-
-            b = alpha + 1;
-            i++;
-
-            reverseGameMoveInBitSet(currentBoard, child.move);
-        }
-
-        node.value = alpha;
-        return node.value;
-    }
-
     Random random = new Random();
 
     public int estimatedValue(BitSet board) {
@@ -564,6 +525,4 @@ class MoveTree {
         byte whiteMoves = Byte.MAX_VALUE;
         byte blackMoves = Byte.MAX_VALUE;
     }
-
-
 }
