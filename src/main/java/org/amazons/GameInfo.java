@@ -9,8 +9,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -28,8 +26,6 @@ public class GameInfo {
     private boolean isOkToMovePiece;
     private AIPlayer aiPlayer = null;
     private AIPlayer aiPlayer2 = null;
-    private MediaPlayer arrowMediaPlayer = null;
-    private MediaPlayer undoMediaPlayer = null;
 
     private ArrayList<GameMove> previousMoves;
 
@@ -55,12 +51,6 @@ public class GameInfo {
         }
 
         aiPlayer2 = new EasyAI(!gameOptions.getIsAIFirst(), gameOptions.getGameSize());
-
-        Media arrowSound = new Media(getClass().getResource("/arrow.mp3").toExternalForm());
-        arrowMediaPlayer = new MediaPlayer(arrowSound);
-
-        Media undoSound = new Media(getClass().getResource("/cancelwav.wav").toExternalForm());
-        undoMediaPlayer = new MediaPlayer(undoSound);
     }
 
     public int getGameSize() { return gameOptions.getGameSize(); }
@@ -330,8 +320,8 @@ public class GameInfo {
 
     public void shootArrow(GameSquare shootFrom, GameSquare addTo) {
 
-        arrowMediaPlayer.seek(arrowMediaPlayer.getStartTime());
-        arrowMediaPlayer.play();
+        SoundEffects.arrowSound.seek(SoundEffects.arrowSound.getStartTime());
+        SoundEffects.arrowSound.play();
 
         ImageViewPane imageView = shootFrom.getImageView();
         shootFrom.toFront();
@@ -489,9 +479,8 @@ public class GameInfo {
             resetHighlighting();
         }
 
-        undoMediaPlayer.seek(undoMediaPlayer.getStartTime());
-        undoMediaPlayer.play();
-
+        SoundEffects.undoSound.seek(SoundEffects.undoSound.getStartTime());
+        SoundEffects.undoSound.play();
     }
 
     public void resetHighlighting() {

@@ -34,5 +34,8 @@ public class App extends Application {
         stage.setMinHeight(839);
 
         stage.show();
+
+        SoundEffects soundEffects = new SoundEffects();
+        soundEffects.createSoundEffects();
     }
 }
