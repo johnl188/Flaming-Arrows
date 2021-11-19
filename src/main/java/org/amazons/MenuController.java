@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -170,13 +171,24 @@ public class MenuController implements Initializable {
     }
 
     public void showAI(ActionEvent actionEvent) {
+        easyAIBtn.setDisable(false);
+        hardAIBtn.setDisable(false);
+        aiRandomBtn.setDisable(false);
+        aiBlackBtn.setDisable(false);
+        aiWhiteBtn.setDisable(false);
 
-        aiPane.setVisible(true);
-
+        GaussianBlur blur = new GaussianBlur(0);
+        aiPane.setEffect(blur);
     }
 
     public void hideAI(ActionEvent actionEvent) {
+        easyAIBtn.setDisable(true);
+        hardAIBtn.setDisable(true);
+        aiRandomBtn.setDisable(true);
+        aiBlackBtn.setDisable(true);
+        aiWhiteBtn.setDisable(true);
 
-        aiPane.setVisible(false);
+        GaussianBlur blur = new GaussianBlur(10);
+        aiPane.setEffect(blur);
     }
 }

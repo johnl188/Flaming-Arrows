@@ -1,78 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.amazons.MenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" styleClass="entire_application" stylesheets="@board_background.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.amazons.MenuController">
    <children>
-      <HBox layoutX="-3.0" prefHeight="175.0" prefWidth="800.0">
+      <HBox layoutX="-3.0" layoutY="56.0" prefHeight="175.0" prefWidth="800.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="200.0" prefWidth="800.0" text="Flaming Arrows!" textAlignment="CENTER">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="200.0" prefWidth="800.0" text="Flaming Arrows!" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font size="64.0" />
+                  <Font name="Engravers MT" size="50.0" />
                </font>
             </Label>
          </children></HBox>
-      <Pane fx:id="aiPane" layoutX="567.0" layoutY="272.0" prefHeight="500.0" prefWidth="200.0">
-         <children>
-            <VBox prefHeight="500.0" prefWidth="200.0">
-               <children>
-                  <ToolBar orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
-                    <items>
-                        <Label prefHeight="50.0" prefWidth="200.0" text="Choose CPU Difficulty:" />
-                        <ToggleButton fx:id="easyAIBtn" mnemonicParsing="false" text="Easy">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="aiDifficulty" />
-                           </toggleGroup>
-                        </ToggleButton>
-                        <ToggleButton fx:id="hardAIBtn" mnemonicParsing="false" text="Hard" toggleGroup="$aiDifficulty" />
-                        <Label prefHeight="50.0" prefWidth="200.0" text="Choose Color For CPU:" />
-                        <ToggleButton fx:id="aiRandomBtn" mnemonicParsing="false" text="Random">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="aiStart" />
-                           </toggleGroup>
-                        </ToggleButton>
-                        <ToggleButton fx:id="aiWhiteBtn" mnemonicParsing="false" text="White" toggleGroup="$aiStart" />
-                        <ToggleButton fx:id="aiBlackBtn" mnemonicParsing="false" text="Black" toggleGroup="$aiStart" />
-                    </items>
-                  </ToolBar>
-               </children>
-            </VBox>
-         </children></Pane>
-      <VBox layoutX="269.0" layoutY="272.0" prefHeight="500.0" prefWidth="200.0">
-         <children>
-            <ToolBar orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
-               <items>
-                  <Label prefHeight="50.0" prefWidth="200.0" text="Choose board size:" />
-                  <ToggleButton fx:id="sixBySixBtn" mnemonicParsing="false" text="6 x 6">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="boardSizeGroup" />
-                     </toggleGroup>
-                  </ToggleButton>
-                  <ToggleButton fx:id="eigthByEightBtn" mnemonicParsing="false" text="8 x 8" toggleGroup="$boardSizeGroup" />
-                  <ToggleButton fx:id="tenByTenBtn" mnemonicParsing="false" text="10 x 10" toggleGroup="$boardSizeGroup" />
-               </items>
-            </ToolBar>
-         </children></VBox>
-      <Button layoutX="700.0" layoutY="199.0" mnemonicParsing="false" onAction="#startGame" text="Play" />
-      <ToolBar layoutX="26.0" layoutY="272.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="200.0">
+      <Button layoutX="667.0" layoutY="218.0" mnemonicParsing="false" onAction="#startGame" text="Start Game!" />
+      <ToolBar layoutX="43.0" layoutY="272.0" orientation="VERTICAL" prefHeight="420.0" prefWidth="200.0">
          <items>
-            <Label prefHeight="50.0" prefWidth="200.0" text="Choose how to play:" />
-            <ToggleButton fx:id="onePlayerBtn" mnemonicParsing="false" onAction="#showAI" text="One Player">
+            <Label prefHeight="50.0" prefWidth="200.0" text="Choose how to play:">
+               <font>
+                  <Font name="Engravers MT" size="12.0" />
+               </font></Label>
+            <ToggleButton fx:id="onePlayerBtn" mnemonicParsing="false" onAction="#showAI" prefWidth="200.0" text="One Player">
                <toggleGroup>
                   <ToggleGroup fx:id="playerNumbers" />
                </toggleGroup>
             </ToggleButton>
-            <ToggleButton fx:id="twoPlayerBtn" mnemonicParsing="false" onAction="#hideAI" text="Two Players" toggleGroup="$playerNumbers" />
+            <ToggleButton fx:id="twoPlayerBtn" mnemonicParsing="false" onAction="#hideAI" prefWidth="200.0" text="Two Players" toggleGroup="$playerNumbers" />
          </items>
+         <effect>
+            <InnerShadow />
+         </effect>
       </ToolBar>
+      <ToolBar layoutX="292.0" layoutY="272.0" orientation="VERTICAL" prefHeight="420.0" prefWidth="200.0">
+         <items>
+            <Label prefHeight="50.0" prefWidth="200.0" text="Choose board size:">
+               <font>
+                  <Font name="Engravers MT" size="12.0" />
+               </font></Label>
+            <ToggleButton fx:id="sixBySixBtn" mnemonicParsing="false" prefWidth="200.0" text="6 x 6">
+               <toggleGroup>
+                  <ToggleGroup fx:id="boardSizeGroup" />
+               </toggleGroup>
+            </ToggleButton>
+            <ToggleButton fx:id="eigthByEightBtn" mnemonicParsing="false" prefWidth="200.0" text="8 x 8" toggleGroup="$boardSizeGroup" />
+            <ToggleButton fx:id="tenByTenBtn" mnemonicParsing="false" prefWidth="200.0" text="10 x 10" toggleGroup="$boardSizeGroup" />
+         </items>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </ToolBar>
+      <Pane fx:id="aiPane" layoutX="536.0" layoutY="272.0" prefHeight="420.0" prefWidth="210.0">
+         <children>
+            <ToolBar orientation="VERTICAL" prefHeight="420.0" prefWidth="210.0">
+              <items>
+                  <Label prefHeight="50.0" prefWidth="200.0" text="Choose CPU Difficulty:">
+                     <font>
+                        <Font name="Engravers MT" size="10.0" />
+                     </font>
+                  </Label>
+                  <ToggleButton fx:id="easyAIBtn" mnemonicParsing="false" prefWidth="200.0" text="Easy">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="aiDifficulty" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton fx:id="hardAIBtn" mnemonicParsing="false" prefWidth="200.0" text="Hard" toggleGroup="$aiDifficulty" />
+                  <Label prefHeight="50.0" prefWidth="200.0" text="Choose CPU Color:">
+                     <font>
+                        <Font name="Engravers MT" size="12.0" />
+                     </font>
+                  </Label>
+                  <ToggleButton fx:id="aiRandomBtn" mnemonicParsing="false" prefWidth="200.0" text="Random">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="aiStart" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton fx:id="aiWhiteBtn" mnemonicParsing="false" prefWidth="200.0" text="White" toggleGroup="$aiStart" />
+                  <ToggleButton fx:id="aiBlackBtn" mnemonicParsing="false" prefWidth="200.0" text="Black" toggleGroup="$aiStart" />
+              </items>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ToolBar>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
