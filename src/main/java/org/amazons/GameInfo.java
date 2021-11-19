@@ -212,6 +212,11 @@ public class GameInfo {
             isWhitesTurn = false;
             switchTurns();
         }
+
+        SoundEffects.music1.seek(SoundEffects.music1.getStartTime());
+        SoundEffects.music1.play();
+        //SoundEffects.music1.onStoppedProperty()
+
     }
 
     public GameSquare getGameSquare(int row, int column) {
@@ -323,6 +328,9 @@ public class GameInfo {
         SoundEffects.arrowSound.seek(SoundEffects.arrowSound.getStartTime());
         SoundEffects.arrowSound.play();
 
+        //SoundEffects.fireSound.seek(SoundEffects.fireSound.getStartTime());
+        //SoundEffects.fireSound.play();
+
         ImageViewPane imageView = shootFrom.getImageView();
         shootFrom.toFront();
 
@@ -401,6 +409,8 @@ public class GameInfo {
                         });
                     }
                 }, 50);
+        //SoundEffects.fireSound.seek(SoundEffects.fireSound.getStartTime());
+        //SoundEffects.fireSound.play();
 
     }
 
