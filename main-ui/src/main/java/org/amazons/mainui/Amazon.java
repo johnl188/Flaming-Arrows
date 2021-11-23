@@ -8,11 +8,11 @@ public class Amazon extends SquareInfo
         this.isWhite = isWhite;
 
         if (isWhite) {
-            this.imageFileName = "white_queen.png";
+            this.imageFileName = "white_piece.png";
         }
 
         else {
-            this.imageFileName = "black_queen.png";
+            this.imageFileName = "black_piece.png";
         }
     }
 
