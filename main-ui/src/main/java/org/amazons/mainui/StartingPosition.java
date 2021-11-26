@@ -1,5 +1,8 @@
 package org.amazons.mainui;
 
+/**
+ * Class to hold the position of a piece
+ */
 public class StartingPosition {
 
     private int row;

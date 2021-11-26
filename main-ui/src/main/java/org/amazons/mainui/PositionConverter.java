@@ -2,8 +2,16 @@ package org.amazons.mainui;
 
 import java.util.BitSet;
 
+/**
+ * Static class to do various board state conversions
+ */
 public class PositionConverter {
 
+    /**
+     * COnvert the input BoardState to a BitSet
+     * @param state - input BoardState
+     * @return - new BitSet
+     */
     public static BitSet convertBoardStateToBitSet(BoardState state) {
         int gameSize = state.getGameSize();
 
@@ -33,6 +41,12 @@ public class PositionConverter {
         return returnSet;
     }
 
+    /**
+     * Convert the input BitSet to a BoardState
+     * @param bitSet - input bitSet
+     * @param gameSize - number of row/columns for the board
+     * @return - new BoardState
+     */
     public static BoardState convertBitSetToBoardState(BitSet bitSet, int gameSize) {
         int length = gameSize * gameSize;
 
@@ -55,6 +69,14 @@ public class PositionConverter {
         return new BoardState(infos, gameSize);
     }
 
+    /**
+     * Creates and returns a SquareInfo given the BitSet, row, and column
+     * @param bitSet - BitSet of the board
+     * @param gameSize - Number of columns/rows of the board
+     * @param row - Row to retrieve for
+     * @param column - Column to retrieve for
+     * @return - SquareInfo of the specified square
+     */
     public static SquareInfo convertBitSetBitsToInfo(BitSet bitSet, int gameSize, byte row, byte column) {
         SquareInfo info;
 

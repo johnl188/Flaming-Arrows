@@ -3,6 +3,9 @@ package org.amazons.mainui;
 import java.util.ArrayList;
 import java.util.BitSet;
 
+/**
+ * Static Class to calculate valid moves for the game
+ */
 public class ValidMoveCalculator {
 
     private static ArrayList<SquareInfo> list;
@@ -12,6 +15,12 @@ public class ValidMoveCalculator {
 
     private static final byte[][] directions = {{1, 1}, {-1, 1}, {1, -1}, {-1, -1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
+    /**
+     * Returns a list of valid square to move to given the input state and starting square
+     * @param inputState - input BoardState
+     * @param startInfo - Square to calculate moves for
+     * @return - List of Valid squares to move to
+     */
     public static ArrayList<SquareInfo> getValidSquares(BoardState inputState, SquareInfo startInfo) {
         list = new ArrayList<>();
         boardState = inputState;
@@ -25,6 +34,13 @@ public class ValidMoveCalculator {
         return list;
     }
 
+    /**
+     * Returns a list of valid square to move to given the input state and starting square
+     * @param currentBitSet - Input BitSet representing the board
+     * @param startInfo - Square to get moves for
+     * @param size - Game size needed for BitSet calculations
+     * @return - List of Valid squares to move to
+     */
     public static ArrayList<SquareInfo> getValidSquares(BitSet currentBitSet, SquareInfo startInfo, int size) {
         list = new ArrayList<>();
         bitSet = currentBitSet;
@@ -39,9 +55,16 @@ public class ValidMoveCalculator {
         return list;
     }
 
+    /**
+     * Return list of Valid GameMoves for the starting square. This includes arrow moves as well
+     * @param currentBitSet - Input BitSet representing the board
+     * @param startInfo - Square to get moves for
+     * @param size - Game size needed for BitSet calculations
+     * @return - List of Valid Game Moves
+     */
     public static ArrayList<GameMove> getValidMoves(BitSet currentBitSet, SquareInfo startInfo, int size) {
         ArrayList<GameMove> moveList = new ArrayList<>();
-        ArrayList<SquareInfo> amazonMoveList = new ArrayList<>();
+        ArrayList<SquareInfo> amazonMoveList;
         bitSet = currentBitSet;
         byte startRow = startInfo.getRow();
         byte startColumn = startInfo.getColumn();
@@ -76,6 +99,12 @@ public class ValidMoveCalculator {
         return moveList;
     }
 
+    /**
+     * Check until a piece, fire, or wall is found and add valid square to the list
+     * @param direction - Direction to check
+     * @param startRow - Starting Row of the square
+     * @param startColumn - Starting Column of the square
+     */
     private static void checkDirection(byte[] direction, int startRow, int startColumn) {
         int row = startRow;
         int column = startColumn;
@@ -99,6 +128,12 @@ public class ValidMoveCalculator {
         }
     }
 
+    /**
+     * Check until a piece, fire, or wall is found and add valid square to the list
+     * @param direction - Direction to check
+     * @param startRow - Starting Row of the square
+     * @param startColumn - Starting Column of the square
+     */
     private static void checkDirectionsForBitSet(byte[] direction, byte startRow, byte startColumn) {
         byte row = startRow;
         byte column = startColumn;

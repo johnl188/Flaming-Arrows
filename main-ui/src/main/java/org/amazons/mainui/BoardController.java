@@ -3,7 +3,6 @@ package org.amazons.mainui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -17,12 +16,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.amazons.ai.AIPlayerType;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class BoardController implements Initializable {
+/**
+ * Controller class for the Board Screen
+ */
+public class BoardController {
 
     @FXML private AnchorPane anchorPane;
 
@@ -30,35 +31,28 @@ public class BoardController implements Initializable {
 
     @FXML private Label lblInfo;
 
-    @FXML private StackPane centerStackPane;
-
     private GameOptions gameOptions;
     private GameInfo gameInfo;
 
-    @FXML
-    public void initialize(URL location, ResourceBundle resources) {
-
-//        Image image = new Image("sampple.jpg");
-//        ImageViewPane backgroundImage = new ImageViewPane();
-//        backgroundImage.setImageView(new ImageView(image));
-//
-//        backgroundImage.toBack();
-//
-//        centerStackPane.getChildren().clear();
-//        centerStackPane.getChildren().add(backgroundImage);
-//        centerStackPane.getChildren().add(boardGridPane);
-    }
-
+    /**
+     * Set the GameOptions to set up the game board to play the game
+     * @param gameOptions - GameOptions to set up with
+     */
     public void setGameOptions(GameOptions gameOptions) {
         this.gameOptions = gameOptions;
 
+        // Create a GameInfo object based on the game options
         gameInfo = new GameInfo(gameOptions);
 
+        // Link the game state label on the game board to the label property of the new GameInfo;
         lblInfo.textProperty().bind(gameInfo.gameInfoLabelProperty());
 
+        // Create the game squares based on the game size and add pieces the board from the starting positions
+        // of the game options
         createSquares(gameOptions.getGameSize());
         addPieces(gameOptions.getPositions());
 
+        // If the game has AI, include a popup.
         if (gameOptions.getAIPlayerType() != AIPlayerType.None) {
 
             Stage popupStage = new Stage();
@@ -76,12 +70,20 @@ public class BoardController implements Initializable {
             popupStage.initStyle(StageStyle.UNDECORATED);
 
             popupStage.setScene(dialogScene);
+
+            // Wait to continue until the popup is dismissed
             popupStage.showAndWait();
         }
 
+        // Signal the start of the game
         gameInfo.startGame();
     }
 
+    /**
+     * Create a popup if AI is used
+     * @param gameOptions - Game Option to determine text
+     * @return - Vbox to display in popup
+     */
     private VBox createPopup(GameOptions gameOptions) {
         VBox dialogVbox = new VBox(20);
 
@@ -89,7 +91,6 @@ public class BoardController implements Initializable {
         dialogText += gameOptions.getIsAIFirst() ? "Black" : "White";
         dialogText += " and will go ";
         dialogText += gameOptions.getIsAIFirst() ? "second." : "first.";
-
 
         dialogVbox.getChildren().add(new Text(dialogText));
 
@@ -106,13 +107,20 @@ public class BoardController implements Initializable {
         return dialogVbox;
     }
 
+    /**
+     * Create and add square to the grid pane
+     * @param perSide - number of square in row/column of game
+     */
     private void createSquares(int perSide) {
 
         boolean isWhite = true;
+
+        // Clear the board of children and constraints
         boardGridPane.getChildren().clear();
         boardGridPane.getColumnConstraints().clear();
         boardGridPane.getRowConstraints().clear();
 
+        // Create each square and add to the board and game info
         for(byte i = 0; i < perSide; i++) {
 
             for(byte j = 0; j < perSide; j++) {
@@ -122,20 +130,27 @@ public class BoardController implements Initializable {
                 gameInfo.addGameSquare(square);
                 boardGridPane.add(square, j, i);
 
+                // Flip square color
                 isWhite = !isWhite;
             }
 
+            // If even number of squares on a side, flip color again to make checkered pattern
             if (perSide % 2 == 0) {
                 isWhite = !isWhite;
             }
         }
 
+        // Add grid pane constraints to make equal sized squares
         for (int i = 0; i < perSide; i++) {
             boardGridPane.getColumnConstraints().add(new ColumnConstraints(5, 500, Double.POSITIVE_INFINITY, Priority.ALWAYS, HPos.CENTER, true));
             boardGridPane.getRowConstraints().add(new RowConstraints(5, 200, Double.POSITIVE_INFINITY, Priority.ALWAYS, VPos.CENTER, true));
         }
     }
 
+    /**
+     * Add pieces to the board based on input positions
+     * @param positions - StartingPosition that indicate where the pieces start
+     */
     private void addPieces(StartingPosition[] positions) {
 
         for (StartingPosition position: positions) {
@@ -144,24 +159,39 @@ public class BoardController implements Initializable {
         }
     }
 
+    /**
+     * Method to be called by Reset button on the board
+     * @param actionEvent - event
+     */
     public void resetGame(ActionEvent actionEvent) {
 
+        // Don't do anything if something is being animated
         if (!gameInfo.getIsOkToMovePiece()) {
             return;
         }
 
+        // Reset the game, re add the pieces, start the game
         gameInfo.resetGame();
         addPieces(gameOptions.getPositions());
         gameInfo.startGame();
     }
 
+    /**
+     * Method called by Undo button
+     * @param actionEvent - event
+     */
     public void undoLastMove(ActionEvent actionEvent) {
 
         gameInfo.undoLastMove();
     }
 
+    /**
+     * Method called by Quit button
+     * @param actionEvent - event
+     */
     public void goBackToMenu(ActionEvent actionEvent) {
 
+        // Get the Menu fxml and set the scene to that
         try {
             Node node = (Node) actionEvent.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
@@ -178,44 +208,5 @@ public class BoardController implements Initializable {
         catch (IOException ex) {
             System.out.println("Error loading menu");
         }
-    }
-
-    public static StartingPosition[] get10x10StartingPositions() {
-        StartingPosition[] positions = new StartingPosition[8];
-
-        positions[0] = new StartingPosition(3,0, false);
-        positions[1] = new StartingPosition(0,3, false);
-        positions[2] = new StartingPosition(0,6, false);
-        positions[3] = new StartingPosition(3,9, false);
-        positions[4] = new StartingPosition(6,0, true);
-        positions[5] = new StartingPosition(9,3, true);
-        positions[6] = new StartingPosition(9,6, true);
-        positions[7] = new StartingPosition(6,9, true);
-
-        return  positions;
-    }
-
-    public static StartingPosition[] get8x8StartingPositions() {
-        StartingPosition[] positions = new StartingPosition[6];
-
-        positions[0] = new StartingPosition(2,0, false);
-        positions[1] = new StartingPosition(0,3, false);
-        positions[2] = new StartingPosition(2,7, false);
-        positions[3] = new StartingPosition(5,0, true);
-        positions[4] = new StartingPosition(7,4, true);
-        positions[5] = new StartingPosition(5,7, true);
-
-        return  positions;
-    }
-
-    public static StartingPosition[] get6x6StartingPositions() {
-        StartingPosition[] positions = new StartingPosition[4];
-
-        positions[0] = new StartingPosition(0,2, false);
-        positions[1] = new StartingPosition(2,5, false);
-        positions[2] = new StartingPosition(3,0, true);
-        positions[3] = new StartingPosition(5,3, true);
-
-        return  positions;
     }
 }
