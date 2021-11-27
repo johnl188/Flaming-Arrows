@@ -109,6 +109,8 @@ public class GameInfo {
 
             BitSet bitSet = PositionConverter.convertBoardStateToBitSet(getCurrentBoardState());
 
+            setGameInfoLabel("The computer is deciding on a move");
+
             // Put AI Calculation on background thread
             new Thread(() -> {
 

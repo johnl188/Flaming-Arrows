@@ -28,7 +28,7 @@ public class MenuController implements Initializable {
     private ToggleButton sixBySixBtn;
 
     @FXML
-    private ToggleButton eigthByEightBtn;
+    private ToggleButton eightByEightBtn;
 
     @FXML
     private ToggleButton tenByTenBtn;
@@ -138,7 +138,7 @@ public class MenuController implements Initializable {
             boardSize = 6;
         }
 
-        else if (eigthByEightBtn.isSelected()) {
+        else if (eightByEightBtn.isSelected()) {
             boardSize = 8;
         }
 

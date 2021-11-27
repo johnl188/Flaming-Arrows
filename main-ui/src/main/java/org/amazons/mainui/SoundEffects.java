@@ -1,5 +1,6 @@
 package org.amazons.mainui;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -16,6 +17,10 @@ public class SoundEffects {
 
     public static MediaPlayer fireSound;
 
+    public static SimpleBooleanProperty musicMuteProperty = new SimpleBooleanProperty(false);
+
+    public static SimpleBooleanProperty sfxMuteProperty = new SimpleBooleanProperty(false);
+
     public void createSoundEffects() {
 
         Media arrowMedia = new Media(getClass().getResource("/sounds/arrow.mp3").toExternalForm());
@@ -29,6 +34,12 @@ public class SoundEffects {
 
         Media music1Media = new Media(getClass().getResource("/sounds/Bluesy Vibes.mp3").toExternalForm());
         music1 = new MediaPlayer(music1Media);
+
+        arrowSound.muteProperty().bind(sfxMuteProperty);
+        undoSound.muteProperty().bind(sfxMuteProperty);
+        fireSound.muteProperty().bind(sfxMuteProperty);
+
+        music1.muteProperty().bind(musicMuteProperty);
 
     }
 }

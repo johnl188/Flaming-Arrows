@@ -69,7 +69,7 @@
                   <ToggleGroup fx:id="boardSizeGroup" />
                </toggleGroup>
             </ToggleButton>
-            <ToggleButton fx:id="eigthByEighthBtn" mnemonicParsing="false" prefWidth="200.0" text="8 x 8" toggleGroup="$boardSizeGroup" />
+            <ToggleButton fx:id="eightByEightBtn" mnemonicParsing="false" prefWidth="200.0" text="8 x 8" toggleGroup="$boardSizeGroup" />
             <ToggleButton fx:id="tenByTenBtn" mnemonicParsing="false" prefWidth="200.0" text="10 x 10" toggleGroup="$boardSizeGroup" />
          </items>
          <effect>

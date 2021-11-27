@@ -3,6 +3,7 @@ package org.amazons.mainui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -11,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -19,20 +21,33 @@ import javafx.stage.StageStyle;
 import org.amazons.ai.AIPlayerType;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Controller class for the Board Screen
  */
-public class BoardController {
+public class BoardController implements Initializable {
 
     @FXML private AnchorPane anchorPane;
 
     @FXML private GridPane boardGridPane;
 
+    @FXML private ToggleButton btnMusic;
+
+    @FXML private ToggleButton btnSFX;
+
     @FXML private Label lblInfo;
 
     private GameOptions gameOptions;
     private GameInfo gameInfo;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        btnMusic.selectedProperty().bindBidirectional(SoundEffects.musicMuteProperty);
+        btnSFX.selectedProperty().bindBidirectional(SoundEffects.sfxMuteProperty);
+    }
 
     /**
      * Set the GameOptions to set up the game board to play the game
@@ -70,6 +85,12 @@ public class BoardController {
             popupStage.initStyle(StageStyle.UNDECORATED);
 
             popupStage.setScene(dialogScene);
+
+            // Center in parent stage
+            popupStage.setWidth(300);
+            popupStage.setHeight(300);
+            popupStage.setX(thisStage.getX() + thisStage.getWidth() / 2 - popupStage.getWidth() / 2);
+            popupStage.setY(thisStage.getY() + thisStage.getHeight() / 2 - popupStage.getHeight() / 2);
 
             // Wait to continue until the popup is dismissed
             popupStage.showAndWait();
