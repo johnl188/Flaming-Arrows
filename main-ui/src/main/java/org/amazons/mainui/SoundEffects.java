@@ -13,7 +13,7 @@ public class SoundEffects {
 
     public static MediaPlayer arrowSound;
 
-    public static MediaPlayer music1;
+    public static MediaPlayer musicSound;
 
     public static MediaPlayer fireSound;
 
@@ -33,13 +33,13 @@ public class SoundEffects {
         fireSound = new MediaPlayer(fireMedia);
 
         Media music1Media = new Media(getClass().getResource("/sounds/Bluesy Vibes.mp3").toExternalForm());
-        music1 = new MediaPlayer(music1Media);
+        musicSound = new MediaPlayer(music1Media);
 
         arrowSound.muteProperty().bind(sfxMuteProperty);
         undoSound.muteProperty().bind(sfxMuteProperty);
         fireSound.muteProperty().bind(sfxMuteProperty);
 
-        music1.muteProperty().bind(musicMuteProperty);
-
+        musicSound.muteProperty().bind(musicMuteProperty);
+        musicSound.setCycleCount(Integer.MAX_VALUE);
     }
 }

@@ -38,5 +38,8 @@ public class App extends Application {
         // Create the static sounds used for the game so that they only needed to be loaded once, saving time
         SoundEffects soundEffects = new SoundEffects();
         soundEffects.createSoundEffects();
+
+        SoundEffects.musicSound.seek(SoundEffects.musicSound.getStartTime());
+        SoundEffects.musicSound.play();
     }
 }

@@ -185,10 +185,6 @@ public class GameInfo {
             isWhitesTurn = false;
             switchTurns();
         }
-
-        SoundEffects.music1.seek(SoundEffects.music1.getStartTime());
-        SoundEffects.music1.play();
-        //SoundEffects.music1.onStoppedProperty()
     }
 
 
