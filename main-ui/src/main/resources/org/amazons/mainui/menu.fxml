@@ -10,7 +10,8 @@
    <children>
       <HBox layoutY="90.0" prefHeight="120.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="200.0" prefWidth="800.0" text="Flaming Arrows!" textAlignment="CENTER" textFill="WHITE">
+            <Pane maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
+            <Label alignment="CENTER" contentDisplay="CENTER" minWidth="800.0" prefHeight="200.0" text="Flaming Arrows!" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                <font>
                   <Font name="Engravers MT" size="50.0" />
                </font>
@@ -22,13 +23,14 @@
                   </DropShadow>
                </effect>
             </Label>
+            <Pane layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
          </children></HBox>
       <HBox layoutY="210.0" prefHeight="70.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <ToolBar prefHeight="70.0" prefWidth="800.0" style="-fx-background-color: rgba(0,0,0,0);">
+            <Pane maxWidth="1.7976931348623157E308" minWidth="25.0" prefHeight="5.0" HBox.hgrow="ALWAYS" />
+            <ToolBar maxWidth="1.7976931348623157E308" prefHeight="70.0" prefWidth="730.0" style="-fx-background-color: rgba(0,0,0,0);">
                <items>
-                  <Pane prefHeight="5.0" prefWidth="25.0" />
-                  <ToggleButton fx:id="btnMusic" layoutX="214.0" layoutY="25.0" minWidth="200.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="213.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Music" textFill="WHITE">
+                  <ToggleButton fx:id="btnMusic" layoutX="214.0" layoutY="25.0" minWidth="200.0" mnemonicParsing="false" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Music" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -36,7 +38,7 @@
                         <DropShadow />
                      </effect>
                      <graphic>
-                        <Slider fx:id="sliderMusic" max="1.0" minWidth="150.0" prefWidth="150.0" value="1.0" />
+                        <Slider fx:id="sliderMusic" max="1.0" prefWidth="139.0" value="1.0" />
                      </graphic>
                   </ToggleButton>
                   <Pane layoutX="10.0" layoutY="10.0" prefHeight="5.0" prefWidth="50.0" />
@@ -51,8 +53,8 @@
                         <Slider fx:id="sliderSFX" max="1.0" minWidth="150.0" prefWidth="150.0" value="1.0" />
                      </graphic>
                   </ToggleButton>
-                  <Pane layoutX="256.0" layoutY="10.0" prefHeight="5.0" prefWidth="100.0" />
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#startGame" style="-fx-background-color: rgba(211, 84,0,1);" text="Start Game!" textFill="WHITE">
+                  <Pane layoutX="256.0" layoutY="10.0" prefHeight="5.0" prefWidth="102.5" />
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#startGame" prefWidth="95.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Start Game!" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -65,11 +67,12 @@
                      </effect>
                   </Button>
                </items></ToolBar>
+            <Pane layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minWidth="25.0" prefHeight="5.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
       <HBox alignment="CENTER" layoutY="280.0" prefHeight="420.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <VBox minWidth="25.0" prefHeight="200.0" prefWidth="50.0" />
+            <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="25.0" HBox.hgrow="ALWAYS" />
             <ToolBar orientation="VERTICAL" prefHeight="420.0" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);">
                <items>
                   <Label prefHeight="50.0" prefWidth="200.0" text="Choose how to play:" textFill="WHITE">
@@ -143,7 +146,7 @@
                   </ToolBar>
                </children>
             </Pane>
-            <VBox minWidth="25.0" prefHeight="200.0" prefWidth="50.0" />
+            <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="25.0" HBox.hgrow="ALWAYS" />
          </children></HBox>
    </children>
 </AnchorPane>
