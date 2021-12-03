@@ -28,6 +28,7 @@ public class GameInfo {
     private boolean isWhitesTurn;
     private boolean isMovePhase;
     private boolean isOkToMovePiece;
+    private boolean isCurrenlyInGame = true;
     private AIPlayer aiPlayer = null;
 
     private ArrayList<GameMove> previousMoves;
@@ -261,11 +262,10 @@ public class GameInfo {
      */
     public void shootArrow(GameSquare shootFrom, GameSquare addTo) {
 
-        SoundEffects.arrowSound.seek(SoundEffects.arrowSound.getStartTime());
-        SoundEffects.arrowSound.play();
-
-        //SoundEffects.fireSound.seek(SoundEffects.fireSound.getStartTime());
-        //SoundEffects.fireSound.play();
+        if (isCurrenlyInGame) {
+            SoundEffects.arrowSound.seek(SoundEffects.arrowSound.getStartTime());
+            SoundEffects.arrowSound.play();
+        }
 
         shootFrom.toFront();
 
@@ -295,9 +295,6 @@ public class GameInfo {
                         });
                     }
                 }, 50);
-
-        //SoundEffects.fireSound.seek(SoundEffects.fireSound.getStartTime());
-        //SoundEffects.fireSound.play();
     }
 
     /**
@@ -400,6 +397,11 @@ public class GameInfo {
             // Remove arrow picture and add fire gif to square
             shootFrom.getChildren().remove(arrowView);
             addTo.addFire();
+
+            if (isCurrenlyInGame) {
+                SoundEffects.fireSound.seek(SoundEffects.fireSound.getStartTime());
+                SoundEffects.fireSound.play();
+            }
 
             // After a second, change the fire gif to the still fire image
             new Timer().schedule(
@@ -534,5 +536,9 @@ public class GameInfo {
         }
 
         return new BoardState(squareInfos, getGameSize());
+    }
+
+    public void stopGame() {
+        isCurrenlyInGame = false;
     }
 }

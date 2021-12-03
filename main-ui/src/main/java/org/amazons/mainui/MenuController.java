@@ -175,7 +175,13 @@ public class MenuController implements Initializable {
 
             Scene scene = new Scene(root);
 
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
             stage.setScene(scene);
+
+            stage.setWidth(width);
+            stage.setHeight(height);
 
             controller.setGameOptions(options);
         }

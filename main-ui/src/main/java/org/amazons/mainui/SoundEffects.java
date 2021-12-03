@@ -26,7 +26,6 @@ public class SoundEffects {
 
     public static SimpleDoubleProperty sfxVolumeProperty = new SimpleDoubleProperty(1.0);
 
-
     public void createSoundEffects() {
 
         Media arrowMedia = new Media(getClass().getResource("/sounds/arrow.mp3").toExternalForm());
@@ -54,4 +53,11 @@ public class SoundEffects {
 
         musicSound.volumeProperty().bind(musicVolumeProperty);
     }
+
+    public static void pauseAllSoundEffects() {
+        arrowSound.stop();
+        undoSound.stop();
+        fireSound.stop();
+    }
+
 }
