@@ -187,9 +187,15 @@ public class MenuController implements Initializable {
             Parent root = fxmlLoader.load();
             BoardController controller = fxmlLoader.<BoardController>getController();
 
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
             Scene scene = new Scene(root);
 
             stage.setScene(scene);
+
+            stage.setWidth(width);
+            stage.setHeight(height);
 
             controller.setGameOptions(options);
         }

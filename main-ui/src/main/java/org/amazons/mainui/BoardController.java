@@ -225,9 +225,15 @@ public class BoardController implements Initializable {
 
             Parent root = fxmlLoader.load();
 
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
             Scene scene = new Scene(root);
 
             stage.setScene(scene);
+
+            stage.setWidth(width);
+            stage.setHeight(height);
         }
 
         catch (IOException ex) {
