@@ -197,7 +197,6 @@ public class MenuController implements Initializable {
         catch (IOException ex) {
             System.out.println("Error loading game board");
         }
-
     }
 
     /**

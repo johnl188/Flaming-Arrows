@@ -163,8 +163,8 @@ public class BoardController implements Initializable {
 
         // Add grid pane constraints to make equal sized squares
         for (int i = 0; i < perSide; i++) {
-            boardGridPane.getColumnConstraints().add(new ColumnConstraints(5, 500, Double.POSITIVE_INFINITY, Priority.ALWAYS, HPos.CENTER, true));
-            boardGridPane.getRowConstraints().add(new RowConstraints(5, 200, Double.POSITIVE_INFINITY, Priority.ALWAYS, VPos.CENTER, true));
+            boardGridPane.getColumnConstraints().add(new ColumnConstraints(5, 10, Double.POSITIVE_INFINITY, Priority.ALWAYS, HPos.CENTER, true));
+            boardGridPane.getRowConstraints().add(new RowConstraints(5, 10, Double.POSITIVE_INFINITY, Priority.ALWAYS, VPos.CENTER, true));
         }
     }
 

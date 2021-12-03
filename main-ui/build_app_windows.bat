@@ -84,7 +84,7 @@ call "%JAVA_HOME%\bin\jpackage" ^
   --type %INSTALLER_TYPE% ^
   --dest target/installer ^
   --input target/installer/input/libs ^
-  --name FlamingArrowsGame ^
+  --name "Flaming Arrows Game" ^
   --main-class org.amazons.mainui.AppLauncher ^
   --main-jar %MAIN_JAR% ^
   --java-options -Xmx2048m ^

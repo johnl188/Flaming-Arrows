@@ -1,5 +1,6 @@
 package org.amazons.mainui;
 
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -164,7 +165,10 @@ public class GameSquare extends StackPane {
             // Create copy of image to show during drag
             ImageView view = imageView.getImageView();
             Image image = view.getImage();
-            Image scaledImage = new Image(image.getUrl(), view.getFitWidth(), view.getFitHeight(), true, true);
+            Scene scene = view.getScene();
+
+            Image scaledImage = new Image(image.getUrl(), view.getFitWidth() * scene.getWindow().getOutputScaleX(),
+                    view.getFitHeight() * scene.getWindow().getOutputScaleY(), true, true);
 
             double offsetX = e.getX() - view.getX();
             double offsetY = e.getY() - view.getY();

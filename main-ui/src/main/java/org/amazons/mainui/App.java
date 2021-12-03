@@ -24,8 +24,10 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
         Parent root = fxmlLoader.load();
 
+
         // Get and set scene
         Scene scene = new Scene(root, 800, 800);
+
         stage.setScene(scene);
         stage.setTitle("Flaming Arrows!");
 
