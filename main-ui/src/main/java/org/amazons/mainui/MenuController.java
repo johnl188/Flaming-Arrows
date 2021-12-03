@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.GaussianBlur;
@@ -69,6 +70,8 @@ public class MenuController implements Initializable {
     @FXML
     private Pane aiPane;
 
+    @FXML
+    private Slider slider;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -98,6 +101,8 @@ public class MenuController implements Initializable {
             if (newVal == null)
                 oldVal.setSelected(true);
         });
+
+        slider.valueProperty().bindBidirectional(SoundEffects.musicVolumeProperty);
     }
 
     /**
