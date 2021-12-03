@@ -1,6 +1,7 @@
 package org.amazons.mainui;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -20,6 +21,10 @@ public class SoundEffects {
     public static SimpleBooleanProperty musicMuteProperty = new SimpleBooleanProperty(false);
 
     public static SimpleBooleanProperty sfxMuteProperty = new SimpleBooleanProperty(false);
+
+    public static SimpleDoubleProperty musicVolumeProperty = new SimpleDoubleProperty(1.0);
+
+    public static SimpleDoubleProperty sfxVolumeProperty = new SimpleDoubleProperty(1.0);
 
     public void createSoundEffects() {
 
@@ -41,5 +46,11 @@ public class SoundEffects {
 
         musicSound.muteProperty().bind(musicMuteProperty);
         musicSound.setCycleCount(Integer.MAX_VALUE);
+
+        arrowSound.volumeProperty().bind(sfxVolumeProperty);
+        undoSound.volumeProperty().bind(sfxVolumeProperty);
+        fireSound.volumeProperty().bind(sfxVolumeProperty);
+
+        musicSound.volumeProperty().bind(musicVolumeProperty);
     }
 }
