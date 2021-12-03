@@ -53,4 +53,11 @@ public class SoundEffects {
 
         musicSound.volumeProperty().bind(musicVolumeProperty);
     }
+
+    public static void pauseAllSoundEffects() {
+        arrowSound.stop();
+        undoSound.stop();
+        fireSound.stop();
+    }
+
 }

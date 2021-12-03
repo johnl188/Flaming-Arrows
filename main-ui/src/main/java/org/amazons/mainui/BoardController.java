@@ -214,6 +214,10 @@ public class BoardController implements Initializable {
 
         // Get the Menu fxml and set the scene to that
         try {
+
+            SoundEffects.pauseAllSoundEffects();
+            gameInfo.stopGame();
+
             Node node = (Node) actionEvent.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
 
