@@ -215,7 +215,7 @@ public class MenuController implements Initializable {
     }
 
     /**
-     * blur the AI menu
+     * Blur the AI menu
      * @param actionEvent - event
      */
     public void hideAI(ActionEvent actionEvent) {
@@ -227,5 +227,31 @@ public class MenuController implements Initializable {
 
         GaussianBlur blur = new GaussianBlur(10);
         aiPane.setEffect(blur);
+    }
+
+    /**
+     * Set the SFX slider to 0 when toggled
+     * @param actionEvent
+     */
+    public void muteSFX(ActionEvent actionEvent) {
+        if (sliderSFX.getValue() == 1) {
+            sliderSFX.setValue(0);
+        }
+        else {
+            sliderSFX.setValue(1);
+        }
+    }
+
+    /**
+     * Set music slider to 0 when toggled
+     * @param actionEvent
+     */
+    public void muteMusic(ActionEvent actionEvent) {
+        if (sliderMusic.getValue() == 1) {
+            sliderMusic.setValue(0);
+        }
+        else {
+            sliderMusic.setValue(1);
+        }
     }
 }
