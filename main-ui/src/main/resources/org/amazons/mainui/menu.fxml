@@ -30,7 +30,7 @@
             <Pane maxWidth="1.7976931348623157E308" minWidth="25.0" prefHeight="5.0" HBox.hgrow="ALWAYS" />
             <ToolBar maxWidth="1.7976931348623157E308" prefHeight="70.0" prefWidth="730.0" style="-fx-background-color: rgba(0,0,0,0);">
                <items>
-                  <ToggleButton fx:id="btnMusic" layoutX="214.0" layoutY="25.0" minWidth="200.0" mnemonicParsing="false" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Music" textFill="WHITE">
+                  <ToggleButton fx:id="btnMusic" layoutX="214.0" layoutY="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#muteMusic" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Music" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -42,7 +42,7 @@
                      </graphic>
                   </ToggleButton>
                   <Pane layoutX="10.0" layoutY="10.0" prefHeight="5.0" prefWidth="50.0" />
-                  <ToggleButton fx:id="btnSFX" layoutX="10.0" layoutY="28.0" minWidth="200.0" mnemonicParsing="false" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="SFX" textFill="WHITE">
+                  <ToggleButton fx:id="btnSFX" layoutX="10.0" layoutY="28.0" minWidth="200.0" mnemonicParsing="false" onAction="#muteSFX" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="SFX" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
