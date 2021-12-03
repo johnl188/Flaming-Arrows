@@ -1,5 +1,8 @@
 package org.amazons.mainui;
 
+/**
+ * A SquareInfo that represents a square that has an Amazon Piece
+ */
 public class Amazon extends SquareInfo
 {
     public Amazon(byte row, byte column, boolean isWhite) {
@@ -8,11 +11,11 @@ public class Amazon extends SquareInfo
         this.isWhite = isWhite;
 
         if (isWhite) {
-            this.imageFileName = "white_piece.png";
+            this.imageFileName = "images/white_piece.png";
         }
 
         else {
-            this.imageFileName = "black_piece.png";
+            this.imageFileName = "images/black_piece.png";
         }
     }
 

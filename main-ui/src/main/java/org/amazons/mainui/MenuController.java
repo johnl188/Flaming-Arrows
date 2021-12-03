@@ -7,24 +7,29 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.amazons.ai.AIPlayerType;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+/**
+ * Controller Class for the Main Menu
+ */
 public class MenuController implements Initializable {
 
     @FXML
     private ToggleButton sixBySixBtn;
 
     @FXML
-    private ToggleButton eigthByEightBtn;
+    private ToggleButton eightByEightBtn;
 
     @FXML
     private ToggleButton tenByTenBtn;
@@ -65,10 +70,13 @@ public class MenuController implements Initializable {
     @FXML
     private Pane aiPane;
 
+    @FXML
+    private Slider slider;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // On load, set default answers and add properties
         onePlayerBtn.setSelected(true);
         sixBySixBtn.setSelected(true);
         easyAIBtn.setSelected(true);
@@ -93,9 +101,14 @@ public class MenuController implements Initializable {
             if (newVal == null)
                 oldVal.setSelected(true);
         });
+
+        slider.valueProperty().bindBidirectional(SoundEffects.musicVolumeProperty);
     }
 
-
+    /**
+     * event handler for start game button
+     * @param actionEvent - event
+     */
     public void startGame(ActionEvent actionEvent) {
 
         int boardSize;
@@ -103,6 +116,7 @@ public class MenuController implements Initializable {
         AIPlayerType aiPlayerType = AIPlayerType.None;
         boolean isAIPlayerFirst = false;
 
+        // Determine Game Options and set for the board screen
         if (onePlayerBtn.isSelected()) {
 
             if (easyAIBtn.isSelected()) {
@@ -110,7 +124,7 @@ public class MenuController implements Initializable {
             }
 
             else {
-                aiPlayerType = AIPlayerType.Random;
+                aiPlayerType = AIPlayerType.Hard;
             }
 
             if (aiRandomBtn.isSelected()) {
@@ -127,20 +141,17 @@ public class MenuController implements Initializable {
 
         if (sixBySixBtn.isSelected()) {
             boardSize = 6;
-            positions = BoardController.get6x6StartingPositions();
         }
 
-        else if (eigthByEightBtn.isSelected()) {
+        else if (eightByEightBtn.isSelected()) {
             boardSize = 8;
-            positions = BoardController.get8x8StartingPositions();
         }
 
         else {
             boardSize = 10;
-            positions = BoardController.get10x10StartingPositions();
         }
 
-        GameOptions options = new GameOptions(boardSize, positions, aiPlayerType, isAIPlayerFirst);
+        GameOptions options = new GameOptions(boardSize, aiPlayerType, isAIPlayerFirst);
 
         Node node = (Node) actionEvent.getSource();
 
@@ -149,11 +160,16 @@ public class MenuController implements Initializable {
         goToGameWithOptions(stage, options);
     }
 
+    /**
+     * Open the board scene with the input options
+     * @param stage
+     * @param options
+     */
     private void goToGameWithOptions(Stage stage, GameOptions options) {
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("board.fxml"));
 
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("board.fxml"));
             Parent root = fxmlLoader.load();
             BoardController controller = fxmlLoader.<BoardController>getController();
 
@@ -170,6 +186,10 @@ public class MenuController implements Initializable {
 
     }
 
+    /**
+     * Unblur the AI Menu
+     * @param actionEvent - event
+     */
     public void showAI(ActionEvent actionEvent) {
         easyAIBtn.setDisable(false);
         hardAIBtn.setDisable(false);
@@ -181,6 +201,10 @@ public class MenuController implements Initializable {
         aiPane.setEffect(blur);
     }
 
+    /**
+     * blur the AI menu
+     * @param actionEvent - event
+     */
     public void hideAI(ActionEvent actionEvent) {
         easyAIBtn.setDisable(true);
         hardAIBtn.setDisable(true);

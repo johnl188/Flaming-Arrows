@@ -4,6 +4,9 @@ import javafx.scene.input.DataFormat;
 
 import java.io.Serializable;
 
+/**
+ * Abstract class to represent the state of one game square
+ */
 public abstract class SquareInfo implements Serializable {
 
     public static final DataFormat SQUARE_INFO = new DataFormat("squareInfo");

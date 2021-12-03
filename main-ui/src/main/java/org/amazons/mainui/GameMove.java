@@ -1,5 +1,8 @@
 package org.amazons.mainui;
 
+/**
+ * Class that represent the entirety of a game move. The from square, to square, and where the arrow goes
+ */
 public class GameMove implements Comparable {
 
     private byte amazonFromRow;
