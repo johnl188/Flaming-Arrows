@@ -187,7 +187,6 @@ public class GameInfo {
         }
     }
 
-
     /**
      * Update the squareInfo array so that the piece in from is moved to 'to'. Optionally animate the movement
      * @param from - Square where the piece starts
@@ -255,6 +254,11 @@ public class GameInfo {
         previousMoves.add(new GameMove(from.getRow(), from.getColumn(), to.getRow(), to.getColumn()));
     }
 
+    /**
+     * Shoots and arrow from the from square to the add square. Handles image movement and sound
+     * @param shootFrom - Square that the arrow originates from
+     * @param addTo - Square where the arrow is going
+     */
     public void shootArrow(GameSquare shootFrom, GameSquare addTo) {
 
         SoundEffects.arrowSound.seek(SoundEffects.arrowSound.getStartTime());
