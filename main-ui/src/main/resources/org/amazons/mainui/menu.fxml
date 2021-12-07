@@ -9,169 +9,179 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="800.0" minWidth="800.0" prefHeight="1000.0" prefWidth="1000.0" styleClass="entire_application" stylesheets="@board_background.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.amazons.mainui.MenuController">
+<AnchorPane maxHeight="800.0" maxWidth="800.0" minHeight="800.0" minWidth="800.0" prefHeight="800.0" prefWidth="800.0" styleClass="entire_application" stylesheets="@board_background.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.amazons.mainui.MenuController">
    <children>
-      <HBox layoutY="197.0" prefHeight="96.0" prefWidth="1000.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="197.0">
-         <children>
-            <Pane maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
-            <Label alignment="CENTER" contentDisplay="CENTER" minWidth="800.0" prefHeight="200.0" text="Flaming Arrows!" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
-               <font>
-                  <Font name="Engravers MT" size="50.0" />
-               </font>
-               <effect>
-                  <DropShadow blurType="TWO_PASS_BOX" height="25.04" radius="12.4775" spread="0.31" width="26.87">
-                     <color>
-                        <Color red="0.35686275362968445" />
-                     </color>
-                  </DropShadow>
-               </effect>
-            </Label>
-            <Pane layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
-      <HBox layoutX="-8.0" layoutY="286.0" prefHeight="70.0" prefWidth="1016.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="-8.0">
-         <children>
-            <Pane maxWidth="1.7976931348623157E308" minWidth="25.0" prefHeight="5.0" HBox.hgrow="ALWAYS" />
-            <ToolBar maxWidth="1.7976931348623157E308" prefHeight="70.0" prefWidth="730.0" style="-fx-background-color: rgba(0,0,0,0);">
-               <items>
-                  <ToggleButton fx:id="btnMusic" layoutX="214.0" layoutY="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#muteMusic" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Music" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                     <graphic>
-                        <Slider fx:id="sliderMusic" max="1.0" prefWidth="139.0" value="1.0" />
-                     </graphic>
-                  </ToggleButton>
-                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="5.0" prefWidth="50.0" />
-                  <ToggleButton fx:id="btnSFX" layoutX="10.0" layoutY="28.0" minWidth="200.0" mnemonicParsing="false" onAction="#muteSFX" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="SFX" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                     <graphic>
-                        <Slider fx:id="sliderSFX" max="1.0" minWidth="150.0" prefWidth="150.0" value="1.0" />
-                     </graphic>
-                  </ToggleButton>
-                  <Pane layoutX="256.0" layoutY="10.0" prefHeight="60.0" prefWidth="49.0" />
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#howToPlay" prefWidth="95.0" style="-fx-background-color: rgba(211, 84,0,1);" text="How To Play" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <effect>
-                        <DropShadow>
-                           <color>
-                              <Color red="0.35686275362968445" />
-                           </color>
-                        </DropShadow>
-                     </effect>
-                  </Button>
-                  <Pane prefHeight="60.0" prefWidth="5.0" />
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#startGame" prefWidth="95.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Start Game!" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <effect>
-                        <DropShadow>
-                           <color>
-                              <Color red="0.35686275362968445" />
-                           </color>
-                        </DropShadow>
-                     </effect>
-                  </Button>
-               </items>
-            </ToolBar>
-            <Pane layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minWidth="25.0" prefHeight="5.0" HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" layoutY="356.0" prefHeight="420.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="25.0" HBox.hgrow="ALWAYS" />
-            <ToolBar orientation="VERTICAL" prefHeight="420.0" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);">
-               <items>
-                  <Label prefHeight="50.0" prefWidth="200.0" text="Choose how to play:" textFill="WHITE">
-                     <font>
-                        <Font name="Engravers MT" size="12.0" />
-                     </font>
-                  </Label>
-                  <ToggleButton fx:id="onePlayerBtn" mnemonicParsing="false" onAction="#showAI" prefWidth="200.0" text="One Player">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="playerNumbers" />
-                     </toggleGroup>
-                  </ToggleButton>
-                  <ToggleButton fx:id="twoPlayerBtn" mnemonicParsing="false" onAction="#hideAI" prefWidth="200.0" text="Two Players" toggleGroup="$playerNumbers" />
-               </items>
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </ToolBar>
-            <VBox minWidth="50.0" prefHeight="200.0" />
-            <ToolBar orientation="VERTICAL" prefHeight="420.0" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);">
-               <items>
-                  <Label prefHeight="50.0" prefWidth="200.0" text="Choose board size:" textFill="WHITE">
-                     <font>
-                        <Font name="Engravers MT" size="12.0" />
-                     </font>
-                  </Label>
-                  <ToggleButton fx:id="sixBySixBtn" mnemonicParsing="false" prefWidth="200.0" text="6 x 6">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="boardSizeGroup" />
-                     </toggleGroup>
-                  </ToggleButton>
-                  <ToggleButton fx:id="eightByEightBtn" mnemonicParsing="false" prefWidth="200.0" text="8 x 8" toggleGroup="$boardSizeGroup" />
-                  <ToggleButton fx:id="tenByTenBtn" mnemonicParsing="false" prefWidth="200.0" text="10 x 10" toggleGroup="$boardSizeGroup" />
-               </items>
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </ToolBar>
-            <VBox minWidth="50.0" prefHeight="200.0" />
-            <Pane fx:id="aiPane" prefHeight="420.0" prefWidth="210.0">
+      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox maxHeight="600.0" maxWidth="700.0" minHeight="600.0" minWidth="700.0" prefHeight="600.0" prefWidth="700.0" BorderPane.alignment="CENTER">
                <children>
-                  <ToolBar orientation="VERTICAL" prefHeight="420.0" prefWidth="210.0" style="-fx-background-color: rgba(211, 84,0,1);">
-                          <items>
-                        <Label prefHeight="50.0" prefWidth="200.0" text="Choose CPU Difficulty:" textFill="WHITE">
+                  <HBox prefHeight="96.0" prefWidth="1000.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="100.0" maxWidth="700.0" minHeight="100.0" minWidth="700.0" prefHeight="100.0" prefWidth="700.0" text="Flaming Arrows!" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
-                              <Font name="Engravers MT" size="11.0" />
+                              <Font name="Engravers MT" size="50.0" />
                            </font>
+                           <effect>
+                              <DropShadow blurType="TWO_PASS_BOX" height="25.04" radius="12.4775" spread="0.31" width="26.87">
+                                 <color>
+                                    <Color red="0.35686275362968445" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
                         </Label>
-                        <ToggleButton fx:id="easyAIBtn" mnemonicParsing="false" prefWidth="200.0" text="Easy">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="aiDifficulty" />
-                           </toggleGroup>
-                        </ToggleButton>
-                        <ToggleButton fx:id="hardAIBtn" mnemonicParsing="false" prefWidth="200.0" text="Hard" toggleGroup="$aiDifficulty" />
-                        <Label prefHeight="50.0" prefWidth="200.0" text="Choose CPU Color:" textFill="WHITE">
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" maxWidth="700.0" minWidth="700.0" prefHeight="70.0" prefWidth="700.0" spacing="41.0">
+                     <children>
+                        <ToggleButton fx:id="btnMusic" maxWidth="200.0" minWidth="200.0" mnemonicParsing="false" onAction="#muteMusic" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Music" textFill="WHITE">
                            <font>
-                              <Font name="Engravers MT" size="12.0" />
+                              <Font size="14.0" />
                            </font>
-                        </Label>
-                        <ToggleButton fx:id="aiRandomBtn" mnemonicParsing="false" prefWidth="200.0" text="Random">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="aiStart" />
-                           </toggleGroup>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                           <graphic>
+                              <Slider fx:id="sliderMusic" max="1.0" prefWidth="130.0" value="1.0" />
+                           </graphic>
                         </ToggleButton>
-                        <ToggleButton fx:id="aiWhiteBtn" mnemonicParsing="false" prefWidth="200.0" text="White" toggleGroup="$aiStart" />
-                        <ToggleButton fx:id="aiBlackBtn" mnemonicParsing="false" prefWidth="200.0" text="Black" toggleGroup="$aiStart" />
-                    </items>
-                     <effect>
-                        <InnerShadow />
-                     </effect>
-                  </ToolBar>
+                        <ToggleButton fx:id="btnSFX" maxWidth="200.0" minWidth="200.0" mnemonicParsing="false" onAction="#muteSFX" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="SFX  " textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                           <graphic>
+                              <Slider fx:id="sliderSFX" max="1.0" minWidth="130.0" prefWidth="130.0" value="1.0" />
+                           </graphic>
+                        </ToggleButton>
+                        <HBox alignment="CENTER" maxWidth="200.0" minWidth="200.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#howToPlay" prefWidth="95.0" style="-fx-background-color: rgba(211, 84,0,1);" text="How To Play" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow>
+                                       <color>
+                                          <Color red="0.35686275362968445" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                              </Button>
+                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#startGame" prefWidth="95.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Start Game!" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow>
+                                       <color>
+                                          <Color red="0.35686275362968445" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" maxHeight="500.0" minHeight="300.0" prefHeight="400.0" prefWidth="800.0" spacing="34.0">
+                     <children>
+                        <ToolBar maxHeight="400.0" minHeight="400.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);">
+                           <items>
+                              <Label prefHeight="50.0" prefWidth="200.0" text="Choose how to play:" textFill="WHITE">
+                                 <font>
+                                    <Font name="Engravers MT" size="12.0" />
+                                 </font>
+                              </Label>
+                              <ToggleButton fx:id="onePlayerBtn" mnemonicParsing="false" onAction="#showAI" prefWidth="200.0" text="One Player">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="playerNumbers" />
+                                 </toggleGroup>
+                              </ToggleButton>
+                              <ToggleButton fx:id="twoPlayerBtn" mnemonicParsing="false" onAction="#hideAI" prefWidth="200.0" text="Two Players" toggleGroup="$playerNumbers" />
+                           </items>
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                        </ToolBar>
+                        <ToolBar maxHeight="400.0" minHeight="400.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);">
+                           <items>
+                              <Label prefHeight="50.0" prefWidth="200.0" text="Choose board size:" textFill="WHITE">
+                                 <font>
+                                    <Font name="Engravers MT" size="12.0" />
+                                 </font>
+                              </Label>
+                              <ToggleButton fx:id="sixBySixBtn" mnemonicParsing="false" prefWidth="200.0" text="6 x 6">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="boardSizeGroup" />
+                                 </toggleGroup>
+                              </ToggleButton>
+                              <ToggleButton fx:id="eightByEightBtn" mnemonicParsing="false" prefWidth="200.0" text="8 x 8" toggleGroup="$boardSizeGroup" />
+                              <ToggleButton fx:id="tenByTenBtn" mnemonicParsing="false" prefWidth="200.0" text="10 x 10" toggleGroup="$boardSizeGroup" />
+                           </items>
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                        </ToolBar>
+                        <Pane fx:id="aiPane" prefHeight="400.0" prefWidth="210.0">
+                           <children>
+                              <ToolBar maxHeight="400.0" minHeight="400.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);">
+                                      <items>
+                                    <Label prefHeight="50.0" prefWidth="200.0" text="Choose CPU Difficulty:" textFill="WHITE">
+                                       <font>
+                                          <Font name="Engravers MT" size="11.0" />
+                                       </font>
+                                    </Label>
+                                    <ToggleButton fx:id="easyAIBtn" mnemonicParsing="false" prefWidth="200.0" text="Easy">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="aiDifficulty" />
+                                       </toggleGroup>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="hardAIBtn" mnemonicParsing="false" prefWidth="200.0" text="Hard" toggleGroup="$aiDifficulty" />
+                                    <Label prefHeight="50.0" prefWidth="200.0" text="Choose CPU Color:" textFill="WHITE">
+                                       <font>
+                                          <Font name="Engravers MT" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <ToggleButton fx:id="aiRandomBtn" mnemonicParsing="false" prefWidth="200.0" text="Random">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="aiStart" />
+                                       </toggleGroup>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="aiWhiteBtn" mnemonicParsing="false" prefWidth="200.0" text="White" toggleGroup="$aiStart" />
+                                    <ToggleButton fx:id="aiBlackBtn" mnemonicParsing="false" prefWidth="200.0" text="Black" toggleGroup="$aiStart" />
+                                </items>
+                                 <effect>
+                                    <InnerShadow />
+                                 </effect>
+                              </ToolBar>
+                           </children>
+                        </Pane>
+                     </children>
+                  </HBox>
                </children>
-            </Pane>
-            <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="25.0" HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
+            </VBox>
+         </center>
+         <top>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </top>
+         <bottom>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </bottom>
+         <left>
+            <VBox prefHeight="200.0" prefWidth="50.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <VBox prefHeight="200.0" prefWidth="50.0" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
    </children>
 </AnchorPane>

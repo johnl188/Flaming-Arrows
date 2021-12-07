@@ -235,7 +235,7 @@ public class MenuController implements Initializable {
             sliderSFX.setValue(0);
         }
         else {
-            sliderSFX.setValue(1);
+            sliderSFX.setValue(0.5);
         }
     }
 
@@ -248,7 +248,7 @@ public class MenuController implements Initializable {
             sliderMusic.setValue(0);
         }
         else {
-            sliderMusic.setValue(1);
+            sliderMusic.setValue(0.5);
         }
     }
 

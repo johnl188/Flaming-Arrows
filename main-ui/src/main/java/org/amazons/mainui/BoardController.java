@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -250,7 +249,7 @@ public class BoardController implements Initializable {
             sliderSFX.setValue(0);
         }
         else {
-            sliderSFX.setValue(1);
+            sliderSFX.setValue(0.5);
         }
     }
 
@@ -263,7 +262,7 @@ public class BoardController implements Initializable {
             sliderMusic.setValue(0);
         }
         else {
-            sliderMusic.setValue(1);
+            sliderMusic.setValue(0.5);
         }
     }
 }
