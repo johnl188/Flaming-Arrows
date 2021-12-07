@@ -240,7 +240,7 @@ public class MenuController implements Initializable {
      * @param actionEvent
      */
     public void muteSFX(ActionEvent actionEvent) {
-        if (sliderSFX.getValue() == 1) {
+        if (sliderSFX.getValue() > 0) {
             sliderSFX.setValue(0);
         }
         else {
@@ -253,7 +253,7 @@ public class MenuController implements Initializable {
      * @param actionEvent
      */
     public void muteMusic(ActionEvent actionEvent) {
-        if (sliderMusic.getValue() == 1) {
+        if (sliderMusic.getValue() > 0) {
             sliderMusic.setValue(0);
         }
         else {
