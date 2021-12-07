@@ -134,7 +134,7 @@
                         <Pane fx:id="aiPane" prefHeight="400.0" prefWidth="210.0">
                            <children>
                               <ToolBar maxHeight="400.0" minHeight="400.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);">
-                                      <items>
+                                 <items>
                                     <Label prefHeight="50.0" prefWidth="200.0" text="Choose CPU Difficulty:" textFill="WHITE">
                                        <font>
                                           <Font name="Engravers MT" size="11.0" />
@@ -158,7 +158,7 @@
                                     </ToggleButton>
                                     <ToggleButton fx:id="aiWhiteBtn" mnemonicParsing="false" prefWidth="200.0" text="White" toggleGroup="$aiStart" />
                                     <ToggleButton fx:id="aiBlackBtn" mnemonicParsing="false" prefWidth="200.0" text="Black" toggleGroup="$aiStart" />
-                                </items>
+                                 </items>
                                  <effect>
                                     <InnerShadow />
                                  </effect>
