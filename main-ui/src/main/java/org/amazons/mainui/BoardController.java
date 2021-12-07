@@ -234,8 +234,9 @@ public class BoardController implements Initializable {
 
             stage.setScene(scene);
 
-            stage.setWidth(width);
-            stage.setHeight(height);
+            stage.setWidth(width + 0.1);
+            stage.setHeight(height + 0.1);
+
 
             new Timer().schedule(
                     new TimerTask() {
