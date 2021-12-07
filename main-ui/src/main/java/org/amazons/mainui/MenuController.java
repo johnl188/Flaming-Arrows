@@ -1,6 +1,7 @@
 package org.amazons.mainui;
 
 import javafx.application.HostServices;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Controller Class for the Main Menu
@@ -189,6 +192,19 @@ public class MenuController implements Initializable {
             stage.setHeight(height);
 
             controller.setGameOptions(options);
+
+            new Timer().schedule(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+
+                            Platform.runLater(() -> {
+                                stage.setWidth(width);
+                                stage.setHeight(height);
+                            });
+                        }
+                    }, 1
+            );
         }
 
         catch (IOException ex) {

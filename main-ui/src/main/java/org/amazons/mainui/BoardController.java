@@ -1,5 +1,6 @@
 package org.amazons.mainui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,8 @@ import org.amazons.ai.AIPlayerType;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Controller class for the Board Screen
@@ -233,6 +236,19 @@ public class BoardController implements Initializable {
 
             stage.setWidth(width);
             stage.setHeight(height);
+
+            new Timer().schedule(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+
+                            Platform.runLater(() -> {
+                                stage.setWidth(width);
+                                stage.setHeight(height);
+                            });
+                        }
+                    }, 1
+            );
         }
 
         catch (IOException ex) {
