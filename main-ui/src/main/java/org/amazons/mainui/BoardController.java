@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -33,20 +34,19 @@ public class BoardController implements Initializable {
 
     @FXML private GridPane boardGridPane;
 
-    @FXML private ToggleButton btnMusic;
-
-    @FXML private ToggleButton btnSFX;
-
     @FXML private Label lblInfo;
+
+    @FXML private Slider sliderMusic;
+
+    @FXML private Slider sliderSFX;
 
     private GameOptions gameOptions;
     private GameInfo gameInfo;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        btnMusic.selectedProperty().bindBidirectional(SoundEffects.musicMuteProperty);
-        btnSFX.selectedProperty().bindBidirectional(SoundEffects.sfxMuteProperty);
+        sliderMusic.valueProperty().bindBidirectional(SoundEffects.musicVolumeProperty);
+        sliderSFX.valueProperty().bindBidirectional(SoundEffects.sfxVolumeProperty);
     }
 
     /**
@@ -238,6 +238,32 @@ public class BoardController implements Initializable {
 
         catch (IOException ex) {
             System.out.println("Error loading menu");
+        }
+    }
+
+    /**
+     * Set the SFX slider to 0 when toggled
+     * @param actionEvent
+     */
+    public void muteSFX(ActionEvent actionEvent) {
+        if (sliderSFX.getValue() > 0) {
+            sliderSFX.setValue(0);
+        }
+        else {
+            sliderSFX.setValue(1);
+        }
+    }
+
+    /**
+     * Set music slider to 0 when toggled
+     * @param actionEvent
+     */
+    public void muteMusic(ActionEvent actionEvent) {
+        if (sliderMusic.getValue() > 0) {
+            sliderMusic.setValue(0);
+        }
+        else {
+            sliderMusic.setValue(1);
         }
     }
 }

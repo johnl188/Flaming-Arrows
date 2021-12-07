@@ -71,12 +71,6 @@ public class MenuController implements Initializable {
     private Pane aiPane;
 
     @FXML
-    private ToggleButton btnMusic;
-
-    @FXML
-    private ToggleButton btnSFX;
-
-    @FXML
     private Slider sliderMusic;
 
     @FXML
@@ -85,9 +79,6 @@ public class MenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        btnMusic.selectedProperty().bindBidirectional(SoundEffects.musicMuteProperty);
-        btnSFX.selectedProperty().bindBidirectional(SoundEffects.sfxMuteProperty);
 
         sliderMusic.valueProperty().bindBidirectional(SoundEffects.musicVolumeProperty);
         sliderSFX.valueProperty().bindBidirectional(SoundEffects.sfxVolumeProperty);
