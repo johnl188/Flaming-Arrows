@@ -1,5 +1,6 @@
 package org.amazons.mainui;
 
+import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -233,9 +234,11 @@ public class MenuController implements Initializable {
     public void muteSFX(ActionEvent actionEvent) {
         if (sliderSFX.getValue() > 0) {
             sliderSFX.setValue(0);
+            btnSFX.setSelected(true);
         }
         else {
             sliderSFX.setValue(1);
+            btnSFX.setSelected(false);
         }
     }
 
@@ -249,6 +252,18 @@ public class MenuController implements Initializable {
         }
         else {
             sliderMusic.setValue(1);
+        }
+    }
+
+    public void howToPlay(ActionEvent actionEvent) {
+
+        try {
+            HostServices hostServices = App.hostServices;
+            hostServices.showDocument(getClass().getResource("UserGuide.pdf").toString());
+        }
+
+        catch(Exception ex) {
+            System.out.println("Error opening instructions.");
         }
     }
 }
