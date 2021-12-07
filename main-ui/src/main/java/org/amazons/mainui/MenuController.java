@@ -77,7 +77,6 @@ public class MenuController implements Initializable {
     @FXML
     private Slider sliderSFX;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -234,11 +233,9 @@ public class MenuController implements Initializable {
     public void muteSFX(ActionEvent actionEvent) {
         if (sliderSFX.getValue() > 0) {
             sliderSFX.setValue(0);
-            btnSFX.setSelected(true);
         }
         else {
             sliderSFX.setValue(1);
-            btnSFX.setSelected(false);
         }
     }
 
