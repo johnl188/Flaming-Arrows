@@ -6,7 +6,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="1080.0" maxWidth="4000.0" minHeight="800.0" minWidth="800.0" prefHeight="800.0" prefWidth="800.0" styleClass="entire_application" stylesheets="@board_background.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.amazons.mainui.BoardController">
+<AnchorPane fx:id="anchorPane" maxHeight="1080.0" maxWidth="1.7976931348623157E308" minHeight="800.0" minWidth="800.0" prefHeight="800.0" prefWidth="800.0" styleClass="entire_application" stylesheets="@board_background.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.amazons.mainui.BoardController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" stylesheets="@board_background.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
