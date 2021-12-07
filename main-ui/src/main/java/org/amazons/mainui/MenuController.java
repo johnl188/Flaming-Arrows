@@ -72,12 +72,6 @@ public class MenuController implements Initializable {
     private Pane aiPane;
 
     @FXML
-    private ToggleButton btnMusic;
-
-    @FXML
-    private ToggleButton btnSFX;
-
-    @FXML
     private Slider sliderMusic;
 
     @FXML
