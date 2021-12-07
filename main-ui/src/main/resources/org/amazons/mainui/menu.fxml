@@ -37,7 +37,7 @@
       </HBox>
       <HBox layoutX="-8.0" layoutY="286.0" prefHeight="70.0" prefWidth="1016.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="-8.0">
          <children>
-            <Pane maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="70.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+            <Pane maxWidth="1.7976931348623157E308" minWidth="25.0" prefHeight="5.0" HBox.hgrow="ALWAYS" />
             <ToolBar maxWidth="1.7976931348623157E308" prefHeight="70.0" prefWidth="730.0" style="-fx-background-color: rgba(0,0,0,0);">
                <items>
                   <ToggleButton fx:id="btnMusic" layoutX="214.0" layoutY="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#muteMusic" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Music" textFill="WHITE">
@@ -52,7 +52,7 @@
                      </graphic>
                   </ToggleButton>
                   <Pane layoutX="10.0" layoutY="10.0" prefHeight="5.0" prefWidth="50.0" />
-                  <ToggleButton fx:id="btnSFX" layoutX="10.0" layoutY="28.0" minWidth="200.0" mnemonicParsing="false" onAction="#muteSFX" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="SFX" textFill="WHITE">
+                  <ToggleButton fx:id="btnSFX" layoutX="10.0" layoutY="28.0" minWidth="200.0" mnemonicParsing="false" onAction="#muteSFX" prefWidth="200.0" style="-fx-background-color: rgba(211, 84,0,1);" text="SFX" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -63,7 +63,7 @@
                         <Slider fx:id="sliderSFX" max="1.0" minWidth="150.0" prefWidth="150.0" value="1.0" />
                      </graphic>
                   </ToggleButton>
-                  <Pane layoutX="256.0" layoutY="10.0" prefHeight="60.0" prefWidth="46.0" />
+                  <Pane layoutX="256.0" layoutY="10.0" prefHeight="60.0" prefWidth="49.0" />
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#howToPlay" prefWidth="95.0" style="-fx-background-color: rgba(211, 84,0,1);" text="How To Play" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
@@ -76,7 +76,7 @@
                         </DropShadow>
                      </effect>
                   </Button>
-                  <Pane prefHeight="60.0" prefWidth="8.0" />
+                  <Pane prefHeight="60.0" prefWidth="5.0" />
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#startGame" prefWidth="95.0" style="-fx-background-color: rgba(211, 84,0,1);" text="Start Game!" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
@@ -91,7 +91,7 @@
                   </Button>
                </items>
             </ToolBar>
-            <Pane layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="70.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+            <Pane layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minWidth="25.0" prefHeight="5.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
       <HBox alignment="CENTER" layoutY="356.0" prefHeight="420.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

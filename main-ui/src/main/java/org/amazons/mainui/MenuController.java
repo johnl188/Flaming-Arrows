@@ -261,6 +261,10 @@ public class MenuController implements Initializable {
         }
     }
 
+    /**
+     * Open User Guide PDF
+     * @param actionEvent
+     */
     public void howToPlay(ActionEvent actionEvent) {
 
         try {
