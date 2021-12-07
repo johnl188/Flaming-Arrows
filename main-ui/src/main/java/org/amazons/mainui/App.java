@@ -1,6 +1,7 @@
 package org.amazons.mainui;
 
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,6 +13,8 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
+
+    public static HostServices hostServices;
 
     public static void main(String[] args) {
         launch();
@@ -42,5 +45,7 @@ public class App extends Application {
 
         SoundEffects.musicSound.seek(SoundEffects.musicSound.getStartTime());
         SoundEffects.musicSound.play();
+
+        hostServices = getHostServices();
     }
 }
