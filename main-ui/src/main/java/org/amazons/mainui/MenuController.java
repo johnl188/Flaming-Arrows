@@ -75,7 +75,7 @@ public class MenuController implements Initializable {
     private Slider sliderMusic;
 
     @FXML
-    private Slider sliderSFX;
+    public Slider sliderSFX;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
