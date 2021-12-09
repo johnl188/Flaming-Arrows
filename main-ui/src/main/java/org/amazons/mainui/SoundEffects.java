@@ -32,7 +32,7 @@ public class SoundEffects {
         Media fireMedia = new Media(getClass().getResource("/sounds/Flame.wav").toExternalForm());
         fireSound = new MediaPlayer(fireMedia);
 
-        Media music1Media = new Media(getClass().getResource("/sounds/Bluesy Vibes.mp3").toExternalForm());
+        Media music1Media = new Media(getClass().getResource("/sounds/Lord of the Land - Kevin MacLeod.mp3").toExternalForm());
         musicSound = new MediaPlayer(music1Media);
 
         musicSound.setCycleCount(Integer.MAX_VALUE);
