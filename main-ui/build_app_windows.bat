@@ -97,4 +97,5 @@ call "%JAVA_HOME%\bin\jpackage" ^
   --win-shortcut ^
   --win-per-user-install ^
   --win-menu ^
-  --resource-dir target/classes/org
+  --resource-dir target/classes/org ^
+  --license-file ../LICENSE
