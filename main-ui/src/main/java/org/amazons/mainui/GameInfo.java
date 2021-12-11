@@ -118,7 +118,9 @@ public class GameInfo {
 
         // End game if needed
         if (isGameOver()) {
-            setGameInfoLabel((!isWhitesTurn ? "White" : "Black") + " wins!");
+
+            int score = calculateScore(!isWhitesTurn);
+            setGameInfoLabel((!isWhitesTurn ? "White" : "Black") + " wins with a score of " + score + "!");
             return;
         }
 
@@ -462,6 +464,59 @@ public class GameInfo {
     }
 
     /**
+     * return the score for the game. The score is the number of spaces that the winning player
+     * can move to
+     * @param forWhite - true if the white player is the winner
+     * @return - the score
+     */
+    private int calculateScore(boolean forWhite) {
+
+        int gameSize = getGameSize();
+        ArrayList<SquareInfo> pieces = new ArrayList<>();
+
+        for (byte i = 0; i < gameSize; i++) {
+            for (byte j = 0; j < gameSize; j++) {
+                SquareInfo info = getGameSquare(i, j).getSquareInfo();
+
+                if (info instanceof Amazon) {
+                    if (info.getIsWhite() == forWhite) {
+                        pieces.add(info);
+                    }
+                }
+            }
+        }
+
+        ArrayList<SquareInfo> currentList = pieces;
+        int numberOfSpaces = 0;
+        boolean[] hasBeenCounted = new boolean[gameSize * gameSize];
+        BoardState boardState = getCurrentBoardState();
+
+        while (currentList.size() > 0) {
+
+            ArrayList<SquareInfo> insideList = new ArrayList<>();
+
+            for (SquareInfo info : currentList) {
+
+                hasBeenCounted[info.getRow() * gameSize + info.getColumn()] = true;
+                ArrayList<SquareInfo> list = ValidMoveCalculator.getValidSquares(boardState, info);
+
+                for (SquareInfo innerInfo : list) {
+
+                    if (!hasBeenCounted[innerInfo.getRow() * gameSize + innerInfo.getColumn()]) {
+                        numberOfSpaces++;
+                        insideList.add(innerInfo);
+                        hasBeenCounted[innerInfo.getRow() * gameSize + innerInfo.getColumn()] = true;
+                    }
+                }
+
+                currentList = insideList;
+            }
+        }
+
+        return numberOfSpaces;
+    }
+
+    /**
      * Reset phases to the beginning of the game and make the whole board empty, clear the previous moves
      */
     public void resetGame() {
@@ -482,7 +537,7 @@ public class GameInfo {
      * Undo the previous move, if the previous move was an AI Move, also undo that move
      * If we are in the shooting arrow phase, just undo the last piece movement
      */
-    public void undoLastMove() {
+    public void undoLastMove(boolean fromUndo) {
 
         boolean priorIsMove = isMovePhase;
 
@@ -490,6 +545,10 @@ public class GameInfo {
 
             // Return if there are not any previous moves
             if (previousMoves.size() < 1) {
+                if (aiPlayer != null &&  fromUndo) {
+                    isWhitesTurn = !isWhitesTurn;
+                    switchTurns();
+                }
                 return;
             }
 
@@ -513,7 +572,7 @@ public class GameInfo {
                     else {
                         isMovePhase = true;
                         isWhitesTurn = !isWhitesTurn;
-                        undoLastMove();
+                        undoLastMove(true);
                     }
                 }
 
