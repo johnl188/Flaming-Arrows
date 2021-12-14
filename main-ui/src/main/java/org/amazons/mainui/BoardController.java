@@ -224,7 +224,7 @@ public class BoardController implements Initializable {
      */
     public void undoLastMove(ActionEvent actionEvent) {
 
-        gameInfo.undoLastMove();
+        gameInfo.undoLastMove(false);
     }
 
     /**
