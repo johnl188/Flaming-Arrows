@@ -294,8 +294,9 @@ public class MenuController implements Initializable {
     public void howToPlay(ActionEvent actionEvent) {
 
         try {
+
             HostServices hostServices = App.hostServices;
-            hostServices.showDocument(getClass().getResource("UserGuide.pdf").toString());
+            hostServices.showDocument("https://github.com/johnl188/Flaming-Arrows/blob/master/main-ui/src/main/resources/org/amazons/mainui/UserGuide.pdf");
         }
 
         catch(Exception ex) {
